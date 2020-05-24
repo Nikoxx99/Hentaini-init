@@ -44,8 +44,33 @@ module.exports = {
   */
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
-    '@nuxtjs/axios'
+    '@nuxtjs/axios',
+    'nuxt-i18n'
   ],
+
+  i18n: {
+    locales: [
+      {
+        code: 'en',
+        iso: 'en-US',
+        file: 'en.js'
+      },
+      {
+        code: 'es',
+        iso: 'es-ES',
+        file: 'es.js'
+      },
+      {
+        code: 'ru',
+        iso: 'ru-RU',
+        file: 'ru.js'
+      },
+    ],
+    lazy: true,
+    langDir: 'lang/',
+    defaultLocale: 'en',
+    rootRedirect: true
+  },
   /*
   ** Axios module configuration
   ** See https://axios.nuxtjs.org/options
