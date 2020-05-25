@@ -1,21 +1,21 @@
 <template>
   <v-bottom-navigation
     grow
-    color="teal"
+    color="blue"
   >
-    <v-btn>
-      <span>Recents</span>
-      <v-icon>mdi-history</v-icon>
+    <v-btn link="true" to="/">
+      <span>{{ $t('mobile.home') }}</span>
+      <v-icon>mdi-home</v-icon>
     </v-btn>
 
-    <v-btn>
-      <span>Favorites</span>
-      <v-icon>mdi-heart</v-icon>
+    <v-btn link="true" to="/airing">
+      <span>{{ $t('mobile.airing') }}</span>
+      <v-icon>mdi-plus-thick</v-icon>
     </v-btn>
 
-    <v-btn>
-      <span>Nearby</span>
-      <v-icon>mdi-map-marker</v-icon>
+    <v-btn link="true" to="/suggestions">
+      <span>{{ $t('mobile.suggestions') }}</span>
+      <v-icon>mdi-format-list-bulleted-square</v-icon>
     </v-btn>
   </v-bottom-navigation>
 </template>

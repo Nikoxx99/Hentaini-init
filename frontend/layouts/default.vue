@@ -1,6 +1,7 @@
 <template>
   <v-app dark>
     <NiHeader />
+    <NiLatestEpisodes />
     <NiMobileHeader />
   </v-app>
 </template>
@@ -8,10 +9,12 @@
 <script>
 import NiHeader from '../components/NiHeader'
 import NiMobileHeader from '../components/NiMobileHeader'
+import NiLatestEpisodes from '../components/NiLatestEpisodes'
 export default {
   components: {
     NiHeader,
-    NiMobileHeader
+    NiMobileHeader,
+    NiLatestEpisodes
   },
   data () {
     this.$i18n.locale = 'en'

@@ -4,5 +4,10 @@ export default {
     explore: 'EXPLORE',
     airing: 'AIRING',
     suggestions: 'SUGGESTIONS'
+  },
+  mobile: {
+    home: 'Home',
+    airing: 'Airing',
+    suggestions: 'My List'
   }
 }
