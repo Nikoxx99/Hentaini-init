@@ -30,14 +30,26 @@
         </li>
       </ul>
       <v-spacer />
-      <v-btn icon large>
+      <v-btn v-if="!$store.state.auth" icon large to="/login">
         <v-icon>mdi-account</v-icon>
       </v-btn>
+      <div v-else>
+        <v-btn icon large color="blue" to="/user">
+          <v-icon>mdi-account</v-icon>
+        </v-btn>
+        <v-btn icon large to="/panel">
+          <v-icon>mdi-cog</v-icon>
+        </v-btn>
+        <v-btn icon large @click="logout">
+          <v-icon>mdi-exit-to-app</v-icon>
+        </v-btn>
+      </div>
     </v-toolbar>
   </div>
 </template>
 
 <script>
+import Cookie from 'js-cookie'
 import Logo from '../components/Logo'
 export default {
   name: 'NiHeader',
@@ -48,6 +60,12 @@ export default {
     this.$i18n.locale = 'en'
     return {
       locale: 'en'
+    }
+  },
+  methods: {
+    logout () {
+      Cookie.remove('auth')
+      this.$store.commit('setAuth', null)
     }
   }
 }

@@ -1,0 +1,113 @@
+<template>
+  <form>
+    <v-text-field
+      v-model="username"
+      :error-messages="nameErrors"
+      :counter="24"
+      label="Username"
+      required
+      @input="$v.username.$touch()"
+      @blur="$v.username.$touch()"
+    />
+    <v-text-field
+      v-model="password"
+      :error-messages="passwordErrors"
+      label="Password"
+      required
+      @input="$v.password.$touch()"
+      @blur="$v.password.$touch()"
+    />
+    <v-btn class="mr-4" @click="login">
+      Login
+    </v-btn>
+    <v-btn @click="clear">
+      Clear
+    </v-btn>
+  </form>
+</template>
+
+<script>
+import gql from 'graphql-tag'
+import Cookie from 'js-cookie'
+import { validationMixin } from 'vuelidate'
+import { required, maxLength } from 'vuelidate/lib/validators'
+
+export default {
+  mixins: [validationMixin],
+
+  validations: {
+    username: { required, maxLength: maxLength(24) },
+    password: { required }
+  },
+
+  data: () => ({
+    username: '',
+    password: ''
+  }),
+
+  computed: {
+    nameErrors () {
+      const errors = []
+      if (!this.$v.username.$dirty) { return errors }
+      !this.$v.username.maxLength && errors.push('Name must be at most 10 characters long')
+      !this.$v.username.required && errors.push('Name is required.')
+      return errors
+    },
+    passwordErrors () {
+      const errors = []
+      if (!this.$v.password.$dirty) { return errors }
+      return errors
+    }
+  },
+
+  methods: {
+    submit () {
+      this.$v.$touch()
+      // eslint-disable-next-line no-console
+      console.log('Sent!')
+    },
+    clear () {
+      this.$v.$reset()
+      this.name = ''
+      this.email = ''
+      this.select = null
+      this.checkbox = false
+    },
+    login () {
+      this.$apollo.mutate({
+        mutation: gql`mutation ($input: LoginInput!){
+          login(input: $input){
+            success
+            token
+            errors{
+              path
+              message
+            }
+          }
+        }`,
+        variables: {
+          input: {
+            username: this.username,
+            password: this.password
+          }
+        }
+      }).then((input) => {
+        // eslint-disable-next-line no-console
+        const auth = {
+          accessToken: input.data.login.token
+        }
+        this.$store.commit('setAuth', auth)
+        Cookie.set('auth', auth)
+        this.$router.push('/')
+      }).catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>

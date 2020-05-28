@@ -50,9 +50,30 @@ const typeDefs = `
     name: String
   }
 
+  type User {
+    _id: ID
+    username: String
+    email: String
+    password: String
+    date: String
+  }
+
+  type Error {
+    path: String!
+    message: String!
+  }
+
+  type Response {
+    success: Boolean!
+    token: String
+    errors: [Error]
+  }
+
   type Mutation {
     createSerie(input: SerieInput): Serie
     createEpisode(input: EpisodeInput): Episode
+    createUser(input: UserInput): Response
+    login(input: LoginInput): Response
   }
 
   input SerieInput {
@@ -90,6 +111,18 @@ const typeDefs = `
   input GenreInput {
     _id: ID
     name: String
+  }
+
+  input UserInput {
+    username: String!
+    email: String!
+    password: String!
+    date: String
+  }
+
+  input LoginInput {
+    username: String!
+    password: String!
   }
 `;
 

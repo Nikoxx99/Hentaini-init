@@ -72,7 +72,7 @@ module.exports = {
         code: 'ru',
         iso: 'ru-RU',
         file: 'ru.js'
-      },
+      }
     ],
     lazy: true,
     langDir: 'lang/',

@@ -1,27 +1,27 @@
 <template>
   <div>
     <NiHeader />
-    <NiLatestEpisodes />
-    {{ $store.state }}
+    <v-container>
+      <NiUserAuthForm />
+    </v-container>
     <NiMobileHeader />
   </div>
 </template>
 
 <script>
 import NiHeader from '../components/NiHeader'
-import NiLatestEpisodes from '../components/NiLatestEpisodes'
 import NiMobileHeader from '../components/NiMobileHeader'
+import NiUserAuthForm from '../components/NiUserAuthForm'
 export default {
   components: {
     NiHeader,
-    NiLatestEpisodes,
-    NiMobileHeader
+    NiMobileHeader,
+    NiUserAuthForm
   },
-  data () {
-    this.$i18n.locale = 'en'
-    return {
-      locale: 'en'
-    }
-  }
+  middleware: 'notAuthenticated'
 }
 </script>
+
+<style>
+
+</style>

@@ -26,18 +26,23 @@ import NiEpisodeCard from '../components/NiEpisodeCard'
 export default {
   name: 'NiLatestEpisodes',
   apollo: {
-    Episodes: gql`
-      query{
-        Episodes(limit: 10){
-          _id
-          episode_number
-          serie{
-            title
-            status
+    Episodes: {
+      query: gql`
+        query ($limit: Int){
+          Episodes(limit: $limit){
+            _id
+            episode_number
+            serie{
+              title
+              status
+            }
           }
         }
+      `,
+      variables: {
+        limit: 10
       }
-    `
+    }
   },
   components: {
     NiEpisodeCard

@@ -1,21 +1,11 @@
 <template>
   <v-app dark>
-    <NiHeader />
-    <NiLatestEpisodes />
-    <NiMobileHeader />
+    <nuxt />
   </v-app>
 </template>
 
 <script>
-import NiHeader from '../components/NiHeader'
-import NiMobileHeader from '../components/NiMobileHeader'
-import NiLatestEpisodes from '../components/NiLatestEpisodes'
 export default {
-  components: {
-    NiHeader,
-    NiMobileHeader,
-    NiLatestEpisodes
-  },
   data () {
     this.$i18n.locale = 'en'
     return {

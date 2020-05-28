@@ -1,5 +1,7 @@
 import Serie from "./models/Serie";
 import Episode from "./models/Episode";
+import User from "./models/User";
+import { auth } from "./auth";
 
 export const resolvers = {
   Query: {
@@ -24,7 +26,23 @@ export const resolvers = {
     createEpisode: async (_,{input}) => {
       const payload = new Episode(input)
       return await payload.save()
-    }
+    },
+    createUser: async function (_,{input}){
+      const emailUser = await User.findOne({email: input.email})
+      const userUser = await User.findOne({username: input.username})
+      console.log(emailUser)
+      if(emailUser){
+        return { success: false, errors: [{path:'Create User',message: 'Email already exists.'}]}
+      }else if (userUser){
+        return { success: false, errors: [{path:'Create User',message: 'Username already exists.'}]}
+      }else{
+        const newUser = new User(input)
+        newUser.password = await newUser.encryptPassword(input.password)
+        console.log(newUser)
+        return await newUser.save()
+      }
+    },
+    login: async (parent, {input}, SECRET) => auth.login(input, User, SECRET)
   },
   Episode: {
     serie: ({serie_id}) => {
