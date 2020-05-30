@@ -63,14 +63,20 @@ const typeDefs = `
     message: String!
   }
 
+  type SerieResponse {
+    success: Boolean!
+    errors: [Error]
+  }
+
   type Response {
     success: Boolean!
     token: String
+    username: String
     errors: [Error]
   }
 
   type Mutation {
-    createSerie(input: SerieInput): Serie
+    createSerie(input: SerieInput): SerieResponse
     createEpisode(input: EpisodeInput): Episode
     createUser(input: UserInput): Response
     login(input: LoginInput): Response
@@ -79,7 +85,7 @@ const typeDefs = `
   input SerieInput {
     title: String
     synopsis: String
-    genres: [GenreInput]
+    genres: String
     status: String
     serie_type: String
     next_episode: String

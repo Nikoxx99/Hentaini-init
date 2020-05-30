@@ -1,12 +1,5 @@
 <template>
-  <div>
-    <p>
-      Not authorized
-    </p>
-    <div>
-      <p>Authorized</p>
-    </div>
-  </div>
+  <h1>Serie List</h1>
 </template>
 
 <script>

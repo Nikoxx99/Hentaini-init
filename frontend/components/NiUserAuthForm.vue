@@ -61,11 +61,6 @@ export default {
   },
 
   methods: {
-    submit () {
-      this.$v.$touch()
-      // eslint-disable-next-line no-console
-      console.log('Sent!')
-    },
     clear () {
       this.$v.$reset()
       this.name = ''
@@ -79,6 +74,7 @@ export default {
           login(input: $input){
             success
             token
+            username
             errors{
               path
               message
@@ -92,9 +88,9 @@ export default {
           }
         }
       }).then((input) => {
-        // eslint-disable-next-line no-console
         const auth = {
-          accessToken: input.data.login.token
+          accessToken: input.data.login.token,
+          username: input.data.login.username
         }
         this.$store.commit('setAuth', auth)
         Cookie.set('auth', auth)

@@ -1,5 +1,4 @@
-import bcrypt from "bcrypt";
-import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken"
 export const auth = {
 
   getToken: ({_id}, SECRET) => {
@@ -16,12 +15,13 @@ export const auth = {
     if (!hashPassword) {
       return { success: false, errors: [{path:'password',message: 'Password incorrect'}]}
     }
-    console.log(SECRET)
     const token = auth.getToken(newUser, SECRET)
+    const username = newUser.username
 
     return {
       success: true,
       token,
+      username,
       errors: []
     }
   }

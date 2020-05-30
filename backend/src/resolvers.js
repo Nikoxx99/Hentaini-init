@@ -20,8 +20,14 @@ export const resolvers = {
   },
   Mutation:{
     createSerie: async (_,{input}) => {
+      console.log(input)
       const payload = new Serie(input)
-      return await payload.save()
+      const res =  await payload.save()
+      if(res){
+        return { success: true, errors: [{path:'Create Serie',message: 'Serie Created Successfuly'}]}
+      }else{
+        return { success: false, errors: [{path:'Create Serie',message: 'EError Creating Serie'}]}
+      }
     },
     createEpisode: async (_,{input}) => {
       const payload = new Episode(input)
@@ -30,7 +36,6 @@ export const resolvers = {
     createUser: async function (_,{input}){
       const emailUser = await User.findOne({email: input.email})
       const userUser = await User.findOne({username: input.username})
-      console.log(emailUser)
       if(emailUser){
         return { success: false, errors: [{path:'Create User',message: 'Email already exists.'}]}
       }else if (userUser){
@@ -38,7 +43,6 @@ export const resolvers = {
       }else{
         const newUser = new User(input)
         newUser.password = await newUser.encryptPassword(input.password)
-        console.log(newUser)
         return await newUser.save()
       }
     },
@@ -52,7 +56,6 @@ export const resolvers = {
   Serie: {
     episodes: ({_id}) => {
       const ep = Episode.find({serie_id: _id})
-      console.log(ep)
       return ep
     }
   }
