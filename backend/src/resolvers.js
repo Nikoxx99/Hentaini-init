@@ -4,6 +4,26 @@ import Genre from "./models/Genre";
 import Category from "./models/Category";
 import User from "./models/User";
 import { auth } from "./auth";
+import { createWriteStream } from "fs";
+
+const storeUpload = async ({createReadStream, filename}) => {
+  const id = filename
+  const path = `uploadedFiles/${id}`
+  const stream = createReadStream();
+  return new Promise((resolve, reject) => 
+  stream
+    .pipe(createWriteStream(path))
+    .on("finish", () => resolve({ id, path }))
+    .on("error", reject)
+  
+  )
+}
+
+const processUpload = async (upload,filename) => {
+  const {createReadStream, mimetype} = upload
+  const { id } = await storeUpload({createReadStream, filename, mimetype})
+  return id
+}
 
 export const resolvers = {
   Query: {
@@ -27,9 +47,15 @@ export const resolvers = {
     },
   },
   Mutation:{
-    createSerie: async (_,{input}) => {
-      const payload = new Serie(input)
-      const res =  await payload.save()
+    createSerie: async (_,{input: {cover, background_cover, ...data}}) => {
+      const coverUrl = await processUpload(cover[0].file, cover[1])
+      const background_coverUrl = await processUpload(background_cover[0].file, background_cover[1]) 
+      const payload = new Serie({
+        ...data,
+        coverUrl,
+        background_coverUrl
+      })
+      const res = await payload.save()
       if(res){
         return { success: true, errors: [{path:'Create Serie',message: 'Serie Created Successfuly'}]}
       }else{
@@ -75,17 +101,6 @@ export const resolvers = {
         newUser.password = await newUser.encryptPassword(input.password)
         return await newUser.save()
       }
-    },
-    uploadFile: async (_,{file}) => {
-      return file.then(file => {
-        const {createReadStream, filename, mimetype} = file
-
-        const fileStream = createReadStream()
-
-        fileStream.pipe(fs.createWriteStream(`./uploadedFiles/${filename}`))
-
-        return file;
-      });
     },
     login: async (parent, {input}, SECRET) => auth.login(input, User, SECRET)
     

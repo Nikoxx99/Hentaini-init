@@ -24,11 +24,8 @@ const serieSchema = new Schema({
   episodes: Array,
   next_episode: String,
   visits: Number,
-  cover: {
-    type: String,
-    required: true
-  },
-  background_cover: String,
+  coverUrl: String,
+  background_coverUrl: String,
   rating: Array
 });
 

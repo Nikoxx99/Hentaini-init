@@ -3,7 +3,7 @@ import graphqlHTTP from 'express-graphql'
 import schema from "./schema";
 import cors from "cors";
 import { graphqlUploadExpress } from 'graphql-upload';
-import {connect} from "./database"
+import { connect } from "./database"
 const SECRET = "theheaveniscolorHENTAI"
 const app = express();
 connect();

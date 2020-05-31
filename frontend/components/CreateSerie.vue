@@ -187,17 +187,18 @@ export default {
           input: {
             title: this.title,
             synopsis: this.synopsis,
-            genres: this.gernes,
+            genres: this.genres,
             status: this.status,
             serie_type: this.serie_type,
             next_episode: this.next_episode,
-            cover: 'cdn/cover/' + this.cover,
-            background_cover: 'cdn/cover/' + this.background_cover
+            cover: this.cover,
+            background_cover: this.background_cover
           }
         }
       }).then((input) => {
         // eslint-disable-next-line no-console
         console.log(this.genres)
+        // eslint-disable-next-line no-console
         console.log(this.$apollo)
       }).catch((error) => {
         // eslint-disable-next-line no-console
@@ -205,10 +206,12 @@ export default {
       })
     },
     coverSelected (e) {
-      this.cover.push(this.$refs.cover.$refs.input.files[0].name)
+      this.cover.push(this.$refs.cover.$refs.input.files[0])
+      this.cover.push(this.title)
     },
     background_coverSelected (e) {
-      this.background_cover.push(this.$refs.background_cover.$refs.input.files[0].name)
+      this.background_cover.push(this.$refs.background_cover.$refs.input.files[0])
+      this.background_cover.push(this.title)
     },
     async upload_photo () {
       const formData = await new FormData()

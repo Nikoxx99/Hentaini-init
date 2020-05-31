@@ -1,5 +1,5 @@
 import {makeExecutableSchema} from 'graphql-tools'
-import { Upload } from 'graphql-upload'
+import { processRequest } from 'graphql-upload'
 import {resolvers} from './resolvers'
 
 const typeDefs = `
@@ -66,12 +66,6 @@ const typeDefs = `
     date: String
   }
 
-  type File {
-    filename: String!
-    mimetype: String!
-    encoding: String!
-  }
-
   type Error {
     path: String!
     message: String!
@@ -104,13 +98,13 @@ const typeDefs = `
   input SerieInput {
     title: String
     synopsis: String
-    genres: String
+    genres: [String]
     status: String
     serie_type: String
     next_episode: String
     visits: Int
-    cover: String
-    background_cover: String
+    cover: Upload
+    background_cover: Upload
   }
 
   input EpisodeInput {
