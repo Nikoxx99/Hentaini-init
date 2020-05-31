@@ -14,7 +14,7 @@
         <v-list-item-title class="title">
           {{ $store.state.auth.username }}
         </v-list-item-title>
-        <v-list-item-subtitle>Admin Access</v-list-item-subtitle>
+        <v-list-item-subtitle>Back to home</v-list-item-subtitle>
       </v-list-item-content>
     </v-list-item>
 
@@ -29,7 +29,7 @@
           </template>
         </v-expansion-panel-header>
         <v-expansion-panel-content>
-          <nuxt-link :to="`${this.$route.path}/serie/create`">
+          <nuxt-link to="/panel/serie/create">
             Create Serie
           </nuxt-link>
         </v-expansion-panel-content>
@@ -45,12 +45,37 @@
           List User
         </v-expansion-panel-content>
       </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
+          Genre Controls
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <nuxt-link to="/panel/genre/create">
+            Create Genre
+          </nuxt-link>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
+      <v-expansion-panel>
+        <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
+          Category Controls
+        </v-expansion-panel-header>
+        <v-expansion-panel-content>
+          <nuxt-link to="/panel/category/create">
+            Create Category
+          </nuxt-link>
+        </v-expansion-panel-content>
+      </v-expansion-panel>
     </v-expansion-panels>
+    <Logo class="ml-4" />
   </v-navigation-drawer>
 </template>
 <script>
+import Logo from '../components/Logo'
 export default {
-  name: 'PanelTemplate'
+  name: 'PanelTemplate',
+  components: {
+    Logo
+  }
 }
 </script>
 

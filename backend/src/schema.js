@@ -1,4 +1,5 @@
 import {makeExecutableSchema} from 'graphql-tools'
+import { Upload } from 'graphql-upload'
 import {resolvers} from './resolvers'
 
 const typeDefs = `
@@ -7,6 +8,8 @@ const typeDefs = `
     Series(limit: Int): [Serie]
     Episode(_id: ID): Episode
     Episodes(limit: Int): [Episode]
+    Genres(limit: Int): [Genre]
+    Categories(limit: Int): [Category]
   }
   type Serie {
     _id: ID
@@ -50,6 +53,11 @@ const typeDefs = `
     name: String
   }
 
+  type Category {
+    _id: ID
+    name: String
+  }
+
   type User {
     _id: ID
     username: String
@@ -58,12 +66,18 @@ const typeDefs = `
     date: String
   }
 
+  type File {
+    filename: String!
+    mimetype: String!
+    encoding: String!
+  }
+
   type Error {
     path: String!
     message: String!
   }
 
-  type SerieResponse {
+  type SimpleResponse {
     success: Boolean!
     errors: [Error]
   }
@@ -75,11 +89,16 @@ const typeDefs = `
     errors: [Error]
   }
 
+  scalar Upload
+
   type Mutation {
-    createSerie(input: SerieInput): SerieResponse
+    createSerie(input: SerieInput): SimpleResponse
     createEpisode(input: EpisodeInput): Episode
+    createGenre(input: GenreInput): SimpleResponse
+    createCategory(input: CategoryInput): SimpleResponse
     createUser(input: UserInput): Response
     login(input: LoginInput): Response
+    uploadFile(file: Upload!): SimpleResponse
   }
 
   input SerieInput {
@@ -115,6 +134,11 @@ const typeDefs = `
   }
 
   input GenreInput {
+    _id: ID
+    name: String
+  }
+
+  input CategoryInput {
     _id: ID
     name: String
   }

@@ -11,11 +11,13 @@
     />
     <v-text-field
       v-model="password"
-      :error-messages="passwordErrors"
+      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+      :type="showPassword ? 'text' : 'password'"
       label="Password"
+      hint="Enter your password"
       required
-      @input="$v.password.$touch()"
-      @blur="$v.password.$touch()"
+      counter
+      @click:append="showPassword = !showPassword"
     />
     <v-btn class="mr-4" @click="login">
       Login
@@ -42,7 +44,8 @@ export default {
 
   data: () => ({
     username: '',
-    password: ''
+    password: '',
+    showPassword: false
   }),
 
   computed: {

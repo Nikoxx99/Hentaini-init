@@ -2,6 +2,7 @@ import express from 'express'
 import graphqlHTTP from 'express-graphql'
 import schema from "./schema";
 import cors from "cors";
+import { graphqlUploadExpress } from 'graphql-upload';
 import {connect} from "./database"
 const SECRET = "theheaveniscolorHENTAI"
 const app = express();
@@ -13,7 +14,9 @@ app.get('/', (req,res) => {
 })
 
 app.use(cors())
-app.use('/graphql',graphqlHTTP({
+app.use('/graphql',
+graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
+graphqlHTTP({
   graphiql:true,
   schema: schema,
   context:

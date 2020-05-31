@@ -1,5 +1,7 @@
 import Serie from "./models/Serie";
 import Episode from "./models/Episode";
+import Genre from "./models/Genre";
+import Category from "./models/Category";
 import User from "./models/User";
 import { auth } from "./auth";
 
@@ -17,21 +19,49 @@ export const resolvers = {
     Episodes: async (_,{limit}) => {
       return await Episode.find().limit(limit)
     },
+    Genres: async (_,{limit}) => {
+      return await Genre.find().limit(limit)
+    },
+    Categories: async (_,{limit}) => {
+      return await Category.find().limit(limit)
+    },
   },
   Mutation:{
     createSerie: async (_,{input}) => {
-      console.log(input)
       const payload = new Serie(input)
       const res =  await payload.save()
       if(res){
         return { success: true, errors: [{path:'Create Serie',message: 'Serie Created Successfuly'}]}
       }else{
-        return { success: false, errors: [{path:'Create Serie',message: 'EError Creating Serie'}]}
+        return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
       }
     },
     createEpisode: async (_,{input}) => {
       const payload = new Episode(input)
-      return await payload.save()
+      const res =  await payload.save()
+      if(res){
+        return { success: true, errors: [{path:'Create Episode',message: 'Episode Created Successfuly'}]}
+      }else{
+        return { success: false, errors: [{path:'Create Episode',message: 'Error Creating Episode'}]}
+      }
+    },
+    createGenre: async (_,{input}) => {
+      const payload = new Genre(input)
+      const res =  await payload.save()
+      if(res){
+        return { success: true, errors: [{path:'Create Genre',message: 'Genre Created Successfuly'}]}
+      }else{
+        return { success: false, errors: [{path:'Create Genre',message: 'Error Creating Genre'}]}
+      }
+    },
+    createCategory: async (_,{input}) => {
+      const payload = new Category(input)
+      const res =  await payload.save()
+      if(res){
+        return { success: true, errors: [{path:'Create Category',message: 'Category Created Successfuly'}]}
+      }else{
+        return { success: false, errors: [{path:'Create Category',message: 'Error Creating Category'}]}
+      }
     },
     createUser: async function (_,{input}){
       const emailUser = await User.findOne({email: input.email})
@@ -46,7 +76,19 @@ export const resolvers = {
         return await newUser.save()
       }
     },
+    uploadFile: async (_,{file}) => {
+      return file.then(file => {
+        const {createReadStream, filename, mimetype} = file
+
+        const fileStream = createReadStream()
+
+        fileStream.pipe(fs.createWriteStream(`./uploadedFiles/${filename}`))
+
+        return file;
+      });
+    },
     login: async (parent, {input}, SECRET) => auth.login(input, User, SECRET)
+    
   },
   Episode: {
     serie: ({serie_id}) => {

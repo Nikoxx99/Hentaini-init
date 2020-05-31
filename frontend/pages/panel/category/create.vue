@@ -1,25 +1,25 @@
 <template>
-  <v-app>
+  <div>
     <v-navigation-drawer
       permanent
       width="100%"
     >
       <v-row class="fill-height" no-gutters>
         <PanelTemplate />
-        <Logo />
+        <CreateCategory />
       </v-row>
     </v-navigation-drawer>
-  </v-app>
+  </div>
 </template>
 
 <script>
-import Logo from '../../components/Logo'
-import PanelTemplate from '../../components/PanelTemplate'
+import PanelTemplate from '../../../components/PanelTemplate'
+import CreateCategory from '../../../components/CreateCategory'
 export default {
   middleware: 'authenticated',
   components: {
     PanelTemplate,
-    Logo
+    CreateCategory
   },
   data () {
     return {

@@ -1,15 +1,16 @@
 <template>
-  <div>
+  <v-app>
     <v-navigation-drawer
       permanent
       width="100%"
+      absolute
     >
       <v-row class="fill-height" no-gutters>
         <PanelTemplate />
         <CreateSerie />
       </v-row>
     </v-navigation-drawer>
-  </div>
+  </v-app>
 </template>
 
 <script>
