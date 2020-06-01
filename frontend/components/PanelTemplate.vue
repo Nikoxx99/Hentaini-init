@@ -34,7 +34,9 @@
           </nuxt-link>
         </v-expansion-panel-content>
         <v-expansion-panel-content>
-          List Series
+          <nuxt-link to="/panel/serie">
+            List Series
+          </nuxt-link>
         </v-expansion-panel-content>
       </v-expansion-panel>
       <v-expansion-panel>

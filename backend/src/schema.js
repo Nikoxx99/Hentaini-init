@@ -101,6 +101,7 @@ const typeDefs = `
     genres: [String]
     status: String
     serie_type: String
+    created_at: String
     next_episode: String
     visits: Int
     cover: Upload

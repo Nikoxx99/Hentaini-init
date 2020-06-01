@@ -22,6 +22,10 @@ const serieSchema = new Schema({
     required: true,
   },
   episodes: Array,
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
   next_episode: String,
   visits: Number,
   coverUrl: String,

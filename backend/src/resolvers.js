@@ -5,15 +5,18 @@ import Category from "./models/Category";
 import User from "./models/User";
 import { auth } from "./auth";
 import { createWriteStream } from "fs";
+import shortid from "shortid";
 
-const storeUpload = async ({createReadStream, filename}) => {
+const storeUpload = async ({createReadStream, filename, mimetype}) => {
   const id = filename
-  const path = `uploadedFiles/${id}`
+  const r_id = shortid.generate()
+  const extension = mimetype.split('/')
+  const path = `uploadedFiles/${id}-${r_id}-.${extension[1]}`
   const stream = createReadStream();
   return new Promise((resolve, reject) => 
   stream
     .pipe(createWriteStream(path))
-    .on("finish", () => resolve({ id, path }))
+    .on("finish", () => resolve({ id, path, r_id, extension }))
     .on("error", reject)
   
   )
@@ -21,8 +24,8 @@ const storeUpload = async ({createReadStream, filename}) => {
 
 const processUpload = async (upload,filename) => {
   const {createReadStream, mimetype} = upload
-  const { id } = await storeUpload({createReadStream, filename, mimetype})
-  return id
+  const { id, r_id, extension } = await storeUpload({createReadStream, filename, mimetype})
+  return id+'-'+r_id+'-.'+extension[1]
 }
 
 export const resolvers = {
@@ -49,7 +52,7 @@ export const resolvers = {
   Mutation:{
     createSerie: async (_,{input: {cover, background_cover, ...data}}) => {
       const coverUrl = await processUpload(cover[0].file, cover[1])
-      const background_coverUrl = await processUpload(background_cover[0].file, background_cover[1]) 
+      const background_coverUrl = await processUpload(background_cover[0].file, background_cover[1])
       const payload = new Serie({
         ...data,
         coverUrl,

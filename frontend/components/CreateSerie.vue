@@ -55,27 +55,9 @@
         <v-file-input
           ref="background_cover"
           show-size
-          label="Background Image"
+          label="Screenshot Image"
           @change="background_coverSelected"
         />
-        <v-menu
-          :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="290px"
-        >
-          <template v-slot:activator="{ on }">
-            <v-text-field
-              v-model="created"
-              label="Serie Created At"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-on="on"
-            />
-          </template>
-          <v-date-picker v-model="created" />
-        </v-menu>
         <v-menu
           :close-on-content-click="false"
           :nudge-right="40"
@@ -127,7 +109,6 @@ export default {
     censor: ['YES', 'NO'],
     cover: [],
     background_cover: [],
-    created: '',
     next_episode: '',
     items: ['Item 1', 'Item 2']
   }),
@@ -196,10 +177,7 @@ export default {
           }
         }
       }).then((input) => {
-        // eslint-disable-next-line no-console
-        console.log(this.genres)
-        // eslint-disable-next-line no-console
-        console.log(this.$apollo)
+        this.$router.push({ path: '/panel/serie/' })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

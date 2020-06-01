@@ -1,10 +1,30 @@
 <template>
-  <h1>Serie List</h1>
+  <v-app>
+    <v-navigation-drawer
+      permanent
+      width="100%"
+    >
+      <v-row class="fill-height" no-gutters>
+        <PanelTemplate />
+        <SerieList />
+      </v-row>
+    </v-navigation-drawer>
+  </v-app>
 </template>
 
 <script>
+import PanelTemplate from '../../../components/PanelTemplate'
+import SerieList from '../../../components/SerieList'
 export default {
-  middleware: 'authenticated'
+  middleware: 'authenticated',
+  components: {
+    PanelTemplate,
+    SerieList
+  },
+  data () {
+    return {
+    }
+  }
 }
 </script>
 
