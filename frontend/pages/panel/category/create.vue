@@ -1,25 +1,23 @@
 <template>
-  <div>
-    <v-navigation-drawer
-      permanent
-      width="100%"
-    >
-      <v-row class="fill-height" no-gutters>
-        <PanelTemplate />
-        <CreateCategory />
-      </v-row>
-    </v-navigation-drawer>
-  </div>
+  <v-app>
+    <ToolBar header="Create Category" />
+    <PanelTemplate />
+    <v-content>
+      <CreateCategory />
+    </v-content>
+  </v-app>
 </template>
 
 <script>
 import PanelTemplate from '../../../components/PanelTemplate'
 import CreateCategory from '../../../components/CreateCategory'
+import ToolBar from '../../../components/ToolBar'
 export default {
   middleware: 'authenticated',
   components: {
     PanelTemplate,
-    CreateCategory
+    CreateCategory,
+    ToolBar
   },
   data () {
     return {

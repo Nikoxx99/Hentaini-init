@@ -1,35 +1,66 @@
 <template>
-  <v-row>
-    <v-col cols="12">
-      <v-simple-table width="100%">
-        <template v-slot:default>
-          <thead>
-            <tr>
-              <th class="text-left">
-                Name
-              </th>
-              <th class="text-left">
-                ID
-              </th>
-              <th class="text-left">
-                Actions
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="serie in series"
-              :key="serie._id"
-            >
-              <td>{{ serie.title }}</td>
-              <td>{{ serie._id }}</td>
-              <td>Edit Buttons</td>
-            </tr>
-          </tbody>
-        </template>
-      </v-simple-table>
-    </v-col>
-  </v-row>
+  <v-container>
+    <v-row>
+      <v-col cols="12">
+        <v-simple-table width="100%">
+          <template v-slot:default>
+            <thead>
+              <tr>
+                <th class="text-left">
+                  Name
+                </th>
+                <th class="text-left">
+                  Episodes
+                </th>
+                <th class="text-left">
+                  Visits
+                </th>
+                <th class="text-left">
+                  ID
+                </th>
+                <th class="text-left">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="serie in series"
+                :key="serie._id"
+              >
+                <td>{{ serie.title }}</td>
+                <td>{{ serie.episodes.length }}</td>
+                <td>{{ serie.visits }}</td>
+                <td>{{ serie._id }}</td>
+                <td>
+                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/create'">
+                    <v-icon>
+                      mdi-plus-circle
+                    </v-icon>
+                  </v-btn>
+                  <v-btn :to="'/panel/serie/' + serie._id + '/episodes'">
+                    <v-icon>
+                      mdi-play-circle
+                    </v-icon>
+                  </v-btn>
+                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/edit'">
+                    <v-icon>
+                      mdi-circle-edit-outline
+                    </v-icon>
+                  </v-btn>
+                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/delete'">
+                    <v-icon>
+                      mdi-delete-outline
+                    </v-icon>
+                  </v-btn>
+                </td>
+              </tr>
+            </tbody>
+          </template>
+        </v-simple-table>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -53,6 +84,10 @@ export default {
         Series(limit: $limit){
           _id
           title
+          episodes {
+            _id
+          }
+          visits
         }
       }`,
       variables: {

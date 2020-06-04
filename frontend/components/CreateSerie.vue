@@ -1,87 +1,103 @@
 <template>
-  <v-row>
-    <v-col cols="6">
-      <v-container>
-        <v-text-field
-          v-model="title"
-          :counter="10"
-          label="Hentai Name"
-          required
-        />
-        <v-textarea
-          v-model="synopsis"
-          name="synopsis"
-          label="Synopsis"
-          value="Como comenzo con el que tenia el peinado follador..."
-          hint="Describe the Hentai"
-        />
-        <v-combobox
-          v-model="genres"
-          :items="genre"
-          label="Hentai Genres"
-          multiple
-          clearable
-          deletable-chips
-          chips
-        />
-        <v-select
-          v-model="serie_type"
-          :items="categories"
-          filled
-          label="Category"
-        />
-        <v-select
-          v-model="status"
-          :items="stat"
-          filled
-          label="Status"
-        />
-        <v-select
-          v-model="censorship"
-          :items="censor"
-          filled
-          label="Censorship"
-        />
-      </v-container>
-    </v-col>
-    <v-col cols="6">
-      <v-container>
-        <v-file-input
-          ref="cover"
-          show-size
-          label="Cover Image"
-          @change="coverSelected"
-        />
-        <v-file-input
-          ref="background_cover"
-          show-size
-          label="Screenshot Image"
-          @change="background_coverSelected"
-        />
-        <v-menu
-          :close-on-content-click="false"
-          :nudge-right="40"
-          transition="scale-transition"
-          offset-y
-          min-width="290px"
+  <v-container>
+    <v-row>
+      <v-col cols="6">
+        <v-card
+          elevation
         >
-          <template v-slot:activator="{ on }">
+          <v-card-title>
+            Initial information
+          </v-card-title>
+          <v-container>
             <v-text-field
-              v-model="next_episode"
-              label="Next episode on"
-              prepend-icon="mdi-calendar"
-              readonly
-              v-on="on"
+              v-model="title"
+              :counter="10"
+              label="Hentai Name"
+              required
             />
-          </template>
-          <v-date-picker v-model="next_episode" />
-        </v-menu>
-        <v-btn class="mr-4" @click="createSerie">
-          submit
-        </v-btn>
-      </v-container>
-    </v-col>
-  </v-row>
+            <v-textarea
+              v-model="synopsis"
+              name="synopsis"
+              label="Synopsis"
+              value="Como comenzo con el que tenia el peinado follador..."
+              hint="Describe the Hentai"
+            />
+            <v-combobox
+              v-model="genres"
+              :items="genre"
+              label="Hentai Genres"
+              multiple
+              clearable
+              deletable-chips
+              chips
+            />
+            <v-select
+              v-model="serie_type"
+              :items="categories"
+              filled
+              label="Category"
+            />
+            <v-select
+              v-model="status"
+              :items="stat"
+              filled
+              label="Status"
+            />
+            <v-select
+              v-model="censorship"
+              :items="censor"
+              filled
+              label="Censorship"
+            />
+          </v-container>
+        </v-card>
+      </v-col>
+      <v-col cols="6">
+        <v-card
+          elevation
+        >
+          <v-card-title>
+            Image Settings
+          </v-card-title>
+          <v-container>
+            <v-file-input
+              ref="cover"
+              show-size
+              label="Cover Image"
+              @change="coverSelected"
+            />
+            <v-file-input
+              ref="background_cover"
+              show-size
+              label="Screenshot Image"
+              @change="background_coverSelected"
+            />
+            <v-menu
+              :close-on-content-click="false"
+              :nudge-right="40"
+              transition="scale-transition"
+              offset-y
+              min-width="290px"
+            >
+              <template v-slot:activator="{ on }">
+                <v-text-field
+                  v-model="next_episode"
+                  label="Next episode on"
+                  prepend-icon="mdi-calendar"
+                  readonly
+                  v-on="on"
+                />
+              </template>
+              <v-date-picker v-model="next_episode" />
+            </v-menu>
+            <v-btn class="mr-4 blue darken-4" large @click="createSerie">
+              submit
+            </v-btn>
+          </v-container>
+        </v-card>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
@@ -190,10 +206,6 @@ export default {
     background_coverSelected (e) {
       this.background_cover.push(this.$refs.background_cover.$refs.input.files[0])
       this.background_cover.push(this.title)
-    },
-    async upload_photo () {
-      const formData = await new FormData()
-      formData.append('file', this.photo)
     }
   }
 }

@@ -9,6 +9,14 @@ const episodeSchema = new Schema({
     type: Number,
     required: true
   },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  visible: Boolean,
+  language: String,
+  screenshot: String,
+  screenshotUrl: String,
   players: Array,
   downloads:Array
 });

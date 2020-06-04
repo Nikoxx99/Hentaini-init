@@ -1,25 +1,23 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      permanent
-      width="100%"
-    >
-      <v-row class="fill-height" no-gutters>
-        <PanelTemplate />
-        <SerieList />
-      </v-row>
-    </v-navigation-drawer>
+    <ToolBar title="All Series" />
+    <PanelTemplate />
+    <v-content>
+      <SerieList />
+    </v-content>
   </v-app>
 </template>
 
 <script>
 import PanelTemplate from '../../../components/PanelTemplate'
 import SerieList from '../../../components/SerieList'
+import ToolBar from '../../../components/ToolBar'
 export default {
   middleware: 'authenticated',
   components: {
     PanelTemplate,
-    SerieList
+    SerieList,
+    ToolBar
   },
   data () {
     return {

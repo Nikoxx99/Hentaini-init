@@ -22,10 +22,33 @@ const storeUpload = async ({createReadStream, filename, mimetype}) => {
   )
 }
 
+const storeUploadEpisode = async ({createReadStream, filename, mimetype, episode}) => {
+  const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
+  const id = id1.toLowerCase()
+  const r_id = shortid.generate()
+  const e_n = episode
+  const extension = mimetype.split('/')
+  const path = `uploadedFiles/screenshot/${id}-${r_id}_${e_n}-.${extension[1]}`
+  const stream = createReadStream();
+  return new Promise((resolve, reject) => 
+  stream
+    .pipe(createWriteStream(path))
+    .on("finish", () => resolve({ id, path, r_id, e_n, extension }))
+    .on("error", reject)
+  
+  )
+}
+
 const processUpload = async (upload,filename) => {
   const {createReadStream, mimetype} = upload
   const { id, r_id, extension } = await storeUpload({createReadStream, filename, mimetype})
   return id+'-'+r_id+'-.'+extension[1]
+}
+
+const processUploadEpisode = async (upload,filename,episode) => {
+  const {createReadStream, mimetype} = upload
+  const { id, r_id, e_n, extension } = await storeUploadEpisode({createReadStream, filename, mimetype, episode})
+  return id+'-'+r_id+'_'+e_n+'-.'+extension[1]
 }
 
 export const resolvers = {
@@ -65,13 +88,28 @@ export const resolvers = {
         return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
       }
     },
-    createEpisode: async (_,{input}) => {
-      const payload = new Episode(input)
-      const res =  await payload.save()
-      if(res){
-        return { success: true, errors: [{path:'Create Episode',message: 'Episode Created Successfuly'}]}
+    createEpisode: async (_,{input: {screenshotNew, ...data}}) => {
+      if(!screenshotNew){
+        console.log('1')
+        const payload = new Episode({...data})
+        const res =  await payload.save()
+        if(res){
+          return { success: true, errors: [{path:'Create Episode',message: 'Episode Created Successfuly'}]}
+        }else{
+          return { success: false, errors: [{path:'Create Episode',message: 'Error Creating Episode'}]}
+        }
       }else{
-        return { success: false, errors: [{path:'Create Episode',message: 'Error Creating Episode'}]}
+        const screenshotUrl = await processUploadEpisode(screenshotNew[0].file, screenshotNew[1], screenshotNew[2])
+        const payload = new Episode({
+          ...data,
+          screenshotUrl
+        })
+        const res = await payload.save()
+        if(res){
+          return { success: true, errors: [{path:'Create Serie New Image',message: 'Serie Created Successfuly With new Image'}]}
+        }else{
+          return { success: false, errors: [{path:'Create Serie New Image',message: 'Error Creating Serie with new Image'}]}
+        }
       }
     },
     createGenre: async (_,{input}) => {

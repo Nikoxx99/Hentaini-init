@@ -21,8 +21,8 @@ const typeDefs = `
     episodes: [Episode]
     next_episode: String
     visits: Int
-    cover: String
-    background_cover: String
+    coverUrl: String
+    background_coverUrl: String
     rating: String
   }
   type Episode {
@@ -87,7 +87,7 @@ const typeDefs = `
 
   type Mutation {
     createSerie(input: SerieInput): SimpleResponse
-    createEpisode(input: EpisodeInput): Episode
+    createEpisode(input: EpisodeInput): SimpleResponse
     createGenre(input: GenreInput): SimpleResponse
     createCategory(input: CategoryInput): SimpleResponse
     createUser(input: UserInput): Response
@@ -111,6 +111,11 @@ const typeDefs = `
   input EpisodeInput {
     serie_id: String
     episode_number: Int
+    visible: Boolean
+    created_at: String
+    language: String
+    screenshot: String
+    screenshotNew: Upload
     players: [PlayerInput]
     downloads: [DownloadInput]
   }

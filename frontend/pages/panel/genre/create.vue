@@ -1,28 +1,25 @@
 <template>
   <div>
-    <v-navigation-drawer
-      permanent
-      width="100%"
-    >
-      <v-row class="fill-height" no-gutters>
-        <PanelTemplate />
+    <v-app>
+      <ToolBar header="Create Genre" />
+      <PanelTemplate />
+      <v-content>
         <CreateGenre />
-        <Logo />
-      </v-row>
-    </v-navigation-drawer>
+      </v-content>
+    </v-app>
   </div>
 </template>
 
 <script>
 import PanelTemplate from '../../../components/PanelTemplate'
 import CreateGenre from '../../../components/CreateGenre'
-import Logo from '../../../components/Logo'
+import ToolBar from '../../../components/ToolBar'
 export default {
   middleware: 'authenticated',
   components: {
     PanelTemplate,
     CreateGenre,
-    Logo
+    ToolBar
   },
   data () {
     return {
