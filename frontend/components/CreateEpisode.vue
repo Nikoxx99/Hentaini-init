@@ -55,9 +55,41 @@
             Player and Download
           </v-card-title>
           <v-container>
-            <h1>Hehe</h1>
+            <PlayerInput
+              v-for="(player, index) in playerList"
+              :id="'container'+index"
+              :key="index"
+              :index="index"
+            >
+              <v-select
+                :id="'list'+index"
+                slot="playerList"
+                v-model="player.items"
+                :items="player.items"
+                label="Solo field"
+                hide-details
+                solo
+              />
+              <v-text-field
+                :id="'code'+index"
+                slot="playerCode"
+                v-model="player.code"
+                label="Code"
+                hide-details
+                solo
+              />
+              <v-btn
+                slot="playerDeleteItem"
+                @click="removePlayerSlot(index)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </PlayerInput>
             <v-btn class="mr-4 blue darken-4" large @click="createEpisode">
               submit
+            </v-btn>
+            <v-btn class="mr-4 blue darken-4" large @click="addPlayerSlot">
+              Add One
             </v-btn>
           </v-container>
         </v-card>
@@ -70,15 +102,19 @@
 import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
+import PlayerInput from './PlayerInput'
 export default {
   name: 'CreateEpisode',
+  components: {
+    PlayerInput
+  },
   mixins: [validationMixin],
 
   validations: {
     name: { required, maxLength: minLength(1) }
   },
-
   data: () => ({
+    currentCounter: 0,
     serie_id: '',
     serie_title: '',
     episode_number: 0,
@@ -89,7 +125,7 @@ export default {
     screenshot: '',
     screenshotNew: undefined,
     customimage: false,
-    players: [],
+    playerList: [],
     downloads: []
   }),
 
@@ -156,6 +192,18 @@ export default {
       } else {
         this.screenshotNew = undefined
       }
+    },
+    addPlayerSlot () {
+      this.playerList.push({
+        items: ['Mega', 'Mediafire'],
+        code: ''
+      })
+    },
+    removePlayerSlot (slot) {
+      this.playerList.splice(slot, 1)
+    },
+    test () {
+      console.log(this.$refs)
     }
   }
 }
