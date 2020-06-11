@@ -12,7 +12,7 @@
                 persistent-hint
                 required
               />
-              <v-btn class="mr-4" @click="createCategory">
+              <v-btn type="submit" class="mr-4" @click="createCategory">
                 submit
               </v-btn>
             </v-container>
@@ -21,14 +21,23 @@
             <v-card
               tile
             >
-              <v-list-item
-                v-for="genre in genres"
-                :key="genre.id"
+              <v-card-title class="blue darken-3">
+                Available Categories
+              </v-card-title>
+              <v-subheader>In the future you're be able to remove it from the list</v-subheader>
+              <v-list
+                rounded
+                shaped
               >
-                <v-list-item-content>
-                  <v-list-item-title>{{ genre.name }}</v-list-item-title>
-                </v-list-item-content>
-              </v-list-item>
+                <v-list-item
+                  v-for="category in categories"
+                  :key="category.id"
+                >
+                  <v-list-item-content>
+                    <v-list-item-title>{{ category.name }}</v-list-item-title>
+                  </v-list-item-content>
+                </v-list-item>
+              </v-list>
             </v-card>
           </v-col>
         </v-row>
@@ -43,8 +52,27 @@ export default {
   name: 'CreateCategory',
   data: () => ({
     name: '',
-    hint: ''
+    hint: '',
+    categories: ''
   }),
+  created () {
+    this.$apollo.query({
+      query: gql`query ($limit: Int){
+        Categories(limit: $limit){
+          _id
+          name
+        }
+      }`,
+      variables: {
+        limit: 1000
+      }
+    }).then((input) => {
+      this.categories = input.data.Categories
+    }).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error)
+    })
+  },
   methods: {
     createCategory () {
       this.$apollo.mutate({

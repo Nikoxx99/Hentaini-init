@@ -2,7 +2,6 @@
   <div>
     <NiHeader />
     <NiLatestEpisodes />
-    {{ $store.state }}
     <NiMobileHeader />
   </div>
 </template>

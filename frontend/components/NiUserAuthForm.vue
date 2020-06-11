@@ -1,31 +1,37 @@
 <template>
-  <form>
-    <v-text-field
-      v-model="username"
-      :error-messages="nameErrors"
-      :counter="24"
-      label="Username"
-      required
-      @input="$v.username.$touch()"
-      @blur="$v.username.$touch()"
-    />
-    <v-text-field
-      v-model="password"
-      :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
-      :type="showPassword ? 'text' : 'password'"
-      label="Password"
-      hint="Enter your password"
-      required
-      counter
-      @click:append="showPassword = !showPassword"
-    />
-    <v-btn class="mr-4" @click="login">
-      Login
-    </v-btn>
-    <v-btn @click="clear">
-      Clear
-    </v-btn>
-  </form>
+  <v-card>
+    <v-card-title>
+      Login into your account
+    </v-card-title>
+    <v-container>
+      <form>
+        <v-text-field
+          v-model="username"
+          :error-messages="nameErrors"
+          label="Username"
+          required
+          @input="$v.username.$touch()"
+          @blur="$v.username.$touch()"
+        />
+        <v-text-field
+          v-model="password"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          label="Password"
+          hint="Enter your password"
+          required
+          counter
+          @click:append="showPassword = !showPassword"
+        />
+        <v-btn class="mr-4" @click="login">
+          Login
+        </v-btn>
+        <v-btn @click="clear">
+          Clear
+        </v-btn>
+      </form>
+    </v-container>
+  </v-card>
 </template>
 
 <script>

@@ -6,7 +6,7 @@ const episodeSchema = new Schema({
     required: true
   },
   episode_number: {
-    type: Number,
+    type: String,
     required: true
   },
   created_at: {
@@ -18,7 +18,7 @@ const episodeSchema = new Schema({
   screenshot: String,
   screenshotUrl: String,
   players: Array,
-  downloads:Array
+  downloads: Array
 });
 
 export default model('Episode', episodeSchema);

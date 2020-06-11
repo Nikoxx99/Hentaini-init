@@ -3,6 +3,7 @@ import Episode from "./models/Episode";
 import Genre from "./models/Genre";
 import Category from "./models/Category";
 import User from "./models/User";
+import Player from "./models/Player"
 import { auth } from "./auth";
 import { createWriteStream } from "fs";
 import shortid from "shortid";
@@ -71,6 +72,12 @@ export const resolvers = {
     Categories: async (_,{limit}) => {
       return await Category.find().limit(limit)
     },
+    Player: async (_,{_id}) => {
+      return await Player.findById(_id)
+    },
+    Players: async (_,{limit}) => {
+      return await Player.find().limit(limit)
+    }
   },
   Mutation:{
     createSerie: async (_,{input: {cover, background_cover, ...data}}) => {
@@ -90,7 +97,7 @@ export const resolvers = {
     },
     createEpisode: async (_,{input: {screenshotNew, ...data}}) => {
       if(!screenshotNew){
-        console.log('1')
+        console.log(data)
         const payload = new Episode({...data})
         const res =  await payload.save()
         if(res){
@@ -128,6 +135,15 @@ export const resolvers = {
         return { success: true, errors: [{path:'Create Category',message: 'Category Created Successfuly'}]}
       }else{
         return { success: false, errors: [{path:'Create Category',message: 'Error Creating Category'}]}
+      }
+    },
+    createPlayer: async (_,{input}) => {
+      const payload = new Player(input)
+      const res =  await payload.save()
+      if(res){
+        return { success: true, errors: [{path:'Create Player',message: 'Player Created Successfuly'}]}
+      }else{
+        return { success: false, errors: [{path:'Create Player',message: 'Error Creating Player'}]}
       }
     },
     createUser: async function (_,{input}){

@@ -2,6 +2,7 @@
   <v-container>
     <v-row>
       <v-col cols="12">
+        <h3>All Series</h3>
         <v-simple-table width="100%">
           <template v-slot:default>
             <thead>
@@ -33,22 +34,22 @@
                 <td>{{ serie.visits }}</td>
                 <td>{{ serie._id }}</td>
                 <td>
-                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/create'">
+                  <v-btn :href="'/panel/serie/' + serie._id + '/episode/create'">
                     <v-icon>
                       mdi-plus-circle
                     </v-icon>
                   </v-btn>
-                  <v-btn :to="'/panel/serie/' + serie._id + '/episodes'">
+                  <v-btn :href="'/panel/serie/' + serie._id + '/episodes'">
                     <v-icon>
                       mdi-play-circle
                     </v-icon>
                   </v-btn>
-                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/edit'">
+                  <v-btn :href="'/panel/serie/' + serie._id + '/episode/edit'">
                     <v-icon>
                       mdi-circle-edit-outline
                     </v-icon>
                   </v-btn>
-                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/delete'">
+                  <v-btn :href="'/panel/serie/' + serie._id + '/episode/delete'">
                     <v-icon>
                       mdi-delete-outline
                     </v-icon>
@@ -97,6 +98,7 @@ export default {
       for (let i = 0; i < input.data.Series.length; i++) {
         this.series.push(input.data.Series[i])
       }
+      console.log(input)
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)

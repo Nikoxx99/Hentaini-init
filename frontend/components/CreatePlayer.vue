@@ -7,12 +7,18 @@
             <v-container>
               <v-text-field
                 v-model="name"
-                label="Genre Name"
+                label="Player Name"
                 :hint="hint"
                 persistent-hint
                 required
               />
-              <v-btn type="submit" class="mr-4" @click="createGenre">
+              <v-text-field
+                v-model="short_name"
+                label="Player Short Name"
+                persistent-hint
+                required
+              />
+              <v-btn type="submit" class="mr-4" @click="createPlayer">
                 submit
               </v-btn>
             </v-container>
@@ -22,19 +28,19 @@
               tile
             >
               <v-card-title class="blue darken-3">
-                Available Genres
+                Available Players
               </v-card-title>
-              <v-subheader>In the future you're be able to remove it from the list</v-subheader>
               <v-list
                 rounded
                 shaped
               >
                 <v-list-item
-                  v-for="genre in genres"
-                  :key="genre.id"
+                  v-for="player in players"
+                  :key="player.id"
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{ genre.name }}</v-list-item-title>
+                    <v-list-item-title>{{ player.name }}</v-list-item-title>
+                    <v-list-item-subtitle>Short name: {{ player.short_name }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -49,35 +55,37 @@
 <script>
 import gql from 'graphql-tag'
 export default {
-  name: 'CreateGenre',
+  name: 'CreatePlayer',
   data: () => ({
     name: '',
+    short_name: '',
     hint: '',
-    genres: []
+    players: []
   }),
   created () {
     this.$apollo.query({
       query: gql`query ($limit: Int){
-        Genres(limit: $limit){
+        Players(limit: $limit){
           _id
           name
+          short_name
         }
       }`,
       variables: {
-        limit: 1000
+        limit: 100
       }
     }).then((input) => {
-      this.genres = input.data.Genres
+      this.players = input.data.Players
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
     })
   },
   methods: {
-    createGenre () {
+    createPlayer () {
       this.$apollo.mutate({
-        mutation: gql`mutation ($input: GenreInput){
-          createGenre(input: $input){
+        mutation: gql`mutation ($input: PlayerInput){
+          createPlayer(input: $input){
             success
             errors{
               path
@@ -87,13 +95,15 @@ export default {
         }`,
         variables: {
           input: {
-            name: this.name
+            name: this.name,
+            short_name: this.short_name
           }
         }
       }).then((input) => {
         // eslint-disable-next-line no-console
         console.log(this.$apollo)
         this.name = ''
+        this.short_name = ''
         this.hint = 'Genre Created Succesfully'
       }).catch((error) => {
         // eslint-disable-next-line no-console

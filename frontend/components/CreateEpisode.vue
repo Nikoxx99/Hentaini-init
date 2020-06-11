@@ -44,6 +44,9 @@
               label="Select a Custom Image"
               @change="screenshotSelected"
             />
+            <v-btn class="mr-4 blue darken-4" large @click="createEpisode">
+              submit
+            </v-btn>
           </v-container>
         </v-card>
       </v-col>
@@ -52,7 +55,7 @@
           elevation
         >
           <v-card-title>
-            Player and Download
+            Player Information
           </v-card-title>
           <v-container>
             <PlayerInput
@@ -64,17 +67,17 @@
               <v-select
                 :id="'list'+index"
                 slot="playerList"
-                v-model="player.items"
-                :items="player.items"
-                label="Solo field"
+                v-model="player.name"
+                :items="players"
+                label="Player Select"
                 hide-details
                 solo
               />
               <v-text-field
                 :id="'code'+index"
                 slot="playerCode"
-                v-model="player.code"
-                label="Code"
+                v-model="player.url"
+                label="Player URL"
                 hide-details
                 solo
               />
@@ -85,11 +88,44 @@
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </PlayerInput>
-            <v-btn class="mr-4 blue darken-4" large @click="createEpisode">
-              submit
-            </v-btn>
             <v-btn class="mr-4 blue darken-4" large @click="addPlayerSlot">
-              Add One
+              Add Player
+            </v-btn>
+            <v-btn class="mr-4 blue darken-4" large @click="test">
+              Test
+            </v-btn>
+          </v-container>
+        </v-card>
+        <v-card
+          elevation
+        >
+          <v-card-title>
+            Download Links
+          </v-card-title>
+          <v-container>
+            <DownloadInput
+              v-for="(download, index) in downloadList"
+              :id="'container'+index"
+              :key="index"
+              :index="index"
+            >
+              <v-text-field
+                :id="'code'+index"
+                slot="downloadCode"
+                v-model="download.url"
+                label="Download URL"
+                hide-details
+                solo
+              />
+              <v-btn
+                slot="downloadDeleteItem"
+                @click="removeDownloadSlot(index)"
+              >
+                <v-icon>mdi-delete</v-icon>
+              </v-btn>
+            </DownloadInput>
+            <v-btn class="mr-4 blue darken-4" large @click="addDownloadSlot">
+              Add Download
             </v-btn>
           </v-container>
         </v-card>
@@ -103,10 +139,12 @@ import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
 import PlayerInput from './PlayerInput'
+import DownloadInput from './DownloadInput'
 export default {
   name: 'CreateEpisode',
   components: {
-    PlayerInput
+    PlayerInput,
+    DownloadInput
   },
   mixins: [validationMixin],
 
@@ -117,7 +155,7 @@ export default {
     currentCounter: 0,
     serie_id: '',
     serie_title: '',
-    episode_number: 0,
+    episode_number: '',
     created_at: '',
     visible: true,
     language: '',
@@ -126,7 +164,8 @@ export default {
     screenshotNew: undefined,
     customimage: false,
     playerList: [],
-    downloads: []
+    players: [],
+    downloadList: []
   }),
 
   computed: {
@@ -146,6 +185,24 @@ export default {
     }).then((input) => {
       this.serie_title = input.data.Serie.title
       this.screenshot = input.data.Serie.background_coverUrl
+    }).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error)
+    })
+    this.$apollo.query({
+      query: gql`query ($limit: Int){
+        Players(limit: $limit){
+          name
+          short_name
+        }
+      }`,
+      variables: {
+        limit: 100
+      }
+    }).then((input) => {
+      for (let i = 0; i < input.data.Players.length; i++) {
+        this.players.push(input.data.Players[i].short_name)
+      }
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -170,11 +227,14 @@ export default {
             visible: this.visible,
             language: this.language,
             screenshot: this.screenshot,
-            screenshotNew: this.screenshotNew
+            screenshotNew: this.screenshotNew,
+            players: this.playerList,
+            downloads: this.downloadList
           }
         }
       }).then((input) => {
-        this.$router.push({ path: '/panel/serie/' })
+        console.log(input)
+        // this.$router.push({ path: '/panel/serie/' })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)
@@ -195,15 +255,24 @@ export default {
     },
     addPlayerSlot () {
       this.playerList.push({
-        items: ['Mega', 'Mediafire'],
-        code: ''
+        name: '',
+        url: ''
+      })
+    },
+    addDownloadSlot () {
+      this.downloadList.push({
+        url: ''
       })
     },
     removePlayerSlot (slot) {
       this.playerList.splice(slot, 1)
     },
+    removeDownloadSlot (slot) {
+      this.downloadList.splice(slot, 1)
+    },
     test () {
-      console.log(this.$refs)
+      console.log(this.playerList)
+      console.log(this.downloadList)
     }
   }
 }

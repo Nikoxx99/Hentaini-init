@@ -10,6 +10,8 @@ const typeDefs = `
     Episodes(limit: Int): [Episode]
     Genres(limit: Int): [Genre]
     Categories(limit: Int): [Category]
+    Player(_id: ID): Player
+    Players(limit: Int): [Player]
   }
   type Serie {
     _id: ID
@@ -28,7 +30,7 @@ const typeDefs = `
   type Episode {
     _id: ID
     serie: Serie
-    episode_number: Int
+    episode_number: String
     players: [Player]
     downloads: [Download]
   }
@@ -38,7 +40,6 @@ const typeDefs = `
     name: String
     short_name: String
     player_type: String
-    url: String
   }
 
   type Download {
@@ -90,6 +91,7 @@ const typeDefs = `
     createEpisode(input: EpisodeInput): SimpleResponse
     createGenre(input: GenreInput): SimpleResponse
     createCategory(input: CategoryInput): SimpleResponse
+    createPlayer(input: PlayerInput): SimpleResponse
     createUser(input: UserInput): Response
     login(input: LoginInput): Response
     uploadFile(file: Upload!): SimpleResponse
@@ -110,7 +112,7 @@ const typeDefs = `
 
   input EpisodeInput {
     serie_id: String
-    episode_number: Int
+    episode_number: String
     visible: Boolean
     created_at: String
     language: String
@@ -122,14 +124,10 @@ const typeDefs = `
 
   input PlayerInput {
     name: String
-    short_name: String
-    player_type: String
     url: String
   }
 
   input DownloadInput {
-    name: String
-    short_name: String
     url: String
   }
 

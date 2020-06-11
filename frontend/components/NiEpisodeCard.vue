@@ -38,8 +38,8 @@ export default {
       default: 'No Title'
     },
     episodeNumber: {
-      type: Number,
-      default: 0
+      type: String,
+      default: ''
     },
     status: {
       type: String,

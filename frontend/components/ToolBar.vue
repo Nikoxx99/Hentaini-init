@@ -27,13 +27,17 @@
         layout
         py-2
       >
-        <v-text-field
-          v-if="responsiveInput"
-          class="mr-4 mt-2 purple-input"
-          label="Search..."
-          hide-details
-          color="purple"
-        />
+        <v-btn
+          href="/"
+        >
+          <v-icon
+            class="toolbar-items"
+            color
+            href="/"
+          >
+            mdi-home
+          </v-icon>
+        </v-btn>
         <v-icon
           class="toolbar-items"
           color

@@ -37,7 +37,7 @@
         <v-expansion-panels accordion flat tile active-class>
           <v-expansion-panel>
             <v-expansion-panel-header>
-              Serie Controls
+              Serie
               <template v-slot:actions>
                 <v-icon>mdi-cog</v-icon>
               </template>
@@ -55,7 +55,7 @@
           </v-expansion-panel>
           <v-expansion-panel>
             <v-expansion-panel-header expand-icon="mdi-account" disable-icon-rotate>
-              User Controls
+              User
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               List User
@@ -63,7 +63,7 @@
           </v-expansion-panel>
           <v-expansion-panel>
             <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
-              Genre Controls
+              Genre
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <nuxt-link to="/panel/genre/create">
@@ -73,11 +73,21 @@
           </v-expansion-panel>
           <v-expansion-panel>
             <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
-              Category Controls
+              Category
             </v-expansion-panel-header>
             <v-expansion-panel-content>
               <nuxt-link to="/panel/category/create">
                 Create Category
+              </nuxt-link>
+            </v-expansion-panel-content>
+          </v-expansion-panel>
+          <v-expansion-panel>
+            <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
+              Player
+            </v-expansion-panel-header>
+            <v-expansion-panel-content>
+              <nuxt-link to="/panel/player/create">
+                Create Player
               </nuxt-link>
             </v-expansion-panel-content>
           </v-expansion-panel>

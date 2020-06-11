@@ -1,22 +1,23 @@
 <template>
   <div>
-    <NiHeader />
     <v-container>
-      <NiUserAuthForm />
+      <v-row>
+        <v-col cols="6" class="mx-auto">
+          <Logo style="justify-self:center;display:flex;" />
+          <NiUserAuthForm />
+        </v-col>
+      </v-row>
     </v-container>
-    <NiMobileHeader />
   </div>
 </template>
 
 <script>
-import NiHeader from '../components/NiHeader'
-import NiMobileHeader from '../components/NiMobileHeader'
 import NiUserAuthForm from '../components/NiUserAuthForm'
+import Logo from '../components/Logo'
 export default {
   components: {
-    NiHeader,
-    NiMobileHeader,
-    NiUserAuthForm
+    NiUserAuthForm,
+    Logo
   },
   middleware: 'notAuthenticated'
 }
