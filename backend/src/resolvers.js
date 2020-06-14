@@ -159,6 +159,23 @@ export const resolvers = {
         return await newUser.save()
       }
     },
+    deleteSerie: async (_,{id}) => {
+      const deleteSerie = await Serie.findByIdAndDelete(id)
+      await Episode.deleteMany({serie_id: id})
+      if(deleteSerie){
+        return { success: true, errors: [{path:'Delete Serie',message: 'Serie deleted successfully.'}]}
+      }else{
+        return { success: false, errors: [{path:'Delete Serie',message: 'Error deleting Serie.'}]}
+      }
+    },
+    deleteEpisode: async (_,{id}) => {
+      const deleteEpisode = await Episode.findByIdAndDelete(id)
+      if(deleteEpisode){
+        return { success: true, errors: [{path:'Delete Episode',message: 'Episode deleted successfully.'}]}
+      }else{
+        return { success: false, errors: [{path:'Delete Episode',message: 'Error deleting Episode.'}]}
+      }
+    },
     login: async (parent, {input}, SECRET) => auth.login(input, User, SECRET)
     
   },

@@ -10,8 +10,15 @@
           </v-card-title>
           <v-container>
             <v-text-field
+              v-model="id"
+              label="Serie ID"
+              readonly
+              dense
+              filled
+              rounded
+            />
+            <v-text-field
               v-model="title"
-              :counter="10"
               label="Hentai Name"
               required
             />
@@ -30,7 +37,6 @@
               clearable
               deletable-chips
               chips
-              :return-object="true"
             />
             <v-select
               v-model="serie_type"
@@ -133,6 +139,7 @@ export default {
   },
 
   data: () => ({
+    id: '',
     title: '',
     synopsis: '',
     genres: [],
@@ -145,7 +152,6 @@ export default {
     cover: [],
     background_cover: [],
     next_episode: '',
-    items: ['Item 1', 'Item 2'],
     coverPreview: '',
     screenshotPreview: ''
   }),
@@ -164,10 +170,7 @@ export default {
       }
     }).then((input) => {
       for (let i = 0; i < input.data.Genres.length; i++) {
-        this.genre.push({
-          text: input.data.Genres[i].name,
-          value: input.data.Genres[i].name
-        })
+        this.genre.push(input.data.Genres[i].name)
       }
     }).catch((error) => {
       // eslint-disable-next-line no-console
@@ -187,6 +190,44 @@ export default {
       for (let i = 0; i < input.data.Categories.length; i++) {
         this.categories.push(input.data.Categories[i].name)
       }
+    }).catch((error) => {
+      // eslint-disable-next-line no-console
+      console.error(error)
+    })
+    this.$apollo.query({
+      query: gql`query ($id: ID){
+        Serie(_id: $id){
+          _id
+          title
+          synopsis
+          genres {
+            text
+            value
+          }
+          status
+          censorship
+          serie_type
+          next_episode
+          coverUrl
+          background_coverUrl
+        }
+      }`,
+      variables: {
+        id: this.$route.params.id
+      }
+    }).then((input) => {
+      this.id = input.data.Serie._id
+      this.title = input.data.Serie.title
+      this.synopsis = input.data.Serie.synopsis
+      for (let i = 0; i < input.data.Serie.genres.length; i++) {
+        this.genres.push(input.data.Serie.genres[i])
+      }
+      this.status = input.data.Serie.status
+      this.serie_type = input.data.Serie.serie_type
+      this.censorship = input.data.Serie.censorship
+      this.coverPreview = input.data.Serie.coverUrl
+      this.screenshotPreview = input.data.Serie.background_coverUrl
+      this.next_episode = input.data.Serie.next_episode
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -212,7 +253,6 @@ export default {
             status: this.status,
             serie_type: this.serie_type,
             next_episode: this.next_episode,
-            censorship: this.censorship,
             cover: this.cover,
             background_cover: this.background_cover
           }

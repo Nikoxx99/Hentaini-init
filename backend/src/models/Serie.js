@@ -21,6 +21,7 @@ const serieSchema = new Schema({
     type: String,
     required: true,
   },
+  censorship: Boolean,
   episodes: Array,
   created_at: {
     type: Date,

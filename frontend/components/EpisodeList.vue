@@ -67,11 +67,7 @@
                       mdi-circle-edit-outline
                     </v-icon>
                   </v-btn>
-                  <v-btn :href="'/panel/serie/' + url + '/episodes/' + episode._id + '/delete'">
-                    <v-icon>
-                      mdi-delete-outline
-                    </v-icon>
-                  </v-btn>
+                  <ModalDeleteEpisode :episodenumber="episode.episode_number" :episodeid="episode._id" />
                 </td>
               </tr>
             </tbody>
@@ -86,8 +82,12 @@
 import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
+import ModalDeleteEpisode from './ModalDeleteEpisode'
 export default {
   name: 'EpisodeList',
+  components: {
+    ModalDeleteEpisode
+  },
   mixins: [validationMixin],
 
   validations: {

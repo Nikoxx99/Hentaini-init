@@ -233,7 +233,7 @@ export default {
           }
         }
       }).then((input) => {
-        console.log(input)
+        this.$router.push({ path: '/panel/serie/' + this.serie_id + '/episodes' })
         // this.$router.push({ path: '/panel/serie/' })
       }).catch((error) => {
         // eslint-disable-next-line no-console

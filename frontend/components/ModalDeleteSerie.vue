@@ -1,0 +1,91 @@
+<template>
+  <span>
+    <v-btn
+      @click.stop="modal = true"
+    >
+      <v-icon>
+        mdi-delete-outline
+      </v-icon>
+    </v-btn>
+    <v-dialog
+      v-model="modal"
+      max-width="290"
+    >
+      <v-card>
+        <v-card-title class="headline">
+          Delete {{ title }}?
+        </v-card-title>
+
+        <v-card-text>
+          This will delete all the serie information and its respective Episodes.
+        </v-card-text>
+
+        <v-card-actions>
+          <v-spacer />
+
+          <v-btn
+            color="green darken-1"
+            text
+            @click="modal = false"
+          >
+            Cancel
+          </v-btn>
+
+          <v-btn
+            color="red darken-1"
+            text
+            @click="deleteSerie(serieid)"
+          >
+            Delete
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </span>
+</template>
+
+<script>
+import gql from 'graphql-tag'
+export default {
+  props: {
+    serieid: {
+      type: String,
+      default: ''
+    },
+    title: {
+      type: String,
+      default: ''
+    }
+  },
+  data: () => ({
+    modal: false
+  }),
+  methods: {
+    deleteSerie (serieid) {
+      this.$apollo.mutate({
+        mutation: gql`mutation ($id: ID){
+          deleteSerie(id: $id){
+            success
+            errors{
+              path
+              message
+            }
+          }
+        }`,
+        variables: {
+          id: this.serieid
+        }
+      }).then((input) => {
+        window.location.reload(true)
+      }).catch((error) => {
+        // eslint-disable-next-line no-console
+        console.error(error)
+      })
+    }
+  }
+}
+</script>
+
+<style>
+
+</style>

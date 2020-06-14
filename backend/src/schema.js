@@ -1,5 +1,4 @@
 import {makeExecutableSchema} from 'graphql-tools'
-import { processRequest } from 'graphql-upload'
 import {resolvers} from './resolvers'
 
 const typeDefs = `
@@ -17,9 +16,10 @@ const typeDefs = `
     _id: ID
     title: String
     synopsis: String
-    genres: [Genre]
+    genres: [GenreQuery]
     status: String
     serie_type: String
+    censorship: Boolean
     episodes: [Episode]
     next_episode: String
     visits: Int
@@ -52,6 +52,11 @@ const typeDefs = `
   type Genre {
     _id: ID
     name: String
+  }
+
+  type GenreQuery {
+    text: String
+    value: String
   }
 
   type Category {
@@ -93,6 +98,8 @@ const typeDefs = `
     createCategory(input: CategoryInput): SimpleResponse
     createPlayer(input: PlayerInput): SimpleResponse
     createUser(input: UserInput): Response
+    deleteSerie(id: ID): SimpleResponse
+    deleteEpisode(id: ID): SimpleResponse
     login(input: LoginInput): Response
     uploadFile(file: Upload!): SimpleResponse
   }
@@ -100,9 +107,10 @@ const typeDefs = `
   input SerieInput {
     title: String
     synopsis: String
-    genres: [String]
+    genres: [GenreInput]
     status: String
     serie_type: String
+    censorship: Boolean
     created_at: String
     next_episode: String
     visits: Int
@@ -132,8 +140,8 @@ const typeDefs = `
   }
 
   input GenreInput {
-    _id: ID
-    name: String
+    text: String
+    value: String
   }
 
   input CategoryInput {

@@ -44,16 +44,12 @@
                       mdi-play-circle
                     </v-icon>
                   </v-btn>
-                  <v-btn :href="'/panel/serie/' + serie._id + '/episode/edit'">
+                  <v-btn :href="'/panel/serie/' + serie._id + '/edit'">
                     <v-icon>
                       mdi-circle-edit-outline
                     </v-icon>
                   </v-btn>
-                  <v-btn :href="'/panel/serie/' + serie._id + '/episode/delete'">
-                    <v-icon>
-                      mdi-delete-outline
-                    </v-icon>
-                  </v-btn>
+                  <ModalDeleteSerie :title="serie.title" :serieid="serie._id" />
                 </td>
               </tr>
             </tbody>
@@ -68,8 +64,12 @@
 import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
+import ModalDeleteSerie from './ModalDeleteSerie'
 export default {
   name: 'SerieList',
+  components: {
+    ModalDeleteSerie
+  },
   mixins: [validationMixin],
 
   validations: {
@@ -98,7 +98,6 @@ export default {
       for (let i = 0; i < input.data.Series.length; i++) {
         this.series.push(input.data.Series[i])
       }
-      console.log(input)
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
