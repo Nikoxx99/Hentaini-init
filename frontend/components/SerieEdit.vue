@@ -66,22 +66,6 @@
             Image Settings
           </v-card-title>
           <v-container>
-            <v-file-input
-              ref="cover"
-              show-size
-              label="Cover Image"
-              :clearable="false"
-              @change="coverSelected"
-              @click="initialCoverClear"
-            />
-            <v-file-input
-              ref="background_cover"
-              show-size
-              label="Screenshot Image"
-              :clearable="false"
-              @change="background_coverSelected"
-              @click="initialScreenshotClear"
-            />
             <v-menu
               :close-on-content-click="false"
               :nudge-right="40"
@@ -100,7 +84,7 @@
               </template>
               <v-date-picker v-model="next_episode" />
             </v-menu>
-            <v-btn class="mr-4 blue darken-4" large @click="createSerie">
+            <v-btn class="mr-4 blue darken-4" large @click="editSerie">
               submit
             </v-btn>
           </v-container>
@@ -149,8 +133,6 @@ export default {
     status: '',
     stat: ['AIRING', 'FINALIZED'],
     censorship: false,
-    cover: [],
-    background_cover: [],
     next_episode: '',
     coverPreview: '',
     screenshotPreview: ''
@@ -170,7 +152,10 @@ export default {
       }
     }).then((input) => {
       for (let i = 0; i < input.data.Genres.length; i++) {
-        this.genre.push(input.data.Genres[i].name)
+        this.genre.push({
+          text: input.data.Genres[i].name,
+          value: input.data.Genres[i].name
+        })
       }
     }).catch((error) => {
       // eslint-disable-next-line no-console
@@ -221,6 +206,7 @@ export default {
       this.synopsis = input.data.Serie.synopsis
       for (let i = 0; i < input.data.Serie.genres.length; i++) {
         this.genres.push(input.data.Serie.genres[i])
+        delete this.genres[i].__typename
       }
       this.status = input.data.Serie.status
       this.serie_type = input.data.Serie.serie_type
@@ -234,10 +220,10 @@ export default {
     })
   },
   methods: {
-    createSerie () {
+    editSerie () {
       this.$apollo.mutate({
-        mutation: gql`mutation ($input: SerieInput){
-          createSerie(input: $input){
+        mutation: gql`mutation ($input: EditSerieInput){
+          editSerie(input: $input){
             success
             errors{
               path
@@ -247,14 +233,14 @@ export default {
         }`,
         variables: {
           input: {
+            _id: this.id,
             title: this.title,
             synopsis: this.synopsis,
             genres: this.genres,
             status: this.status,
             serie_type: this.serie_type,
-            next_episode: this.next_episode,
-            cover: this.cover,
-            background_cover: this.background_cover
+            censorship: this.censorship,
+            next_episode: this.next_episode
           }
         }
       }).then((input) => {
@@ -263,26 +249,26 @@ export default {
         // eslint-disable-next-line no-console
         console.error(error)
       })
-    },
-    coverSelected (e) {
-      this.cover = []
-      this.cover.push(this.$refs.cover.$refs.input.files[0])
-      this.cover.push(this.title)
-      if (this.cover !== undefined) {
-        this.coverPreview = URL.createObjectURL(this.$refs.cover.$refs.input.files[0])
-      }
-    },
-    background_coverSelected (e) {
-      this.background_cover.push(this.$refs.background_cover.$refs.input.files[0])
-      this.background_cover.push(this.title)
-      this.screenshotPreview = URL.createObjectURL(this.$refs.background_cover.$refs.input.files[0])
-    },
-    initialCoverClear () {
-      this.cover = []
-    },
-    initialScreenshotClear () {
-      this.background_cover = []
     }
+    // coverSelected (e) {
+    //   this.cover = []
+    //   this.cover.push(this.$refs.cover.$refs.input.files[0])
+    //   this.cover.push(this.title)
+    //   if (this.cover !== undefined) {
+    //     this.coverPreview = URL.createObjectURL(this.$refs.cover.$refs.input.files[0])
+    //   }
+    // },
+    // background_coverSelected (e) {
+    //   this.background_cover.push(this.$refs.background_cover.$refs.input.files[0])
+    //   this.background_cover.push(this.title)
+    //   this.screenshotPreview = URL.createObjectURL(this.$refs.background_cover.$refs.input.files[0])
+    // },
+    // initialCoverClear () {
+    //   this.cover = []
+    // },
+    // initialScreenshotClear () {
+    //   this.background_cover = []
+    // }
   }
 }
 </script>

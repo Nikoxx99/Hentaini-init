@@ -6,7 +6,7 @@
           elevation
         >
           <v-card-title>
-            Create Episode for: {{ serie_title }}
+            Edit Episode {{ episode_number }} for: {{ serie_title }}
           </v-card-title>
           <v-container>
             <v-text-field
@@ -33,7 +33,7 @@
             />
             <v-switch
               v-model="hasCustomScreenshot"
-              label="Use Custom Image?"
+              label="Change Custom Image?"
               prepend-icon="mdi-image"
               @change="detectNewImage"
             />
@@ -44,9 +44,17 @@
               label="Select a Custom Image"
               @change="screenshotSelected"
             />
-            <v-btn class="mr-4 blue darken-4" large @click="createEpisode">
+            <v-btn class="mr-4 blue darken-4" large @click="editEpisode">
               submit
             </v-btn>
+          </v-container>
+          <v-container v-if="screenshot">
+            <h2>Current Screenshot Image</h2>
+            <v-row>
+              <v-img
+                :src="screenshot"
+              />
+            </v-row>
           </v-container>
         </v-card>
       </v-col>
@@ -90,9 +98,6 @@
             </PlayerInput>
             <v-btn class="mr-4 blue darken-4" large @click="addPlayerSlot">
               Add Player
-            </v-btn>
-            <v-btn class="mr-4 blue darken-4" large @click="test">
-              Test
             </v-btn>
           </v-container>
         </v-card>
@@ -155,14 +160,15 @@ export default {
     currentCounter: 0,
     serie_id: '',
     serie_title: '',
+    episode_id: '',
     episode_number: '',
     created_at: '',
     visible: true,
     language: '',
     languages: ['ENGLISH', 'RUSSIAN', 'SPANISH'],
-    screenshot: '',
-    customScreenshot: undefined,
     hasCustomScreenshot: false,
+    customScreenshot: undefined,
+    screenshot: '',
     playerList: [],
     players: [],
     downloadList: []
@@ -171,20 +177,47 @@ export default {
   computed: {
   },
   created () {
-    this.serie_id = this.$route.params.id
     this.$apollo.query({
-      query: gql`query ($serie_id: ID){
-        Serie(_id: $serie_id){
-          title
-          background_coverUrl
+      query: gql`query ($episode_id: ID){
+        Episode(_id: $episode_id){
+          _id
+          serie{
+            _id
+            title
+          }
+          episode_number
+          hasCustomScreenshot
+          visible
+          screenshot
+          language
+          players{
+            name
+            url
+          }
+          downloads{
+            url
+          }
         }
       }`,
       variables: {
-        serie_id: this.serie_id
+        episode_id: this.$route.params.episode
       }
     }).then((input) => {
-      this.serie_title = input.data.Serie.title
-      this.screenshot = input.data.Serie.background_coverUrl
+      this.episode_id = input.data.Episode._id
+      this.serie_id = input.data.Episode.serie._id
+      this.serie_title = input.data.Episode.serie.title
+      this.episode_number = input.data.Episode.episode_number
+      this.visible = input.data.Episode.visible
+      this.language = input.data.Episode.language
+      this.screenshot = input.data.Episode.screenshot
+      for (let i = 0; i < input.data.Episode.players.length; i++) {
+        this.playerList.push(input.data.Episode.players[i])
+        delete this.playerList[i].__typename
+      }
+      for (let i = 0; i < input.data.Episode.downloads.length; i++) {
+        this.downloadList.push(input.data.Episode.downloads[i])
+        delete this.downloadList[i].__typename
+      }
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -209,10 +242,10 @@ export default {
     })
   },
   methods: {
-    createEpisode () {
+    editEpisode () {
       this.$apollo.mutate({
-        mutation: gql`mutation ($input: EpisodeInput){
-          createEpisode(input: $input){
+        mutation: gql`mutation ($input: EditEpisodeInput){
+          editEpisode(input: $input){
             success
             errors{
               path
@@ -222,11 +255,11 @@ export default {
         }`,
         variables: {
           input: {
+            _id: this.episode_id,
             serie_id: this.serie_id,
             episode_number: this.episode_number,
             visible: this.visible,
             language: this.language,
-            hasCustomScreenshot: this.hasCustomScreenshot,
             screenshot: this.screenshot,
             customScreenshot: this.customScreenshot,
             players: this.playerList,
@@ -248,7 +281,7 @@ export default {
       this.customScreenshot.push(this.episode_number)
     },
     detectNewImage () {
-      if (this.hascustomimage) {
+      if (this.hasCustomScreenshot) {
         this.customScreenshot = []
       } else {
         this.customScreenshot = undefined

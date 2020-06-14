@@ -95,9 +95,8 @@ export const resolvers = {
         return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
       }
     },
-    createEpisode: async (_,{input: {screenshotNew, ...data}}) => {
-      if(!screenshotNew){
-        console.log(data)
+    createEpisode: async (_,{input: {customScreenshot, ...data}}) => {
+      if(!customScreenshot){
         const payload = new Episode({...data})
         const res =  await payload.save()
         if(res){
@@ -106,10 +105,10 @@ export const resolvers = {
           return { success: false, errors: [{path:'Create Episode',message: 'Error Creating Episode'}]}
         }
       }else{
-        const screenshotUrl = await processUploadEpisode(screenshotNew[0].file, screenshotNew[1], screenshotNew[2])
+        const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
         const payload = new Episode({
           ...data,
-          screenshotUrl
+          customScreenshotUrl
         })
         const res = await payload.save()
         if(res){
@@ -157,6 +156,34 @@ export const resolvers = {
         const newUser = new User(input)
         newUser.password = await newUser.encryptPassword(input.password)
         return await newUser.save()
+      }
+    },
+    editSerie: async (_,{input}) => {
+      const id = input._id
+      const res = await Serie.updateOne({_id: id}, input, {multi: false})
+      if(res){
+        return { success: true, errors: [{path:'Create Serie',message: 'Serie Created Successfuly'}]}
+      }else{
+        return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
+      }
+    },
+    editEpisode: async (_,{input: {customScreenshot, ...data}}) => {
+      const id = data._id
+      if(!customScreenshot){
+        const res = await Episode.updateOne({_id: id}, data, {multi: false})
+        if(res){
+          return { success: true, errors: [{path:'Create Episode',message: 'Episode Created Successfuly'}]}
+        }else{
+          return { success: false, errors: [{path:'Create Episode',message: 'Error Creating Episode'}]}
+        }
+      }else{
+        const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
+        const res = await Episode.updateOne({_id: id}, {...data,customScreenshotUrl}, {multi: false})
+        if(res){
+          return { success: true, errors: [{path:'Create Serie New Image',message: 'Serie Created Successfuly With new Image'}]}
+        }else{
+          return { success: false, errors: [{path:'Create Serie New Image',message: 'Error Creating Serie with new Image'}]}
+        }
       }
     },
     deleteSerie: async (_,{id}) => {

@@ -31,21 +31,21 @@ const typeDefs = `
     _id: ID
     serie: Serie
     episode_number: String
+    hasCustomScreenshot: Boolean
+    screenshot: String
+    language: String
+    visible: Boolean
     players: [Player]
     downloads: [Download]
   }
 
   type Player {
-    _id: ID
     name: String
     short_name: String
-    player_type: String
+    url: String
   }
 
   type Download {
-    _id: ID
-    name: String
-    short_name: String
     url: String
   }
 
@@ -98,6 +98,8 @@ const typeDefs = `
     createCategory(input: CategoryInput): SimpleResponse
     createPlayer(input: PlayerInput): SimpleResponse
     createUser(input: UserInput): Response
+    editSerie(input: EditSerieInput): SimpleResponse
+    editEpisode(input: EditEpisodeInput): SimpleResponse
     deleteSerie(id: ID): SimpleResponse
     deleteEpisode(id: ID): SimpleResponse
     login(input: LoginInput): Response
@@ -118,14 +120,40 @@ const typeDefs = `
     background_cover: Upload
   }
 
+  input EditSerieInput {
+    _id: String
+    title: String
+    synopsis: String
+    genres: [GenreInput]
+    status: String
+    serie_type: String
+    censorship: Boolean
+    updated_at: String
+    next_episode: String
+    visits: Int
+  }
+
   input EpisodeInput {
     serie_id: String
     episode_number: String
     visible: Boolean
     created_at: String
     language: String
+    hasCustomScreenshot: Boolean
     screenshot: String
-    screenshotNew: Upload
+    customScreenshot: Upload
+    players: [PlayerInput]
+    downloads: [DownloadInput]
+  }
+  input EditEpisodeInput {
+    _id: String
+    serie_id: String
+    episode_number: String
+    visible: Boolean
+    language: String
+    hasCustomScreenshot: Boolean
+    screenshot: String
+    customScreenshot: Upload
     players: [PlayerInput]
     downloads: [DownloadInput]
   }

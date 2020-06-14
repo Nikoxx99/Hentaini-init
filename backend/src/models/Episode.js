@@ -15,8 +15,9 @@ const episodeSchema = new Schema({
   },
   visible: Boolean,
   language: String,
+  hasCustomScreenshot: Boolean,
   screenshot: String,
-  screenshotUrl: String,
+  customScreenshotUrl: String,
   players: Array,
   downloads: Array
 });
