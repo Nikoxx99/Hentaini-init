@@ -32,6 +32,7 @@ const typeDefs = `
     serie: Serie
     episode_number: String
     hasCustomScreenshot: Boolean
+    customScreenshotUrl: String
     screenshot: String
     language: String
     visible: Boolean

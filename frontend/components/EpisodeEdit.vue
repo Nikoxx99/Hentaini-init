@@ -189,6 +189,7 @@ export default {
           hasCustomScreenshot
           visible
           screenshot
+          customScreenshotUrl
           language
           players{
             name
@@ -210,6 +211,7 @@ export default {
       this.visible = input.data.Episode.visible
       this.language = input.data.Episode.language
       this.screenshot = input.data.Episode.screenshot
+      this.customScreenshot = input.data.Episode.customScreenshotUrl
       for (let i = 0; i < input.data.Episode.players.length; i++) {
         this.playerList.push(input.data.Episode.players[i])
         delete this.playerList[i].__typename
@@ -217,6 +219,9 @@ export default {
       for (let i = 0; i < input.data.Episode.downloads.length; i++) {
         this.downloadList.push(input.data.Episode.downloads[i])
         delete this.downloadList[i].__typename
+      }
+      if (this.customScreenshot) {
+        this.screenshot = this.customScreenshot
       }
     }).catch((error) => {
       // eslint-disable-next-line no-console
