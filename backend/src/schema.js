@@ -6,6 +6,7 @@ const typeDefs = `
     Serie(_id: ID): Serie
     Series(limit: Int): [Serie]
     Episode(_id: ID): Episode
+    EpisodeByUrlName(urlName: String): Episode
     Episodes(limit: Int): [Episode]
     Genres(limit: Int): [Genre]
     Categories(limit: Int): [Category]

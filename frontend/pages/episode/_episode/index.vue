@@ -1,12 +1,12 @@
 <template>
   <div>
     <NiHeader />
-    <v-container>
+    <v-container fluid>
       <v-row>
-        <v-col cols="8">
+        <v-col cols="12" lg="8" md="10" sm="12" xs="12">
           <NiEpisodeRender />
         </v-col>
-        <v-col cols="4">
+        <v-col cols="12" lg="4" md="2" sm="12" xs="12">
           <NiRecomendedSeries />
         </v-col>
       </v-row>

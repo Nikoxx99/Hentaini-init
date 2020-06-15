@@ -1,5 +1,15 @@
 <template>
-  <h1>Recommended Series Zone</h1>
+  <v-container>
+    <v-row>
+      <v-col
+        class="d-flex"
+      >
+        <h1 class="align-self-center">
+          Recommended Series Zone
+        </h1>
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>

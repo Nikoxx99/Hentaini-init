@@ -63,6 +63,9 @@ export const resolvers = {
     Episode: async (_,{_id}) => {
       return await Episode.findById(_id)
     },
+    EpisodeByUrlName: async (_,{urlName}) => {
+      return await Episode.findOne({urlName})
+    },
     Episodes: async (_,{limit}) => {
       return await Episode.find().limit(limit)
     },
