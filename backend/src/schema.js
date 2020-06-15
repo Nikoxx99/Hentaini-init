@@ -29,6 +29,7 @@ const typeDefs = `
   }
   type Episode {
     _id: ID
+    urlName: String
     serie: Serie
     episode_number: String
     hasCustomScreenshot: Boolean
@@ -135,6 +136,7 @@ const typeDefs = `
   }
 
   input EpisodeInput {
+    urlName: String
     serie_id: String
     episode_number: String
     visible: Boolean

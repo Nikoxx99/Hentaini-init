@@ -14,6 +14,7 @@
           :title="episode.serie.title"
           :episodeNumber="episode.episode_number"
           :status="episode.serie.status"
+          :url="episode.urlName"
         />
       </v-col>
     </v-row>
@@ -31,6 +32,7 @@ export default {
         query ($limit: Int){
           Episodes(limit: $limit){
             _id
+            urlName
             episode_number
             serie{
               title

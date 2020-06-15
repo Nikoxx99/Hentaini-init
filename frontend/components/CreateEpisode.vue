@@ -20,6 +20,7 @@
               label="Episode Number"
               type="number"
               required
+              @change="genUrlName"
             />
             <v-switch
               v-model="visible"
@@ -91,9 +92,6 @@
             <v-btn class="mr-4 blue darken-4" large @click="addPlayerSlot">
               Add Player
             </v-btn>
-            <v-btn class="mr-4 blue darken-4" large @click="test">
-              Test
-            </v-btn>
           </v-container>
         </v-card>
         <v-card
@@ -155,6 +153,7 @@ export default {
     currentCounter: 0,
     serie_id: '',
     serie_title: '',
+    urlName: '',
     episode_number: '',
     created_at: '',
     visible: true,
@@ -170,9 +169,9 @@ export default {
 
   computed: {
   },
-  created () {
+  async created () {
     this.serie_id = this.$route.params.id
-    this.$apollo.query({
+    await this.$apollo.query({
       query: gql`query ($serie_id: ID){
         Serie(_id: $serie_id){
           title
@@ -222,6 +221,7 @@ export default {
         }`,
         variables: {
           input: {
+            urlName: this.urlName,
             serie_id: this.serie_id,
             episode_number: this.episode_number,
             visible: this.visible,
@@ -270,6 +270,12 @@ export default {
     },
     removeDownloadSlot (slot) {
       this.downloadList.splice(slot, 1)
+    },
+    genUrlName () {
+      const serieName = this.serie_title.replace(/[^A-Z0-9]/ig, '-')
+      const episodeNumber = this.episode_number
+      const urlName = serieName + '-' + episodeNumber
+      this.urlName = urlName.toLowerCase()
     }
   }
 }

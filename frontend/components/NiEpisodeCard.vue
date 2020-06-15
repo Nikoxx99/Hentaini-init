@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="'/episode/' + episode">
+  <nuxt-link :to="'/episode/' + url">
     <v-card
       class="mx-auto"
       max-width="400"
@@ -44,6 +44,10 @@ export default {
     status: {
       type: String,
       default: 'No Status'
+    },
+    url: {
+      type: String,
+      default: ''
     }
   },
   data () {

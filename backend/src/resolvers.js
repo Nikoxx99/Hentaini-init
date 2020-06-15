@@ -162,7 +162,7 @@ export const resolvers = {
       const id = input._id
       const res = await Serie.updateOne({_id: id}, input, {multi: false})
       if(res){
-        return { success: true, errors: [{path:'Create Serie',message: 'Serie Created Successfuly'}]}
+        return { success: true, errors: [{path:'Create Serie',message: 'Serie Edited Successfuly'}]}
       }else{
         return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
       }
@@ -172,17 +172,17 @@ export const resolvers = {
       if(!customScreenshot){
         const res = await Episode.updateOne({_id: id}, data, {multi: false})
         if(res){
-          return { success: true, errors: [{path:'Create Episode',message: 'Episode Created Successfuly'}]}
+          return { success: true, errors: [{path:'Edit Episode',message: 'Episode Edited Successfuly'}]}
         }else{
-          return { success: false, errors: [{path:'Create Episode',message: 'Error Creating Episode'}]}
+          return { success: false, errors: [{path:'Edit Episode',message: 'Error Creating Episode'}]}
         }
       }else{
         const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
         const res = await Episode.updateOne({_id: id}, {...data,customScreenshotUrl}, {multi: false})
         if(res){
-          return { success: true, errors: [{path:'Create Serie New Image',message: 'Serie Created Successfuly With new Image'}]}
+          return { success: true, errors: [{path:'Episode Edit New Image',message: 'Episode Edited Successfuly With new Image'}]}
         }else{
-          return { success: false, errors: [{path:'Create Serie New Image',message: 'Error Creating Serie with new Image'}]}
+          return { success: false, errors: [{path:'Episode Edit New Image',message: 'Error Editing Episode with new Image'}]}
         }
       }
     },

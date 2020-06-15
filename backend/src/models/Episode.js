@@ -1,6 +1,7 @@
 import { Schema, model } from "mongoose";
 
 const episodeSchema = new Schema({
+  urlName: String,
   serie_id: {
     type: String,
     required: true
