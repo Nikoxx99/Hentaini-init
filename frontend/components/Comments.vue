@@ -1,5 +1,5 @@
 <template>
-  <h1>Comments</h1>
+  <h1>{{ $t('episode.comments_section_header') }}</h1>
 </template>
 
 <script>

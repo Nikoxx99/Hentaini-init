@@ -7,7 +7,7 @@ const episodeSchema = new Schema({
     required: true
   },
   episode_number: {
-    type: String,
+    type: Number,
     required: true
   },
   created_at: {

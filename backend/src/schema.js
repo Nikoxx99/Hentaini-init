@@ -32,7 +32,7 @@ const typeDefs = `
     _id: ID
     urlName: String
     serie: Serie
-    episode_number: String
+    episode_number: Int
     hasCustomScreenshot: Boolean
     customScreenshotUrl: String
     screenshot: String
@@ -139,7 +139,7 @@ const typeDefs = `
   input EpisodeInput {
     urlName: String
     serie_id: String
-    episode_number: String
+    episode_number: Int
     visible: Boolean
     created_at: String
     language: String
@@ -152,7 +152,7 @@ const typeDefs = `
   input EditEpisodeInput {
     _id: String
     serie_id: String
-    episode_number: String
+    episode_number: Int
     visible: Boolean
     language: String
     hasCustomScreenshot: Boolean

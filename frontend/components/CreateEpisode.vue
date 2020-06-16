@@ -16,7 +16,7 @@
               required
             />
             <v-text-field
-              v-model="episode_number"
+              v-model.number="episode_number"
               label="Episode Number"
               type="number"
               required
@@ -154,7 +154,7 @@ export default {
     serie_id: '',
     serie_title: '',
     urlName: '',
-    episode_number: '',
+    episode_number: 0,
     created_at: '',
     visible: true,
     language: '',
