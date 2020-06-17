@@ -1,5 +1,5 @@
 <template>
-  <nuxt-link :to="'/episode/' + url">
+  <a :href="'/episode/' + url">
     <v-card
       class="mx-auto"
       max-width="400"
@@ -22,7 +22,7 @@
         <div>Episode: {{ episodeNumber }}</div>
       </v-card-text>
     </v-card>
-  </nuxt-link>
+  </a>
 </template>
 
 <script>
