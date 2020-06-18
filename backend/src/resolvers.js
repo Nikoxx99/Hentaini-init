@@ -57,8 +57,14 @@ const storeUploadEpisode = async ({createReadStream, filename, mimetype, episode
   const extension = mimetype.split('/')
   const path = `cdn/screenshot/${id}-${r_id}_${e_n}-.${extension[1]}`
   const stream = createReadStream();
+  const resize = sharp()
+    .resize(1280, 720,{
+      fit: sharp.fit.cover,
+      withoutEnlargement: true
+    })
   return new Promise((resolve, reject) => 
   stream
+    .pipe(resize)
     .pipe(createWriteStream(path))
     .on("finish", () => resolve({ id, path, r_id, e_n, extension }))
     .on("error", reject)
