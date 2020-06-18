@@ -2,25 +2,20 @@
   <a :href="'/episode/' + url">
     <v-card
       class="mx-auto"
-      max-width="400"
+      flat
+      tile
+      color="#111"
     >
       <v-img
         class="white--text align-end"
-        height="200px"
-        src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+        :aspect-ratio="16/9"
+        :src="screenshot"
       >
-        <v-card-title>{{ title }}</v-card-title>
+        <v-card-text class="text--primary">
+          <div>Episode: {{ episodeNumber }}</div>
+        </v-card-text>
       </v-img>
-
-      <v-card-subtitle class="pb-0">
-        ID: {{ episode }}
-      </v-card-subtitle>
-
-      <v-card-text class="text--primary">
-        <div>{{ status }}</div>
-
-        <div>Episode: {{ episodeNumber }}</div>
-      </v-card-text>
+      <v-card-title style="padding-left:0">{{ title }}</v-card-title>
     </v-card>
   </a>
 </template>
@@ -46,6 +41,10 @@ export default {
       default: 'No Status'
     },
     url: {
+      type: String,
+      default: ''
+    },
+    screenshot: {
       type: String,
       default: ''
     }

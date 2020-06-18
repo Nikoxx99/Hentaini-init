@@ -1,7 +1,9 @@
 <template>
   <v-bottom-navigation
+    v-if="windowWidth < 960"
     grow
     color="blue"
+    fixed
   >
     <v-btn to="/">
       <span>{{ $t('mobile.home') }}</span>
@@ -26,8 +28,12 @@ export default {
   data () {
     this.$i18n.locale = 'en'
     return {
-      locale: 'en'
+      locale: 'en',
+      windowWidth: ''
     }
+  },
+  mounted () {
+    this.windowWidth = window.innerWidth
   }
 }
 </script>

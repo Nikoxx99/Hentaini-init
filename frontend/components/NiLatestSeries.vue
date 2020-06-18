@@ -2,7 +2,7 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1>Recent Episodes</h1>
+        <h1>Recent Series</h1>
       </v-col>
     </v-row>
     <v-row>
@@ -10,17 +10,18 @@
         v-for="(episode) in Episodes"
         :key="episode._id"
         cols="12"
-        lg="3"
+        lg="2"
         md="6"
         sm="12"
       >
-        <NiEpisodeCard
+        <NiSerieCard
           :episode="episode._id"
           :title="episode.serie.title"
+          :synopsis="episode.serie.synopsis"
           :episodeNumber="episode.episode_number"
           :status="episode.serie.status"
           :url="episode.urlName"
-          :screenshot="episode.serie.background_coverUrl"
+          :screenshot="episode.serie.coverUrl"
         />
       </v-col>
     </v-row>
@@ -29,9 +30,9 @@
 
 <script>
 import gql from 'graphql-tag'
-import NiEpisodeCard from '../components/NiEpisodeCard'
+import NiSerieCard from '../components/NiSerieCard'
 export default {
-  name: 'NiLatestEpisodes',
+  name: 'NiLatestSeries',
   apollo: {
     Episodes: {
       query: gql`
@@ -42,6 +43,7 @@ export default {
             episode_number
             serie{
               title
+              synopsis
               status
               coverUrl
               background_coverUrl
@@ -55,7 +57,7 @@ export default {
     }
   },
   components: {
-    NiEpisodeCard
+    NiSerieCard
   },
   data () {
     this.$i18n.locale = 'en'
