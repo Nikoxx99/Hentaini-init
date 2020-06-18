@@ -25,8 +25,20 @@
                 </v-row>
                 <v-row>
                   <v-card-text>
-                    {{ synopsis.substr(0,300) + '...' }}
+                    {{ synopsis.substr(0,200) + '...' }}
                   </v-card-text>
+                </v-row>
+                <v-row>
+                  <v-chip
+                    v-for="genre in genres"
+                    :key="genre.text"
+                    color="blue darken-3"
+                    text-color="white"
+                    small
+                    class="mx-auto"
+                  >
+                    {{ genre.text }}
+                  </v-chip>
                 </v-row>
               </v-container>
             </div>
@@ -56,6 +68,14 @@ export default {
     synopsis: {
       type: String,
       default: ''
+    },
+    genres: {
+      type: Array,
+      default: () => [
+        {
+          text: ''
+        }
+      ]
     },
     episodeNumber: {
       type: Number,

@@ -12,7 +12,6 @@ app.get('/', (req,res) => {
     msg: "Hello bro"
   })
 })
-
 app.use(cors())
 app.use('/graphql',
 graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
@@ -20,12 +19,13 @@ graphqlHTTP({
   graphiql:true,
   schema: schema,
   context:
-    SECRET,
-    headers: {
-      'Access-Control-Allow-Origin': '*',
-      'Content-Type' : 'application/*'
-    }
+  SECRET,
+  headers: {
+    'Access-Control-Allow-Origin': '*',
+    'Content-Type' : 'application/*'
+  }
 }))
+app.use(express.static('cdn'));
 
 app.listen(4000, () =>{
   console.log('Server on port 4000');

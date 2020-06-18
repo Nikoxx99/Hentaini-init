@@ -4,7 +4,7 @@
       dark
     >
       <v-toolbar-title>
-        <Logo />
+        <a href="/"><Logo /></a>
       </v-toolbar-title>
       <ul class="d-flex">
         <li class="mr-2">

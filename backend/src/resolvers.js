@@ -12,7 +12,7 @@ const storeUpload = async ({createReadStream, filename, mimetype}) => {
   const id = filename
   const r_id = shortid.generate()
   const extension = mimetype.split('/')
-  const path = `uploadedFiles/${id}-${r_id}-.${extension[1]}`
+  const path = `cdn/cover/${id}-${r_id}-.${extension[1]}`
   const stream = createReadStream();
   return new Promise((resolve, reject) => 
   stream
@@ -29,7 +29,7 @@ const storeUploadEpisode = async ({createReadStream, filename, mimetype, episode
   const r_id = shortid.generate()
   const e_n = episode
   const extension = mimetype.split('/')
-  const path = `uploadedFiles/screenshot/${id}-${r_id}_${e_n}-.${extension[1]}`
+  const path = `cdn/screenshot/${id}-${r_id}_${e_n}-.${extension[1]}`
   const stream = createReadStream();
   return new Promise((resolve, reject) => 
   stream

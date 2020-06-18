@@ -7,21 +7,22 @@
     </v-row>
     <v-row>
       <v-col
-        v-for="(episode) in Episodes"
-        :key="episode._id"
+        v-for="(serie) in Series"
+        :key="serie._id"
         cols="12"
         lg="2"
         md="6"
         sm="12"
       >
         <NiSerieCard
-          :episode="episode._id"
-          :title="episode.serie.title"
-          :synopsis="episode.serie.synopsis"
-          :episodeNumber="episode.episode_number"
-          :status="episode.serie.status"
-          :url="episode.urlName"
-          :screenshot="episode.serie.coverUrl"
+          :episode="serie.episodes._id"
+          :title="serie.title"
+          :synopsis="serie.synopsis"
+          :episodeNumber="serie.episodes.episode_number"
+          :genres="serie.genres"
+          :status="serie.status"
+          :url="serie.episodes[0].urlName"
+          :screenshot="serie.coverUrl"
         />
       </v-col>
     </v-row>
@@ -34,20 +35,21 @@ import NiSerieCard from '../components/NiSerieCard'
 export default {
   name: 'NiLatestSeries',
   apollo: {
-    Episodes: {
+    Series: {
       query: gql`
         query ($limit: Int){
-          Episodes(limit: $limit){
+          Series(limit: $limit){
             _id
-            urlName
-            episode_number
-            serie{
-              title
-              synopsis
-              status
-              coverUrl
-              background_coverUrl
+            episodes{
+              urlName
             }
+            genres{
+              text
+            }
+            title
+            synopsis
+            status
+            coverUrl
           }
         }
       `,

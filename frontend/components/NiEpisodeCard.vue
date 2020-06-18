@@ -12,7 +12,13 @@
         :src="screenshot"
       >
         <v-card-text class="text--primary">
-          <div>Episode: {{ episodeNumber }}</div>
+          <v-chip
+            color="blue darken-3"
+            text-color="white"
+          >
+            <v-icon left>mdi-play</v-icon>
+            Episode: {{ episodeNumber }}
+          </v-chip>
         </v-card-text>
       </v-img>
       <v-card-title style="padding-left:0">{{ title }}</v-card-title>
