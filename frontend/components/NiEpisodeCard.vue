@@ -9,7 +9,7 @@
       <v-img
         class="white--text align-end"
         :aspect-ratio="16/9"
-        :src="screenshot"
+        :src="'http://localhost:4000/screenshot/'+screenshot"
       >
         <v-card-text class="text--primary">
           <v-chip

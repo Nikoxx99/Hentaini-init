@@ -8,7 +8,7 @@
       >
         <v-img
           :aspect-ratio="9/14"
-          :src="screenshot"
+          :src="'http://localhost:4000/cover/'+screenshot"
         >
           <v-expand-transition>
             <div

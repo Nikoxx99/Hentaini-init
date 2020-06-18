@@ -7,22 +7,48 @@ import Player from "./models/Player"
 import { auth } from "./auth";
 import { createWriteStream } from "fs";
 import shortid from "shortid";
+import sharp from "sharp";
 
-const storeUpload = async ({createReadStream, filename, mimetype}) => {
+const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
   const id = filename
   const r_id = shortid.generate()
   const extension = mimetype.split('/')
   const path = `cdn/cover/${id}-${r_id}-.${extension[1]}`
   const stream = createReadStream();
+  const resize = sharp()
+    .resize(270, 420,{
+      fit: sharp.fit.cover,
+      withoutEnlargement: true
+    })
   return new Promise((resolve, reject) => 
   stream
-    .pipe(createWriteStream(path))
-    .on("finish", () => resolve({ id, path, r_id, extension }))
-    .on("error", reject)
+  .pipe(resize)
+  .pipe(createWriteStream(path))
+  .on("finish", () => resolve({ id, path, r_id, extension }))
+  .on("error", reject)
   
   )
 }
-
+const storeUploadScreenshot = async ({createReadStream, filename, mimetype}) => {
+  const id = filename
+  const r_id = shortid.generate()
+  const extension = mimetype.split('/')
+  const path = `cdn/screenshot/${id}-${r_id}-.${extension[1]}`
+  const stream = createReadStream();
+  const resize = sharp()
+    .resize(1280, 720,{
+      fit: sharp.fit.cover,
+      withoutEnlargement: true
+    })
+  return new Promise((resolve, reject) => 
+  stream
+  .pipe(resize)
+  .pipe(createWriteStream(path))
+  .on("finish", () => resolve({ id, path, r_id, extension }))
+  .on("error", reject)
+  
+  )
+}
 const storeUploadEpisode = async ({createReadStream, filename, mimetype, episode}) => {
   const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
   const id = id1.toLowerCase()
@@ -40,12 +66,16 @@ const storeUploadEpisode = async ({createReadStream, filename, mimetype, episode
   )
 }
 
-const processUpload = async (upload,filename) => {
+const processUploadCover = async (upload,filename) => {
   const {createReadStream, mimetype} = upload
-  const { id, r_id, extension } = await storeUpload({createReadStream, filename, mimetype})
+  const { id, r_id, extension } = await storeUploadCover({createReadStream, filename, mimetype})
   return id+'-'+r_id+'-.'+extension[1]
 }
-
+const processUploadScreenshot = async (upload,filename) => {
+  const {createReadStream, mimetype} = upload
+  const { id, r_id, extension } = await storeUploadScreenshot({createReadStream, filename, mimetype})
+  return id+'-'+r_id+'-.'+extension[1]
+}
 const processUploadEpisode = async (upload,filename,episode) => {
   const {createReadStream, mimetype} = upload
   const { id, r_id, e_n, extension } = await storeUploadEpisode({createReadStream, filename, mimetype, episode})
@@ -84,8 +114,8 @@ export const resolvers = {
   },
   Mutation:{
     createSerie: async (_,{input: {cover, background_cover, ...data}}) => {
-      const coverUrl = await processUpload(cover[0].file, cover[1])
-      const background_coverUrl = await processUpload(background_cover[0].file, background_cover[1])
+      const coverUrl = await processUploadCover(cover[0].file, cover[1])
+      const background_coverUrl = await processUploadScreenshot(background_cover[0].file, background_cover[1])
       const payload = new Serie({
         ...data,
         coverUrl,
