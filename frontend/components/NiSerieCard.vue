@@ -8,7 +8,7 @@
       >
         <v-img
           :aspect-ratio="9/14"
-          :src="'http://localhost:4000/cover/'+screenshot"
+          :src="'http://cdn.hentaini.com/cover/'+screenshot"
         >
           <v-expand-transition>
             <div

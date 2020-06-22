@@ -10,7 +10,7 @@
             class="white--text align-end"
             height="50vh"
             width="auto"
-            :src="'http://localhost:4000/cover/'+series.coverUrl"
+            :src="'http://cdn.hentaini.com/cover/'+series.coverUrl"
           >
             <v-card-title>{{ series.title }}</v-card-title>
           </v-img>

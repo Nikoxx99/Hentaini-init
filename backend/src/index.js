@@ -10,7 +10,7 @@ const app = express();
 connect();
 app.get('/', (req,res) => {
   res.json({
-    msg: "Hello bro"
+    msg: "Oh you checky wanker..."
   })
 })
 app.use(cors())
