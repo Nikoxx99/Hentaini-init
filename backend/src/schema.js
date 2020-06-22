@@ -180,6 +180,7 @@ const typeDefs = `
 
   input PlayerInput {
     name: String
+    short_name: String
     url: String
   }
 
