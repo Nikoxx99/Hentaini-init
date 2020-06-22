@@ -4,10 +4,11 @@ import {resolvers} from './resolvers'
 const typeDefs = `
   type Query {
     Serie(_id: ID): Serie
-    Series(limit: Int): [Serie]
+    Series(limit: Int, order: String): [Serie]
     Episode(_id: ID): Episode
     EpisodeByUrlName(urlName: String): Episode
     Episodes(limit: Int): [Episode]
+    Genre(url: String): Genre
     Genres(limit: Int): [Genre]
     Categories(limit: Int): [Category]
     Player(_id: ID): Player
@@ -54,7 +55,9 @@ const typeDefs = `
 
   type Genre {
     _id: ID
-    name: String
+    text: String
+    url: String
+    series(sort: String): [Serie]
   }
 
   type GenreQuery {
@@ -174,6 +177,7 @@ const typeDefs = `
   input GenreInput {
     text: String
     value: String
+    url: String
   }
 
   input CategoryInput {

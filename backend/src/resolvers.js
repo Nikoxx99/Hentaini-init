@@ -10,7 +10,8 @@ import shortid from "shortid";
 import sharp from "sharp";
 
 const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
-  const id = filename
+  const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
+  const id = id1.toLowerCase()
   const r_id = shortid.generate()
   const extension = mimetype.split('/')
   const path = `cdn/cover/${id}-${r_id}-.${extension[1]}`
@@ -30,7 +31,8 @@ const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
   )
 }
 const storeUploadScreenshot = async ({createReadStream, filename, mimetype}) => {
-  const id = filename
+  const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
+  const id = id1.toLowerCase()
   const r_id = shortid.generate()
   const extension = mimetype.split('/')
   const path = `cdn/screenshot/${id}-${r_id}-.${extension[1]}`
@@ -87,14 +89,20 @@ const processUploadEpisode = async (upload,filename,episode) => {
   const { id, r_id, e_n, extension } = await storeUploadEpisode({createReadStream, filename, mimetype, episode})
   return id+'-'+r_id+'_'+e_n+'-.'+extension[1]
 }
-
+const genUrlName = async (serie_id, episodeNumber) => {
+  const serieTitle = await Serie.findOne({_id: serie_id})
+  const serieName = serieTitle.title.replace(/[^A-Z0-9]/ig, '-')
+  const urlNameCompose = serieName + '-' + episodeNumber
+  const urlName = urlNameCompose.toLowerCase()
+  return urlName
+}
 export const resolvers = {
   Query: {
     Serie: async (_,{_id}) => {
       return await Serie.findById(_id)
     },
-    Series: async (_,{limit}) => {
-      return await Serie.find().sort({x:-1}).limit(limit)
+    Series: async (_,{limit,order}) => {
+      return await Serie.find().sort({'visits': order}).limit(limit)
     },
     Episode: async (_,{_id}) => {
       return await Episode.findById(_id)
@@ -104,6 +112,9 @@ export const resolvers = {
     },
     Episodes: async (_,{limit}) => {
       return await Episode.find().limit(limit)
+    },
+    Genre: async (_,{url}) => {
+      return await Genre.findOne({url: url})
     },
     Genres: async (_,{limit}) => {
       return await Genre.find().limit(limit)
@@ -119,13 +130,22 @@ export const resolvers = {
     }
   },
   Mutation:{
-    createSerie: async (_,{input: {cover, background_cover, ...data}}) => {
+    createSerie: async (_,{input: {cover, background_cover, genres, ...data}}) => {
+      var genres = genres.map(function(newGenreObject){
+        const url_regex = newGenreObject.text.replace(/[^A-Z0-9]/ig, "-")
+        const url = url_regex.toLowerCase()
+        newGenreObject.text = newGenreObject.text
+        newGenreObject.value = newGenreObject.text
+        newGenreObject.url = url
+        return newGenreObject
+      })
       const coverUrl = await processUploadCover(cover[0].file, cover[1])
       const background_coverUrl = await processUploadScreenshot(background_cover[0].file, background_cover[1])
       const payload = new Serie({
-        ...data,
+        genres,
         coverUrl,
-        background_coverUrl
+        background_coverUrl,
+        ...data,
       })
       const res = await payload.save()
       if(res){
@@ -134,9 +154,15 @@ export const resolvers = {
         return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
       }
     },
-    createEpisode: async (_,{input: {customScreenshot, ...data}}) => {
+    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,urlName, ...data}}) => {
+      var urlName = await genUrlName(serie_id, episode_number)
       if(!customScreenshot){
-        const payload = new Episode({...data})
+        const payload = new Episode({
+          serie_id,
+          episode_number,
+          urlName,
+          ...data
+        })
         const res =  await payload.save()
         if(res){
           return { success: true, errors: [{path:'Create Episode',message: 'Episode Created Successfuly'}]}
@@ -146,8 +172,11 @@ export const resolvers = {
       }else{
         const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
         const payload = new Episode({
+          customScreenshotUrl,
+          serie_id,
+          episode_number,
+          urlName,
           ...data,
-          customScreenshotUrl
         })
         const res = await payload.save()
         if(res){
@@ -158,7 +187,11 @@ export const resolvers = {
       }
     },
     createGenre: async (_,{input}) => {
-      const payload = new Genre(input)
+      const url_regex = input.text.replace(/[^A-Z0-9]/ig, "-")
+      const url = url_regex.toLowerCase()
+      const value = input.text
+      const text = input.text
+      const payload = new Genre({text, value, url})
       const res =  await payload.save()
       if(res){
         return { success: true, errors: [{path:'Create Genre',message: 'Genre Created Successfuly'}]}
@@ -242,7 +275,7 @@ export const resolvers = {
         return { success: false, errors: [{path:'Delete Episode',message: 'Error deleting Episode.'}]}
       }
     },
-    login: async (parent, {input}, SECRET) => auth.login(input, User, SECRET)
+    login: async (_, {input}, SECRET) => auth.login(input, User, SECRET)
     
   },
   Episode: {
@@ -254,6 +287,12 @@ export const resolvers = {
     episodes: ({_id}) => {
       const ep = Episode.find({serie_id: _id})
       return ep
+    }
+  },
+  Genre: {
+    series ({url},{sort},context) {
+      console.log(sort)
+      return Serie.find({'genres.url': url}).sort({'visits': sort})
     }
   }
 }

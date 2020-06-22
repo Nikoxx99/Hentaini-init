@@ -1,11 +1,16 @@
 <template>
   <v-app dark>
     <nuxt />
+    <Footer />
   </v-app>
 </template>
 
 <script>
+import Footer from '../components/Footer'
 export default {
+  components: {
+    Footer
+  },
   data () {
     this.$i18n.locale = 'en'
     return {

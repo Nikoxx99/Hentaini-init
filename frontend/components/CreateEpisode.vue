@@ -20,7 +20,6 @@
               label="Episode Number"
               type="number"
               required
-              @change="genUrlName"
             />
             <v-switch
               v-model="visible"
@@ -154,7 +153,7 @@ export default {
     serie_id: '',
     serie_title: '',
     urlName: '',
-    episode_number: 0,
+    episode_number: 1,
     created_at: '',
     visible: true,
     language: '',
@@ -221,7 +220,6 @@ export default {
         }`,
         variables: {
           input: {
-            urlName: this.urlName,
             serie_id: this.serie_id,
             episode_number: this.episode_number,
             visible: this.visible,
@@ -270,12 +268,6 @@ export default {
     },
     removeDownloadSlot (slot) {
       this.downloadList.splice(slot, 1)
-    },
-    genUrlName () {
-      const serieName = this.serie_title.replace(/[^A-Z0-9]/ig, '-')
-      const episodeNumber = this.episode_number
-      const urlName = serieName + '-' + episodeNumber
-      this.urlName = urlName.toLowerCase()
     }
   }
 }

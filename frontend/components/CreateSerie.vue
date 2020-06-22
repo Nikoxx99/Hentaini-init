@@ -156,7 +156,7 @@ export default {
     this.$apollo.query({
       query: gql`query ($limit: Int){
         Genres(limit: $limit){
-          name
+          text
         }
       }`,
       variables: {
@@ -165,8 +165,8 @@ export default {
     }).then((input) => {
       for (let i = 0; i < input.data.Genres.length; i++) {
         this.genre.push({
-          text: input.data.Genres[i].name,
-          value: input.data.Genres[i].name
+          text: input.data.Genres[i].text,
+          value: input.data.Genres[i].text
         })
       }
     }).catch((error) => {

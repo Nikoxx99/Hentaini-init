@@ -11,8 +11,9 @@
         :key="episode._id"
         cols="12"
         lg="3"
-        md="6"
-        sm="12"
+        md="4"
+        sm="6"
+        xs="6"
       >
         <NiEpisodeCard
           :episode="episode._id"

@@ -10,7 +10,7 @@
             class="white--text align-end"
             height="50vh"
             width="auto"
-            src="https://s4.anilist.co/file/anilistcdn/media/anime/cover/large/bx115230-aHcNrjMJkPnx.png"
+            :src="'http://localhost:4000/cover/'+series.coverUrl"
           >
             <v-card-title>{{ series.title }}</v-card-title>
           </v-img>
@@ -99,7 +99,8 @@ export default {
       synopsis: '',
       episodes: {
         _id: ''
-      }
+      },
+      coverUrl: 'load.jpg'
     },
     url: ''
   }),
@@ -114,6 +115,7 @@ export default {
             _id
             episode_number
           }
+          coverUrl
         }
       }`,
       variables: {

@@ -6,7 +6,7 @@
           <v-col>
             <v-container>
               <v-text-field
-                v-model="name"
+                v-model="text"
                 label="Genre Name"
                 :hint="hint"
                 persistent-hint
@@ -51,7 +51,7 @@ import gql from 'graphql-tag'
 export default {
   name: 'CreateGenre',
   data: () => ({
-    name: '',
+    text: '',
     hint: '',
     genres: []
   }),
@@ -59,8 +59,8 @@ export default {
     this.$apollo.query({
       query: gql`query ($limit: Int){
         Genres(limit: $limit){
-          _id
-          name
+          text
+          url
         }
       }`,
       variables: {
@@ -87,13 +87,14 @@ export default {
         }`,
         variables: {
           input: {
-            name: this.name
+            text: this.text,
+            value: this.text,
+            url: this.text
           }
         }
       }).then((input) => {
         // eslint-disable-next-line no-console
-        console.log(this.$apollo)
-        this.name = ''
+        this.text = ''
         this.hint = 'Genre Created Succesfully'
       }).catch((error) => {
         // eslint-disable-next-line no-console

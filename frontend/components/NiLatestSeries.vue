@@ -11,10 +11,12 @@
         :key="serie._id"
         cols="12"
         lg="2"
-        md="6"
-        sm="12"
+        md="4"
+        sm="6"
+        xs="6"
       >
         <NiSerieCard
+          v-if="serie.episodes[0]"
           :episode="serie.episodes._id"
           :title="serie.title"
           :synopsis="serie.synopsis"
@@ -64,7 +66,12 @@ export default {
   data () {
     this.$i18n.locale = 'en'
     return {
-      locale: 'en'
+      locale: 'en',
+      Series: {
+        episodes: {
+          urlName: ''
+        }
+      }
     }
   }
 }
