@@ -66,7 +66,6 @@ export default {
     this.$apollo.query({
       query: gql`query ($limit: Int){
         Players(limit: $limit){
-          _id
           name
           short_name
         }
