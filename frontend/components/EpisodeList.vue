@@ -14,7 +14,9 @@
           >
             <v-card-title>{{ series.title }}</v-card-title>
           </v-img>
-
+          <v-card-subtitle class="pb-0">
+            English: {{ series.title_english }}
+          </v-card-subtitle>
           <v-card-subtitle class="pb-0">
             Episodes: {{ series.episodes.length }}
           </v-card-subtitle>
@@ -96,6 +98,7 @@ export default {
   data: () => ({
     series: {
       title: '',
+      title_english: '',
       synopsis: '',
       episodes: {
         _id: ''
@@ -109,6 +112,7 @@ export default {
       query: gql`query ($id: ID){
         Serie(_id: $id){
           title
+          title_english
           synopsis
           visits
           episodes {

@@ -19,6 +19,7 @@ const typeDefs = `
   type Serie {
     _id: ID
     title: String
+    title_english: String
     synopsis: String
     genres: [GenreQuery]
     status: String
@@ -140,6 +141,7 @@ const typeDefs = `
   input EditSerieInput {
     _id: String
     title: String
+    title_english: String
     synopsis: String
     genres: [GenreInput]
     status: String

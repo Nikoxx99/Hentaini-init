@@ -22,6 +22,11 @@
               label="Hentai Name"
               required
             />
+            <v-text-field
+              v-model="title_english"
+              label="Hentai Name"
+              required
+            />
             <v-textarea
               v-model="synopsis"
               name="synopsis"
@@ -125,6 +130,7 @@ export default {
   data: () => ({
     id: '',
     title: '',
+    title_english: '',
     synopsis: '',
     genres: [],
     genre: [],
@@ -184,6 +190,7 @@ export default {
         Serie(_id: $id){
           _id
           title
+          title_english
           synopsis
           genres {
             text
@@ -203,6 +210,7 @@ export default {
     }).then((input) => {
       this.id = input.data.Serie._id
       this.title = input.data.Serie.title
+      this.title_english = input.data.Serie.title_english
       this.synopsis = input.data.Serie.synopsis
       for (let i = 0; i < input.data.Serie.genres.length; i++) {
         this.genres.push(input.data.Serie.genres[i])
@@ -235,6 +243,7 @@ export default {
           input: {
             _id: this.id,
             title: this.title,
+            title_english: this.title_english,
             synopsis: this.synopsis,
             genres: this.genres,
             status: this.status,
