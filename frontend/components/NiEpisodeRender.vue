@@ -327,14 +327,13 @@ export default {
           href: '/'
         },
         {
-          text: 'Mankitsu Happening',
+          text: 'Serie',
           disabled: false,
-          href: 'breadcrumbs_link_1'
+          href: ''
         },
         {
-          text: 'Episode 1',
-          disabled: true,
-          href: 'breadcrumbs_link_2'
+          text: 'Episode',
+          disabled: true
         }
       ],
       modalDownload: false,
@@ -342,7 +341,10 @@ export default {
       show: false
     }
   },
-  created () {
+  mounted () {
+    this.breadcrumb[2].text = 'Episode ' + this.episode.episode_number
+    this.breadcrumb[1].text = this.episode.serie.title
+    this.breadcrumb[1].href = '/episode/' + this.episode.urlName
   },
   methods: {
     changeCurrentUrl (currentUrl) {
