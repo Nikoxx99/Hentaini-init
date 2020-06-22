@@ -124,6 +124,7 @@ const typeDefs = `
 
   input SerieInput {
     title: String
+    title_english: String
     synopsis: String
     genres: [GenreInput]
     status: String

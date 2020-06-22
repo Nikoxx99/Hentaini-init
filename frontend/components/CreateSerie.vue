@@ -11,8 +11,12 @@
           <v-container>
             <v-text-field
               v-model="title"
-              :counter="10"
-              label="Hentai Name"
+              label="Hentai Title"
+              required
+            />
+            <v-text-field
+              v-model="title_english"
+              label="Hentai English Title"
               required
             />
             <v-textarea
@@ -134,6 +138,7 @@ export default {
 
   data: () => ({
     title: '',
+    title_english: '',
     synopsis: '',
     genres: [],
     genre: [],
@@ -207,6 +212,7 @@ export default {
         variables: {
           input: {
             title: this.title,
+            title_english: this.title_english,
             synopsis: this.synopsis,
             genres: this.genres,
             status: this.status,

@@ -34,7 +34,7 @@
                   :key="genre.id"
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{ genre.name }}</v-list-item-title>
+                    <v-list-item-title>{{ genre.text }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
