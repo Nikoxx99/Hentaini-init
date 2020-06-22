@@ -1,5 +1,20 @@
 <template>
   <v-card>
+    <v-alert
+      v-if="firstTime"
+      type="info"
+      class="blue darken-4"
+      tile
+    >
+      Welcome to Hentaini. Now you can log into your account.
+    </v-alert>
+    <v-alert
+      v-if="loginFailed"
+      type="error"
+      tile
+    >
+      Invalid login credentials. Try again.
+    </v-alert>
     <v-card-title>
       Login into your account
     </v-card-title>
@@ -23,11 +38,14 @@
           counter
           @click:append="showPassword = !showPassword"
         />
-        <v-btn class="mr-4" @click="login">
+        <v-btn class="mr-4 blue darken-4" @click="login">
           Login
         </v-btn>
-        <v-btn @click="clear">
+        <v-btn class="mr-4" @click="clear">
           Clear
+        </v-btn>
+        <v-btn href="/register">
+          Register
         </v-btn>
       </form>
     </v-container>
@@ -51,7 +69,9 @@ export default {
   data: () => ({
     username: '',
     password: '',
-    showPassword: false
+    showPassword: false,
+    firstTime: false,
+    loginFailed: false
   }),
 
   computed: {
@@ -68,7 +88,14 @@ export default {
       return errors
     }
   },
-
+  mounted () {
+    if (this.$route.query.firstTime) {
+      this.firstTime = true
+    }
+    if (this.$route.query.loginFailed) {
+      this.loginFailed = true
+    }
+  },
   methods: {
     clear () {
       this.$v.$reset()
@@ -84,6 +111,7 @@ export default {
             success
             token
             username
+            role
             errors{
               path
               message
@@ -97,13 +125,18 @@ export default {
           }
         }
       }).then((input) => {
-        const auth = {
-          accessToken: input.data.login.token,
-          username: input.data.login.username
+        if (input.data.login.success) {
+          const auth = {
+            accessToken: input.data.login.token,
+            username: input.data.login.username,
+            role: input.data.login.role
+          }
+          this.$store.commit('setAuth', auth)
+          Cookie.set('auth', auth)
+          this.$router.push('/')
+        } else {
+          this.$router.push('/login?loginFailed=true')
         }
-        this.$store.commit('setAuth', auth)
-        Cookie.set('auth', auth)
-        this.$router.push('/')
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

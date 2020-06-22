@@ -3,6 +3,7 @@ import Episode from "./models/Episode";
 import Genre from "./models/Genre";
 import Category from "./models/Category";
 import User from "./models/User";
+import Role from "./models/Role";
 import Player from "./models/Player"
 import { auth } from "./auth";
 import { createWriteStream } from "fs";
@@ -96,6 +97,9 @@ const genUrlName = async (serie_id, episodeNumber) => {
   const urlName = urlNameCompose.toLowerCase()
   return urlName
 }
+const simpleResponse = async (success,path,message) => {
+  return { success: success, errors: [{path: path, message: message}]}
+}
 export const resolvers = {
   Query: {
     Serie: async (_,{_id}) => {
@@ -127,6 +131,9 @@ export const resolvers = {
     },
     Players: async (_,{limit}) => {
       return await Player.find().limit(limit)
+    },
+    Users: async (_,{limit}) => {
+      return await User.find().limit(limit)
     }
   },
   Mutation:{
@@ -149,9 +156,9 @@ export const resolvers = {
       })
       const res = await payload.save()
       if(res){
-        return { success: true, errors: [{path:'Create Serie',message: 'Serie Created Successfuly'}]}
+        return simpleResponse(true,'Create Serie','Serie Created Successfuly')
       }else{
-        return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
+        return simpleResponse(false,'Create Serie','Error Creating Serie')
       }
     },
     createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,urlName, ...data}}) => {
@@ -165,9 +172,9 @@ export const resolvers = {
         })
         const res =  await payload.save()
         if(res){
-          return { success: true, errors: [{path:'Create Episode',message: 'Episode Created Successfuly'}]}
+          return simpleResponse(true,'Create Episode','Episode Created Successfuly')
         }else{
-          return { success: false, errors: [{path:'Create Episode',message: 'Error Creating Episode'}]}
+          return simpleResponse(false,'Create Episode','Error Creating Episode')
         }
       }else{
         const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
@@ -180,9 +187,9 @@ export const resolvers = {
         })
         const res = await payload.save()
         if(res){
-          return { success: true, errors: [{path:'Create Serie New Image',message: 'Serie Created Successfuly With new Image'}]}
+          return simpleResponse(true,'Create Serie New Image','Serie Created Successfuly With new Image')
         }else{
-          return { success: false, errors: [{path:'Create Serie New Image',message: 'Error Creating Serie with new Image'}]}
+          return simpleResponse(false,'Create Serie New Image','Error Creating Serie with new Image')
         }
       }
     },
@@ -194,49 +201,65 @@ export const resolvers = {
       const payload = new Genre({text, value, url})
       const res =  await payload.save()
       if(res){
-        return { success: true, errors: [{path:'Create Genre',message: 'Genre Created Successfuly'}]}
+        return simpleResponse(true,'Create Genre','Genre Created Successfuly')
       }else{
-        return { success: false, errors: [{path:'Create Genre',message: 'Error Creating Genre'}]}
+        return simpleResponse(false,'Create Genre','Error Creating Genre')
       }
     },
     createCategory: async (_,{input}) => {
       const payload = new Category(input)
       const res =  await payload.save()
       if(res){
-        return { success: true, errors: [{path:'Create Category',message: 'Category Created Successfuly'}]}
+        return simpleResponse(true,'Create Category','Category Created Successfuly')
       }else{
-        return { success: false, errors: [{path:'Create Category',message: 'Error Creating Category'}]}
+        return simpleResponse(false,'Create Category','Error Creating Category')
       }
     },
     createPlayer: async (_,{input}) => {
       const payload = new Player(input)
       const res =  await payload.save()
       if(res){
-        return { success: true, errors: [{path:'Create Player',message: 'Player Created Successfuly'}]}
+        return simpleResponse(true,'Create Player','Player Created Successfuly')
       }else{
-        return { success: false, errors: [{path:'Create Player',message: 'Error Creating Player'}]}
+        return simpleResponse(false,'Create Player','Error Creating Player')
       }
     },
-    createUser: async function (_,{input}){
-      const emailUser = await User.findOne({email: input.email})
-      const userUser = await User.findOne({username: input.username})
+    createUser: async function (_,{input: {...data}}){
+      console.log(data)
+      const emailUser = await User.findOne({email: data.email})
+      const userUser = await User.findOne({username: data.username})
+      const role = 1
       if(emailUser){
-        return { success: false, errors: [{path:'Create User',message: 'Email already exists.'}]}
+        return simpleResponse(false,'Create User','Email already exists.')
       }else if (userUser){
-        return { success: false, errors: [{path:'Create User',message: 'Username already exists.'}]}
+        return simpleResponse(false,'Create User','Username already exists.')
       }else{
-        const newUser = new User(input)
-        newUser.password = await newUser.encryptPassword(input.password)
-        return await newUser.save()
+        const newUser = new User({role,...data})
+        newUser.password = await newUser.encryptPassword(data.password)
+        const res = await newUser.save()
+        if(res){
+          return simpleResponse(true,'Create User','User created successfully.')
+        }else{
+          return simpleResponse(false,'Create User','User creating error.')
+        }
+      }
+    },
+    createRole: async function (_,{input}){
+      const newRole = new Role(input)
+      const res = await newRole.save()
+      if (res){
+        return simpleResponse(true,'Create Role','Role Created Successfullly.')
+      } else {
+        return simpleResponse(false,'Create Role','Error Creating Role.')
       }
     },
     editSerie: async (_,{input}) => {
       const id = input._id
       const res = await Serie.updateOne({_id: id}, input, {multi: false})
       if(res){
-        return { success: true, errors: [{path:'Create Serie',message: 'Serie Edited Successfuly'}]}
+        return simpleResponse(true,'Edit Serie','Serie Edited Successfuly')
       }else{
-        return { success: false, errors: [{path:'Create Serie',message: 'Error Creating Serie'}]}
+        return simpleResponse(false,'Edit Serie','Error Editing Serie')
       }
     },
     editEpisode: async (_,{input: {customScreenshot, ...data}}) => {
@@ -244,17 +267,17 @@ export const resolvers = {
       if(!customScreenshot){
         const res = await Episode.updateOne({_id: id}, data, {multi: false})
         if(res){
-          return { success: true, errors: [{path:'Edit Episode',message: 'Episode Edited Successfuly'}]}
+          return simpleResponse(true,'Edit Episode','Episode Edited Successfuly')
         }else{
-          return { success: false, errors: [{path:'Edit Episode',message: 'Error Creating Episode'}]}
+          return simpleResponse(false,'Edit Episode','Error Editing Episode')
         }
       }else{
         const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
         const res = await Episode.updateOne({_id: id}, {...data,customScreenshotUrl}, {multi: false})
         if(res){
-          return { success: true, errors: [{path:'Episode Edit New Image',message: 'Episode Edited Successfuly With new Image'}]}
+          return simpleResponse(true,'Episode Edit New Image','Episode Edited Successfuly With new Image')
         }else{
-          return { success: false, errors: [{path:'Episode Edit New Image',message: 'Error Editing Episode with new Image'}]}
+          return simpleResponse(false,'Episode Edit New Image','Error Editing Episode with new Image')
         }
       }
     },
@@ -262,17 +285,17 @@ export const resolvers = {
       const deleteSerie = await Serie.findByIdAndDelete(id)
       await Episode.deleteMany({serie_id: id})
       if(deleteSerie){
-        return { success: true, errors: [{path:'Delete Serie',message: 'Serie deleted successfully.'}]}
+        return simpleResponse(true,'Delete Serie','Serie deleted successfully.')
       }else{
-        return { success: false, errors: [{path:'Delete Serie',message: 'Error deleting Serie.'}]}
+        return simpleResponse(false,'Delete Serie','Error deleting Serie.')
       }
     },
     deleteEpisode: async (_,{id}) => {
       const deleteEpisode = await Episode.findByIdAndDelete(id)
       if(deleteEpisode){
-        return { success: true, errors: [{path:'Delete Episode',message: 'Episode deleted successfully.'}]}
+        return simpleResponse(true,'Delete Episode','Episode deleted successfully.')
       }else{
-        return { success: false, errors: [{path:'Delete Episode',message: 'Error deleting Episode.'}]}
+        return simpleResponse(false,'Delete Episode','Error deleting Episode.')
       }
     },
     login: async (_, {input}, SECRET) => auth.login(input, User, SECRET)

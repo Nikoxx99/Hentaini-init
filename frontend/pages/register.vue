@@ -1,12 +1,25 @@
 <template>
-  <v-container>
-    <h1>Register</h1>
-  </v-container>
+  <div>
+    <v-container>
+      <v-row>
+        <v-col cols="6" class="mx-auto">
+          <Logo style="justify-self:center;display:flex;" />
+          <NiUserRegisterForm />
+        </v-col>
+      </v-row>
+    </v-container>
+  </div>
 </template>
 
 <script>
+import NiUserRegisterForm from '../components/NiUserRegisterForm'
+import Logo from '../components/Logo'
 export default {
-
+  components: {
+    NiUserRegisterForm,
+    Logo
+  },
+  middleware: 'notAuthenticated'
 }
 </script>
 

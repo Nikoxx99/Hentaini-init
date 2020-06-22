@@ -17,10 +17,11 @@ export const auth = {
     }
     const token = auth.getToken(newUser, SECRET)
     const username = newUser.username
-
+    const role = newUser.role
     return {
       success: true,
       token,
+      role,
       username,
       errors: []
     }

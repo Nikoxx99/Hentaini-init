@@ -13,6 +13,8 @@ const typeDefs = `
     Categories(limit: Int): [Category]
     Player(_id: ID): Player
     Players(limit: Int): [Player]
+    Users(limit: Int): [User]
+    Roles: [Role]
   }
   type Serie {
     _id: ID
@@ -74,8 +76,14 @@ const typeDefs = `
     _id: ID
     username: String
     email: String
-    password: String
     date: String
+  }
+
+  type Role {
+    _id: ID
+    role: Int
+    accesslevel: Int
+    name: String
   }
 
   type Error {
@@ -91,6 +99,7 @@ const typeDefs = `
   type Response {
     success: Boolean!
     token: String
+    role: Int
     username: String
     errors: [Error]
   }
@@ -104,6 +113,7 @@ const typeDefs = `
     createCategory(input: CategoryInput): SimpleResponse
     createPlayer(input: PlayerInput): SimpleResponse
     createUser(input: UserInput): Response
+    createRole(input: RoleInput): SimpleResponse
     editSerie(input: EditSerieInput): SimpleResponse
     editEpisode(input: EditEpisodeInput): SimpleResponse
     deleteSerie(id: ID): SimpleResponse
@@ -187,9 +197,16 @@ const typeDefs = `
 
   input UserInput {
     username: String!
-    email: String!
+    email: String
     password: String!
     date: String
+    role: Int
+  }
+
+  input RoleInput {
+    role: Int!
+    accessLevel: Int!
+    name: String
   }
 
   input LoginInput {

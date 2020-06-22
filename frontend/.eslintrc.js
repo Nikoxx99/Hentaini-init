@@ -5,6 +5,9 @@ module.exports = {
     node: true
   },
   parserOptions: {
+    ecmaFeatures: {
+      legacyDecorators: true
+    },
     parser: 'babel-eslint'
   },
   extends: [

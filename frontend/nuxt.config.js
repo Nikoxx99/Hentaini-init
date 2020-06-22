@@ -43,7 +43,7 @@ module.exports = {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'http://api.hentaini.com'
+        httpEndpoint: 'http://localhost:4000/graphql'
       }
     }
   },
