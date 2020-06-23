@@ -16,7 +16,7 @@
               required
             />
             <v-text-field
-              v-model="episode_number"
+              v-model.number="episode_number"
               label="Episode Number"
               type="number"
               required
