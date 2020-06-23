@@ -52,7 +52,7 @@
             <h2>Current Screenshot Image</h2>
             <v-row>
               <v-img
-                :src="screenshot"
+                :src="'https://cdn.hentaini.com/screenshot/'+screenshot"
               />
             </v-row>
           </v-container>
