@@ -125,7 +125,7 @@
             >
               <v-img
                 height="250"
-                :src="'https://cdn.hentaini.com/screenshot/'+episode.serie.coverUrl"
+                :src="'https://cdn.hentaini.com/screenshot/'+episode.serie.background_coverUrl"
               />
 
               <v-card-title>{{ episode.serie.title }}</v-card-title>
