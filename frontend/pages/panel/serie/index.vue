@@ -2,9 +2,9 @@
   <v-app>
     <ToolBar title="All Series" />
     <PanelTemplate />
-    <v-content>
+    <v-main>
       <SerieList />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

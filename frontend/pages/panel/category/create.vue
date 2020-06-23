@@ -2,9 +2,9 @@
   <v-app>
     <ToolBar header="Create Category" />
     <PanelTemplate />
-    <v-content>
+    <v-main>
       <CreateCategory />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

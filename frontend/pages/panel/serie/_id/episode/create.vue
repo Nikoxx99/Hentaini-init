@@ -2,9 +2,9 @@
   <v-app>
     <ToolBar header="Create Episode" />
     <PanelTemplate />
-    <v-content>
+    <v-main>
       <CreateEpisode />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

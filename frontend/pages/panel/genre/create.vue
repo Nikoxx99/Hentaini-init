@@ -3,9 +3,9 @@
     <v-app>
       <ToolBar header="Create Genre" />
       <PanelTemplate />
-      <v-content>
+      <v-main>
         <CreateGenre />
-      </v-content>
+      </v-main>
     </v-app>
   </div>
 </template>

@@ -2,9 +2,9 @@
   <v-app>
     <ToolBar header="Create Serie" />
     <PanelTemplate />
-    <v-content>
+    <v-main>
       <CreateSerie />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

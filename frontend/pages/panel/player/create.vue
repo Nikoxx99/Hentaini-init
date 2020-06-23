@@ -3,9 +3,9 @@
     <v-app>
       <ToolBar header="Create Player" />
       <PanelTemplate />
-      <v-content>
+      <v-main>
         <CreatePlayer />
-      </v-content>
+      </v-main>
     </v-app>
   </div>
 </template>

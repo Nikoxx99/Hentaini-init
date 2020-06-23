@@ -2,9 +2,9 @@
   <v-app>
     <ToolBar header="Edit Serie" />
     <PanelTemplate />
-    <v-content>
+    <v-main>
       <SerieEdit />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 

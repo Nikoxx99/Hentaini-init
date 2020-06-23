@@ -2,9 +2,9 @@
   <v-app>
     <ToolBar header="Episodes From Serie" />
     <PanelTemplate />
-    <v-content>
+    <v-main>
       <EpisodeList />
-    </v-content>
+    </v-main>
   </v-app>
 </template>
 
