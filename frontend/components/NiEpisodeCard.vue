@@ -9,7 +9,7 @@
       <v-img
         class="white--text align-end"
         :aspect-ratio="16/9"
-        :src="'http://cdn.hentaini.com/screenshot/'+screenshot"
+        :src="'https://cdn.hentaini.com/screenshot/'+screenshot"
       >
         <v-card-text class="text--primary">
           <v-chip
