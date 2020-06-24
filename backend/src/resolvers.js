@@ -109,7 +109,7 @@ export const resolvers = {
       return await Serie.find().sort({'visits': order}).limit(limit)
     },
     Episode: async (_,{_id}) => {
-      return await Episode.findById(_id)
+      return await Episode.findById(_id).sort({ 'episode_number' : 1 })
     },
     EpisodeByUrlName: async (_,{urlName}) => {
       return await Episode.findOne({urlName})

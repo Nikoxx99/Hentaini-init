@@ -94,6 +94,7 @@
                     dark
                     v-bind="attrs"
                     v-on="on"
+                    @click="genDownloadName"
                   >
                     {{ $t('episode.download_text') }}
                   </v-btn>
@@ -107,11 +108,20 @@
                     Download Episode {{ episode.episode_number }}
                   </v-card-title>
 
-                  <v-card-text>
-                    Download Link
+                  <v-card-text class="d-flex justify-center mt-4">
+                    <v-btn
+                      v-for="link in downloadsName"
+                      :key="link.name"
+                      :href="link.url.url"
+                      color="blue darken-4 mr-2"
+                      class="p-3"
+                    >
+                      {{ link.name }}
+                    </v-btn>
                   </v-card-text>
                 </v-card>
               </v-dialog>
+              <Comments />
             </v-col>
           </v-row>
         </v-container>
@@ -237,10 +247,13 @@
 
 <script>
 import gql from 'graphql-tag'
+import parse from 'url-parse'
 import VideoElement from './VideoElement'
+import Comments from './Comments'
 export default {
   components: {
-    VideoElement
+    VideoElement,
+    Comments
   },
   async fetch () {
     await this.$apollo.query({
@@ -291,6 +304,8 @@ export default {
     this.$i18n.locale = 'en'
     return {
       locale: 'en',
+      downloadsName: [],
+      areDownloadLinksGenerated: false,
       episode: {
         serie: {
           synopsis: '',
@@ -351,6 +366,21 @@ export default {
   methods: {
     changeCurrentUrl (currentUrl) {
       this.currentUrl = currentUrl
+    },
+    genDownloadName () {
+      if (!this.areDownloadLinksGenerated) {
+        for (let i = 0; i < this.episode.downloads.length; i++) {
+          const regex = /([a-z0-9][a-z0-9-]*)?((\.[a-z]{2,6}))$/
+          const nameDownload = parse(this.episode.downloads[i].url, true)
+          const parsedName = nameDownload.host
+          const newName = parsedName.match(regex)
+          const newDownloadButtons = {}
+          newDownloadButtons.url = this.episode.downloads[i]
+          newDownloadButtons.name = newName[1]
+          this.downloadsName.push(newDownloadButtons)
+          this.areDownloadLinksGenerated = true
+        }
+      }
     }
   },
   head () {
