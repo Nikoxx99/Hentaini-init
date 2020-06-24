@@ -112,10 +112,10 @@ export const resolvers = {
       return await Episode.findById(_id)
     },
     EpisodeByUrlName: async (_,{urlName}) => {
-      return await Episode.findOne({urlName})
+      return await Episode.findOne({urlName}).sort({ 'episode_number' : 'desc' })
     },
     Episodes: async (_,{limit}) => {
-      return await Episode.find().limit(limit)
+      return await Episode.find().limit(limit).sort({ 'episode_number' : 'desc' })
     },
     Genre: async (_,{url}) => {
       return await Genre.findOne({url: url})
