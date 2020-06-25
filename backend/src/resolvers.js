@@ -114,8 +114,12 @@ export const resolvers = {
     EpisodeByUrlName: async (_,{urlName}) => {
       return await Episode.findOne({urlName}).sort({ 'episode_number' : 'desc' })
     },
-    Episodes: async (_,{limit}) => {
-      return await Episode.find().limit(limit).sort({ 'episode_number' : 'desc' })
+    Episodes: async (_,{limit,showInvisible}) => {
+      if (showInvisible) {
+        return await Episode.find().limit(limit).sort({ 'created_at' : 'desc' })
+      } else {
+        return await Episode.find({'visible': true}).limit(limit).sort({ 'created_at' : 'desc' })
+      }
     },
     Genre: async (_,{url}) => {
       return await Genre.findOne({url: url})

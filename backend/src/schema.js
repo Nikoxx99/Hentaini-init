@@ -7,7 +7,7 @@ const typeDefs = `
     Series(limit: Int, order: String): [Serie]
     Episode(_id: ID): Episode
     EpisodeByUrlName(urlName: String): Episode
-    Episodes(limit: Int): [Episode]
+    Episodes(limit: Int, showInvisible: Boolean): [Episode]
     Genre(url: String): Genre
     Genres(limit: Int): [Genre]
     Categories(limit: Int): [Category]
