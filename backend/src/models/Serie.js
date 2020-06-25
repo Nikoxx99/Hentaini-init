@@ -5,10 +5,7 @@ const serieSchema = new Schema({
     type: String,
     required: true
   },
-  title_english: {
-    type: String,
-    required: true
-  },
+  title_english: String,
   synopsis: {
     type: String,
     required: true
