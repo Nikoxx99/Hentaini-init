@@ -1,5 +1,15 @@
 <template>
   <v-container>
+    <v-alert
+      v-if="error || genreError"
+      type="error"
+      :class="alertBoxColor"
+      tile
+      dismissible
+      outlined
+    >
+      {{ errorMessage }}
+    </v-alert>
     <v-row>
       <v-col cols="6">
         <v-card
@@ -11,16 +21,17 @@
           <v-container>
             <v-text-field
               v-model="title"
+              :rules="titleRules"
               label="Hentai Title"
               required
             />
             <v-text-field
               v-model="title_english"
               label="Hentai English Title"
-              required
             />
             <v-textarea
               v-model="synopsis"
+              :rules="synopsisRules"
               name="synopsis"
               label="Synopsis"
               value="Como comenzo con el que tenia el peinado follador..."
@@ -29,12 +40,14 @@
             <v-combobox
               v-model="genres"
               :items="genre"
+              :error="genreError"
               label="Hentai Genres"
               multiple
               clearable
               deletable-chips
               chips
               :return-object="true"
+              @click="genreError = false"
             />
             <v-select
               v-model="serie_type"
@@ -67,6 +80,7 @@
             <v-file-input
               ref="cover"
               show-size
+              :error="error"
               label="Cover Image"
               :clearable="false"
               @change="coverSelected"
@@ -75,6 +89,7 @@
             <v-file-input
               ref="background_cover"
               show-size
+              :error="error"
               label="Screenshot Image"
               :clearable="false"
               @change="background_coverSelected"
@@ -138,10 +153,17 @@ export default {
 
   data: () => ({
     title: '',
+    titleRules: [
+      v => !!v || 'Title is required'
+    ],
     title_english: '',
     synopsis: '',
+    synopsisRules: [
+      v => !!v || 'Synopsis is required'
+    ],
     genres: [],
     genre: [],
+    genreError: false,
     serie_type: '',
     categories: [],
     status: '',
@@ -152,7 +174,9 @@ export default {
     next_episode: '',
     items: ['Item 1', 'Item 2'],
     coverPreview: '',
-    screenshotPreview: ''
+    screenshotPreview: '',
+    error: false,
+    errorMessage: ''
   }),
 
   computed: {
@@ -199,6 +223,14 @@ export default {
   },
   methods: {
     createSerie () {
+      if (this.cover < 1 || this.background_cover < 1) {
+        this.error = true
+        this.errorMessage = 'You must define an cover and screenshot image.'
+      }
+      if (this.genres < 1) {
+        this.genreError = true
+        this.errorMessage = 'You must select one or more genres.'
+      }
       this.$apollo.mutate({
         mutation: gql`mutation ($input: SerieInput){
           createSerie(input: $input){
@@ -224,7 +256,7 @@ export default {
           }
         }
       }).then((input) => {
-        this.$router.push({ path: '/panel/serie/' })
+        this.$router.push({ path: '/panel/serie', query: { created: true } }, () => { window.location.reload(true) })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)
@@ -245,9 +277,11 @@ export default {
     },
     initialCoverClear () {
       this.cover = []
+      this.error = false
     },
     initialScreenshotClear () {
       this.background_cover = []
+      this.error = false
     }
   }
 }

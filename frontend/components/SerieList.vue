@@ -3,6 +3,15 @@
     <v-row>
       <v-col cols="12">
         <h3>All Series</h3>
+        <v-alert
+          v-if="alertBox"
+          type="info"
+          :class="alertBoxColor"
+          tile
+          dismissible
+        >
+          {{ createdMessage }}
+        </v-alert>
         <v-simple-table width="100%">
           <template v-slot:default>
             <thead>
@@ -77,9 +86,27 @@ export default {
   },
 
   data: () => ({
-    series: []
+    series: [],
+    alertBox: false,
+    createdMessage: '',
+    alertBoxColor: ''
   }),
   created () {
+    if (this.$route.query.created) {
+      this.alertBox = true
+      this.alertBoxColor = 'blue darken-4'
+      this.createdMessage = 'Serie Created Successfully.'
+    }
+    if (this.$route.query.edited) {
+      this.alertBox = true
+      this.alertBoxColor = 'yellow darken-4'
+      this.createdMessage = 'Serie Edited Successfully.'
+    }
+    if (this.$route.query.deleted) {
+      this.alertBox = true
+      this.alertBoxColor = 'red darken-4'
+      this.createdMessage = 'Serie Deleted Successfully.'
+    }
     this.$apollo.query({
       query: gql`query ($limit: Int){
         Series(limit: $limit){

@@ -253,7 +253,7 @@ export default {
           }
         }
       }).then((input) => {
-        this.$router.push({ path: '/panel/serie/' })
+        this.$router.push({ path: '/panel/serie', query: { edited: true } }, () => { window.location.reload(true) })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

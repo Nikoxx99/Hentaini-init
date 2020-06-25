@@ -76,7 +76,7 @@ export default {
           id: this.serieid
         }
       }).then((input) => {
-        window.location.reload(true)
+        this.$router.replace({ path: '/panel/serie', query: { deleted: true } }, () => { window.location.reload(true) })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)
