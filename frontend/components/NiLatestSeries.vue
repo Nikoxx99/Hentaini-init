@@ -20,7 +20,7 @@
           :synopsis="serie.synopsis"
           :genres="serie.genres"
           :status="serie.status"
-          :url="serie.urlName"
+          :url="serie.episodes[0].urlName"
           :screenshot="serie.coverUrl"
         />
       </v-col>
@@ -41,6 +41,7 @@ export default {
             _id
             episodes{
               episode_number
+              urlName
             }
             genres{
               text
@@ -49,7 +50,6 @@ export default {
             synopsis
             status
             coverUrl
-            urlName
           }
         }
       `,

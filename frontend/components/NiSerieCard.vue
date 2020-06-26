@@ -1,5 +1,5 @@
 <template>
-  <a :href="'/episode/' + url">
+  <a :href="'/episode/' + url + '/' + 1">
     <v-hover v-slot:default="{ hover }">
       <v-card
         class="mx-auto"
