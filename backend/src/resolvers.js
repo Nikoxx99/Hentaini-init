@@ -9,7 +9,7 @@ import { auth } from "./auth";
 import { createWriteStream } from "fs";
 import shortid from "shortid";
 import sharp from "sharp";
-import { sendNotification } from "./partials/sendNotification";
+import { sendNotificationFn } from "./partials/sendNotification";
 import { send } from "process";
 
 const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
@@ -178,7 +178,7 @@ export const resolvers = {
           contents: {"en": "English Message"},
           included_segments: ["All"]
         };
-        const sentNotification = sendNotification(message)
+        const sentNotification = sendNotificationFn(message)
         console.log(sentNotification)
       }
       var urlName = await genUrlName(serie_id, episode_number)

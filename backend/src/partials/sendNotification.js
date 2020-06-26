@@ -1,4 +1,4 @@
-export function sendNotification (data) {
+export function sendNotificationFn (data) {
   var headers = {
     "Content-Type": "application/json; charset=utf-8",
     "Authorization": "Basic YTUxOGFkZTMtN2JlZC00Y2IzLWIyNzQtMDRjMDk2ZWM1YzAy"
