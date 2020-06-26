@@ -70,6 +70,9 @@
           <v-card-title>
             Image Settings
           </v-card-title>
+          <v-card-title>
+            Si, la imagen no se puede actualizar aun :v, paciencia.
+          </v-card-title>
           <v-container>
             <v-menu
               :close-on-content-click="false"
@@ -99,13 +102,13 @@
                 v-if="coverPreview"
                 cols="6"
               >
-                <v-img :src="coverPreview" />
+                <v-img :src="'https://cdn.hentaini.com/cover/' + coverPreview" />
               </v-col>
               <v-col
                 v-if="screenshotPreview"
                 cols="6"
               >
-                <v-img :src="screenshotPreview" />
+                <v-img :src="'https://cdn.hentaini.com/screenshot/' + screenshotPreview" />
               </v-col>
             </v-row>
           </v-container>
