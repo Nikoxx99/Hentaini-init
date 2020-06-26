@@ -29,7 +29,7 @@ export default {
   },
   mounted () {
     this.$OneSignal.push(() => {
-      this.$OneSignal.setDefaultTitle('Test')
+      this.$OneSignal.showSlidedownPrompt()
     })
   },
   head () {

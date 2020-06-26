@@ -101,6 +101,11 @@ module.exports = {
       notifyButton: {
         enable: true
       }
+    },
+    promptOptions: {
+      actionMessage: "We'd like to show you notifications for new Episodes and Series",
+      acceptButtonText: 'OK',
+      cancelButtonText: "IT'S MA'AM"
     }
   },
   /*
