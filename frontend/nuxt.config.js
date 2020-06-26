@@ -57,7 +57,8 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'nuxt-i18n'
+    'nuxt-i18n',
+    '@nuxtjs/onesignal'
   ],
 
   i18n: {
@@ -88,6 +89,16 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+  },
+
+  oneSignal: {
+    init: {
+      appId: 'e223e60d-38fd-4700-96f2-5c301b1ee4e7',
+      allowLocalhostAsSecureOrigin: true,
+      welcomeNotification: {
+        disable: true
+      }
+    }
   },
   /*
   ** vuetify module configuration

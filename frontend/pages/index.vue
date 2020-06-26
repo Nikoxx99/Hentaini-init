@@ -27,6 +27,17 @@ export default {
       title: 'Hentaini | Make your parents proud'
     }
   },
+  mounted () {
+    this.$OneSignal.push(() => {
+      this.$OneSignal.isPushNotificationsEnabled((isEnabled) => {
+        if (isEnabled) {
+          console.log('Push notifications are enabled!')
+        } else {
+          console.log('Push notifications are not enabled yet.')
+        }
+      })
+    })
+  },
   head () {
     return {
       title: this.title,
