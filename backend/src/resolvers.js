@@ -172,18 +172,28 @@ export const resolvers = {
       }
     },
     createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification, ...data}}) => {
+      var urlName = await genUrlName(serie_id, episode_number)
+      const serie = await Serie.findById(serie_id)
+      if (episode_number < 2) {
+        await Serie.updateOne({_id: serie_id}, {'hasEpisodes': true}, {multi: false})
+      }
       if (sendNotification) {
         var message = { 
           app_id: "e223e60d-38fd-4700-96f2-5c301b1ee4e7",
-          contents: {"en": "English Message"},
+          contents: {
+            "en": "New episode of " + serie.title
+          },
+          headings: {
+            "en": "Hentaini"
+          },
+          url: 'https://hentaini.com/episode/' + urlName + '/' + episode_number,
+          big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.coverUrl,
+          chrome_web_image: 'https://cdn.hentaini.com/screenshot/' + serie.coverUrl,
+          chrome_big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.coverUrl,
           included_segments: ["All"]
         };
         const sentNotification = sendNotificationFn(message)
         console.log(sentNotification)
-      }
-      var urlName = await genUrlName(serie_id, episode_number)
-      if (episode_number < 2) {
-        await Serie.updateOne({_id: serie_id}, {'hasEpisodes': true}, {multi: false})
       }
       if(!customScreenshot){
         const payload = new Episode({
