@@ -105,7 +105,13 @@ module.exports = {
     promptOptions: {
       actionMessage: "We'd like to show you notifications for new Episodes and Series",
       acceptButtonText: 'OK',
-      cancelButtonText: "IT'S MA'AM"
+      cancelButtonText: "IT'S MA'AM",
+      slidedown: {
+        enabled: true,
+        autoPrompt: true,
+        timeDelay: 2,
+        pageViews: 1
+      }
     }
   },
   /*
