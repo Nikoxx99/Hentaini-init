@@ -73,7 +73,7 @@
                       depressed
                       rounded
                       @click="toggle"
-                      @focus="changeCurrentUrl(player.url)"
+                      @focus="changeCurrentUrl(player.url,player.name)"
                     >
                       {{ player.name }}
                     </v-btn>
@@ -134,12 +134,10 @@
               width="100%"
             >
               <v-img
-                height="250"
+                height="auto"
                 :src="'https://cdn.hentaini.com/screenshot/'+EpisodeByUrlName.serie.background_coverUrl"
               />
-
               <v-card-title>{{ EpisodeByUrlName.serie.title }}</v-card-title>
-
               <v-card-text>
                 <v-row
                   align="center"
@@ -162,7 +160,6 @@
                     {{ rating }}
                   </span>
                 </v-row>
-
                 <div class="my-4 subtitle-1">
                   <v-btn
                     class=""
@@ -186,12 +183,9 @@
                     {{ $t('episode.add_favorite') }}
                   </v-btn>
                 </div>
-
                 <div>{{ EpisodeByUrlName.serie.synopsis }}</div>
               </v-card-text>
-
               <v-divider class="mx-4" />
-
               <v-card-text>
                 <v-chip-group
                   active-class="blue darken-3"
@@ -205,7 +199,6 @@
                   </v-chip>
                 </v-chip-group>
               </v-card-text>
-
               <v-card-actions>
                 {{ $t('episode.show_episodes') }}
                 <v-btn
@@ -218,7 +211,6 @@
               <v-expand-transition>
                 <div v-show="show">
                   <v-divider />
-
                   <v-list shaped>
                     <v-subheader>Episodes for {{ EpisodeByUrlName.serie.title }}</v-subheader>
                     <v-list-item-group color="primary">
@@ -325,7 +317,7 @@ export default {
   mounted () {
     this.breadcrumb[2].text = 'Episode ' + this.EpisodeByUrlName.episode_number
     this.breadcrumb[1].text = this.EpisodeByUrlName.serie.title
-    if (this.EpisodeByUrlName.players[0] > 0) {
+    if (this.EpisodeByUrlName.players.length > 0) {
       this.currentUrl = this.EpisodeByUrlName.players[0].url
     }
     for (let i = 0; i < this.EpisodeByUrlName.serie.episodes.length; i++) {
@@ -336,8 +328,12 @@ export default {
     this.nextEpisodeUrl = this.EpisodeByUrlName.urlName
   },
   methods: {
-    changeCurrentUrl (currentUrl) {
-      this.currentUrl = currentUrl
+    changeCurrentUrl (currentUrl, playerName) {
+      if (playerName === 'A') {
+        this.currentUrl = 'https://player.hentaini.com/amz.php?v=' + currentUrl + '&ext=es'
+      } else {
+        this.currentUrl = currentUrl
+      }
     },
     genDownloadName () {
       if (!this.areDownloadLinksGenerated) {

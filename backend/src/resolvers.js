@@ -187,9 +187,9 @@ export const resolvers = {
             "en": "Hentaini"
           },
           url: 'https://hentaini.com/episode/' + urlName + '/' + episode_number,
-          big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.coverUrl,
-          chrome_web_image: 'https://cdn.hentaini.com/screenshot/' + serie.coverUrl,
-          chrome_big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.coverUrl,
+          big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.background_coverUrl,
+          chrome_web_image: 'https://cdn.hentaini.com/screenshot/' + serie.background_coverUrl,
+          chrome_big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.background_coverUrl,
           included_segments: ["All"]
         };
         const sentNotification = sendNotificationFn(message)
