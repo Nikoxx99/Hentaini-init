@@ -57,7 +57,9 @@ module.exports = {
   modules: [
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
-    'nuxt-i18n'
+    'nuxt-i18n',
+    '@nuxtjs/onesignal',
+    '@nuxtjs/pwa'
   ],
 
   i18n: {
@@ -88,6 +90,30 @@ module.exports = {
   ** See https://axios.nuxtjs.org/options
   */
   axios: {
+  },
+
+  oneSignal: {
+    init: {
+      appId: 'e223e60d-38fd-4700-96f2-5c301b1ee4e7',
+      allowLocalhostAsSecureOrigin: true,
+      welcomeNotification: {
+        disable: true
+      },
+      notifyButton: {
+        enable: true
+      },
+      promptOptions: {
+        slidedown: {
+          enabled: true,
+          autoPrompt: true,
+          timeDelay: 2,
+          pageViews: 1,
+          actionMessage: "We'd like to show you notifications for new Episodes and Series",
+          acceptButtonText: 'OK',
+          cancelButtonText: "IT'S MA'AM"
+        }
+      }
+    }
   },
   /*
   ** vuetify module configuration

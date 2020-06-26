@@ -5,6 +5,11 @@
     <v-container><v-divider /></v-container>
     <NiLatestSeries />
     <NiMobileHeader />
+    <v-btn
+      @click="openSlideDownNotification"
+    >
+      Open Notification Slidedown
+    </v-btn>
   </div>
 </template>
 
@@ -25,6 +30,13 @@ export default {
     return {
       locale: 'en',
       title: 'Hentaini | Make your parents proud'
+    }
+  },
+  methods: {
+    openSlideDownNotification () {
+      this.$OneSignal.push(() => {
+        this.$OneSignal.showSlidedownPrompt()
+      })
     }
   },
   head () {
