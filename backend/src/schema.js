@@ -122,6 +122,7 @@ const typeDefs = `
     deleteEpisode(id: ID): SimpleResponse
     login(input: LoginInput): Response
     uploadFile(file: Upload!): SimpleResponse
+    viewRegister(input: viewInput): SimpleResponse
   }
 
   input SerieInput {
@@ -213,6 +214,12 @@ const typeDefs = `
     role: Int!
     accessLevel: Int!
     name: String
+  }
+
+  input viewInput {
+    serie_id: String
+    episode_number: Int
+    user_id: String
   }
 
   input LoginInput {

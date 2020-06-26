@@ -254,6 +254,7 @@ export default {
         query ($urlName: String, $episode_number: Int){
           EpisodeByUrlName(urlName: $urlName, episode_number: $episode_number){
             serie{
+              _id
               title
               synopsis
               genres{
@@ -311,7 +312,8 @@ export default {
       ],
       modalDownload: false,
       rating: 0,
-      show: false
+      show: false,
+      user_id: ''
     }
   },
   mounted () {
@@ -326,6 +328,29 @@ export default {
     this.breadcrumb[1].text = this.EpisodeByUrlName.serie.title
     this.breadcrumb[1].href = this.EpisodeByUrlName.urlName
     this.nextEpisodeUrl = this.EpisodeByUrlName.urlName
+    if (!this.$store.state.auth) {
+      this.user_id = ''
+    } else {
+      this.user_id = this.$store.state.auth.username
+    }
+    this.$apollo.mutate({
+      mutation: gql`mutation ($input: viewInput){
+        viewRegister(input: $input){
+          success
+          errors{
+            path
+            message
+          }
+        }
+      }`,
+      variables: {
+        input: {
+          serie_id: this.EpisodeByUrlName.serie._id,
+          episode_number: this.EpisodeByUrlName.episode_number,
+          user_id: this.user_id
+        }
+      }
+    })
   },
   methods: {
     changeCurrentUrl (currentUrl, playerName) {

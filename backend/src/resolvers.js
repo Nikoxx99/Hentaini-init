@@ -5,12 +5,12 @@ import Category from "./models/Category";
 import User from "./models/User";
 import Role from "./models/Role";
 import Player from "./models/Player"
+import ViewList from "./models/ViewList";
 import { auth } from "./auth";
 import { createWriteStream } from "fs";
 import shortid from "shortid";
 import sharp from "sharp";
 import { sendNotificationFn } from "./partials/sendNotification";
-import { send } from "process";
 
 const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
   const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
@@ -327,6 +327,19 @@ export const resolvers = {
         return simpleResponse(true,'Delete Episode','Episode deleted successfully.')
       }else{
         return simpleResponse(false,'Delete Episode','Error deleting Episode.')
+      }
+    },
+    viewRegister: async (_,{input}) => {
+      if (!input.user_id) {
+        const serie_id = input.serie_id
+        await Serie.updateOne({_id: serie_id}, { $inc: { 'visits': 1 } }, {multi: false})
+      } else {
+        const previousEntry = await ViewList.find({'serie_id': input.serie_id, 'episode_number': input.episode_number, 'user_id': input.user_id})
+        if (previousEntry.length < 1) {
+          await Serie.updateOne({_id: input.serie_id}, { $inc: { 'visits': 1 } }, {multi: false})
+          const view = new ViewList(input)
+          await view.save()
+        }
       }
     },
     login: async (_, {input}, SECRET) => auth.login(input, User, SECRET)
