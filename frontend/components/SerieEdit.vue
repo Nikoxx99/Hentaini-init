@@ -151,7 +151,6 @@ export default {
       query: gql`query ($limit: Int){
         Genres(limit: $limit){
           text
-          value
         }
       }`,
       variables: {
@@ -161,7 +160,7 @@ export default {
       for (let i = 0; i < input.data.Genres.length; i++) {
         this.genre.push({
           text: input.data.Genres[i].text,
-          value: input.data.Genres[i].value
+          value: input.data.Genres[i].text
         })
       }
     }).catch((error) => {
