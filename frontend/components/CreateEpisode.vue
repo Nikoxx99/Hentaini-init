@@ -15,6 +15,11 @@
               readonly
               required
             />
+            <v-switch
+              v-model="sendNotification"
+              label="Send Episode Notification?"
+              prepend-icon="mdi-bell"
+            />
             <v-text-field
               v-model.number="episode_number"
               label="Episode Number"
@@ -155,6 +160,7 @@ export default {
     episode_number: 1,
     created_at: '',
     visible: true,
+    sendNotification: true,
     language: '',
     languages: ['ENGLISH', 'RUSSIAN', 'SPANISH'],
     screenshot: '',
@@ -222,6 +228,7 @@ export default {
             serie_id: this.serie_id,
             episode_number: this.episode_number,
             visible: this.visible,
+            sendNotification: this.sendNotification,
             language: this.language,
             hasCustomScreenshot: this.hasCustomScreenshot,
             screenshot: this.screenshot,

@@ -9,6 +9,8 @@ import { auth } from "./auth";
 import { createWriteStream } from "fs";
 import shortid from "shortid";
 import sharp from "sharp";
+import { sendNotification } from "./partials/sendNotification";
+import { send } from "process";
 
 const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
   const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
@@ -169,7 +171,16 @@ export const resolvers = {
         return simpleResponse(false,'Create Serie','Error Creating Serie')
       }
     },
-    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number, ...data}}) => {
+    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification, ...data}}) => {
+      if (sendNotification) {
+        var message = { 
+          app_id: "e223e60d-38fd-4700-96f2-5c301b1ee4e7",
+          contents: {"en": "English Message"},
+          included_segments: ["All"]
+        };
+        const sentNotification = sendNotification(message)
+        console.log(sentNotification)
+      }
       var urlName = await genUrlName(serie_id, episode_number)
       if (episode_number < 2) {
         await Serie.updateOne({_id: serie_id}, {'hasEpisodes': true}, {multi: false})

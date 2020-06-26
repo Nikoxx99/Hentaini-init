@@ -158,6 +158,7 @@ const typeDefs = `
     serie_id: String
     episode_number: Int
     visible: Boolean
+    sendNotification: Boolean
     created_at: String
     language: String
     hasCustomScreenshot: Boolean
