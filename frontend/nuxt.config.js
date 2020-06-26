@@ -58,7 +58,8 @@ module.exports = {
     // Doc: https://axios.nuxtjs.org/usage
     '@nuxtjs/axios',
     'nuxt-i18n',
-    '@nuxtjs/onesignal'
+    '@nuxtjs/onesignal',
+    '@nuxtjs/pwa'
   ],
 
   i18n: {
