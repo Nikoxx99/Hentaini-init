@@ -101,9 +101,6 @@ module.exports = {
       notifyButton: {
         enable: true
       }
-    },
-    setDefaultTitle: {
-      title: 'Test'
     }
   },
   /*
