@@ -150,7 +150,8 @@ export default {
     this.$apollo.query({
       query: gql`query ($limit: Int){
         Genres(limit: $limit){
-          name
+          text
+          value
         }
       }`,
       variables: {
