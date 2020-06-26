@@ -1,5 +1,14 @@
 <template>
   <v-container>
+    <v-alert
+      v-if="alertBox"
+      type="info"
+      :class="alertBoxColor"
+      tile
+      dismissible
+    >
+      {{ createdMessage }}
+    </v-alert>
     <form>
       <v-container>
         <v-row>
@@ -60,9 +69,17 @@ export default {
     name: '',
     short_name: '',
     hint: '',
-    players: []
+    players: [],
+    createdMessage: '',
+    alertBox: false,
+    alertBoxColor: ''
   }),
   created () {
+    if (this.$route.query.created) {
+      this.alertBox = true
+      this.alertBoxColor = 'blue darken-4'
+      this.createdMessage = 'Player Created Successfully.'
+    }
     this.$apollo.query({
       query: gql`query ($limit: Int){
         Players(limit: $limit){
@@ -100,10 +117,7 @@ export default {
         }
       }).then((input) => {
         // eslint-disable-next-line no-console
-        console.log(this.$apollo)
-        this.name = ''
-        this.short_name = ''
-        this.hint = 'Genre Created Succesfully'
+        this.$router.replace({ path: '/panel/player/create', query: { created: true } }, () => { window.location.reload(true) })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

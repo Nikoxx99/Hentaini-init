@@ -16,14 +16,11 @@
         xs="6"
       >
         <NiSerieCard
-          v-if="serie.episodes[0]"
-          :episode="serie.episodes._id"
           :title="serie.title"
           :synopsis="serie.synopsis"
-          :episodeNumber="serie.episodes.episode_number"
           :genres="serie.genres"
           :status="serie.status"
-          :url="serie.episodes[0].urlName"
+          :url="serie.urlName"
           :screenshot="serie.coverUrl"
         />
       </v-col>
@@ -43,7 +40,7 @@ export default {
           Series(limit: $limit){
             _id
             episodes{
-              urlName
+              episode_number
             }
             genres{
               text
@@ -52,6 +49,7 @@ export default {
             synopsis
             status
             coverUrl
+            urlName
           }
         }
       `,

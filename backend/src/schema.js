@@ -4,9 +4,9 @@ import {resolvers} from './resolvers'
 const typeDefs = `
   type Query {
     Serie(_id: ID): Serie
-    Series(limit: Int, order: String): [Serie]
+    Series(limit: Int, order: String, showNoEpisodes: Boolean): [Serie]
     Episode(_id: ID): Episode
-    EpisodeByUrlName(urlName: String): Episode
+    EpisodeByUrlName(urlName: String, episode_number: Int): Episode
     Episodes(limit: Int, showInvisible: Boolean): [Episode]
     Genre(url: String): Genre
     Genres(limit: Int): [Genre]
@@ -31,16 +31,17 @@ const typeDefs = `
     coverUrl: String
     background_coverUrl: String
     rating: String
+    hasEpisodes: Boolean
   }
   type Episode {
     _id: ID
-    urlName: String
     serie: Serie
     episode_number: Int
     hasCustomScreenshot: Boolean
     customScreenshotUrl: String
     screenshot: String
     language: String
+    urlName: String
     visible: Boolean
     players: [Player]
     downloads: [Download]

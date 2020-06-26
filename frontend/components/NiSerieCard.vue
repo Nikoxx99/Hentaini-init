@@ -57,10 +57,6 @@ export default {
     Logo
   },
   props: {
-    episode: {
-      type: String,
-      default: '0'
-    },
     title: {
       type: String,
       default: 'No Title'
@@ -76,10 +72,6 @@ export default {
           text: ''
         }
       ]
-    },
-    episodeNumber: {
-      type: Number,
-      default: 0
     },
     status: {
       type: String,

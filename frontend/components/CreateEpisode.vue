@@ -152,7 +152,6 @@ export default {
     currentCounter: 0,
     serie_id: '',
     serie_title: '',
-    urlName: '',
     episode_number: 1,
     created_at: '',
     visible: true,

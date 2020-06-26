@@ -20,7 +20,7 @@
               class="d-flex"
             >
               <h2 class="align-self-center">
-                {{ episode.serie.title }} • {{ $t('episode.episode_number') }} {{ episode.episode_number }}
+                {{ EpisodeByUrlName.serie.title }} • {{ $t('episode.episode_number') }} {{ EpisodeByUrlName.episode_number }}
               </h2>
             </v-col>
             <v-col
@@ -35,8 +35,8 @@
                 class="float-right"
               >
                 <v-btn
-                  v-if="episodeCount[0] !== episode.episode_number"
-                  :href="nextEpisodeUrl.concat('', episode.episode_number-1)"
+                  v-if="episodeCount[0] !== EpisodeByUrlName.episode_number"
+                  :href="'/episode/' + nextEpisodeUrl.concat('/', EpisodeByUrlName.episode_number-1)"
                 >
                   <v-icon>mdi-arrow-left</v-icon>
                 </v-btn>
@@ -45,8 +45,8 @@
                   Episode List
                 </v-btn> -->
                 <v-btn
-                  v-if="episodeCount.slice(-1)[0] !== episode.episode_number"
-                  :href="nextEpisodeUrl.concat('', episode.episode_number+1)"
+                  v-if="episodeCount.slice(-1)[0] !== EpisodeByUrlName.episode_number"
+                  :href="'/episode/' + nextEpisodeUrl.concat('/', EpisodeByUrlName.episode_number+1)"
                 >
                   <v-icon>mdi-arrow-right</v-icon>
                 </v-btn>
@@ -62,7 +62,7 @@
               >
                 <v-slide-group show-arrows center-active mandatory>
                   <v-slide-item
-                    v-for="player in episode.players"
+                    v-for="player in EpisodeByUrlName.players"
                     :key="player.name"
                     v-slot:default="{ active, toggle }"
                   >
@@ -105,7 +105,7 @@
                     class="headline blue darken-2"
                     primary-title
                   >
-                    Download Episode {{ episode.episode_number }}
+                    Download Episode {{ EpisodeByUrlName.episode_number }}
                   </v-card-title>
 
                   <v-card-text class="d-flex justify-center mt-4">
@@ -135,10 +135,10 @@
             >
               <v-img
                 height="250"
-                :src="'https://cdn.hentaini.com/screenshot/'+episode.serie.background_coverUrl"
+                :src="'https://cdn.hentaini.com/screenshot/'+EpisodeByUrlName.serie.background_coverUrl"
               />
 
-              <v-card-title>{{ episode.serie.title }}</v-card-title>
+              <v-card-title>{{ EpisodeByUrlName.serie.title }}</v-card-title>
 
               <v-card-text>
                 <v-row
@@ -170,7 +170,7 @@
                     outlined
                     rounded
                   >
-                    {{ episode.serie.status }}
+                    {{ EpisodeByUrlName.serie.status }}
                     <v-icon right>
                       mdi-youtube-tv
                     </v-icon>
@@ -187,7 +187,7 @@
                   </v-btn>
                 </div>
 
-                <div>{{ episode.serie.synopsis }}</div>
+                <div>{{ EpisodeByUrlName.serie.synopsis }}</div>
               </v-card-text>
 
               <v-divider class="mx-4" />
@@ -198,7 +198,7 @@
                   column
                 >
                   <v-chip
-                    v-for="genre in episode.serie.genres"
+                    v-for="genre in EpisodeByUrlName.serie.genres"
                     :key="genre.text"
                   >
                     {{ genre.text }}
@@ -220,17 +220,17 @@
                   <v-divider />
 
                   <v-list shaped>
-                    <v-subheader>Episodes for {{ episode.serie.title }}</v-subheader>
+                    <v-subheader>Episodes for {{ EpisodeByUrlName.serie.title }}</v-subheader>
                     <v-list-item-group color="primary">
                       <v-list-item
-                        v-for="episode_item in episode.serie.episodes"
+                        v-for="episode_item in EpisodeByUrlName.serie.episodes"
                         :key="episode_item.episode_number"
                       >
                         <v-list-item-icon>
                           <span background-color="blue darken-4">{{ episode_item.episode_number }}</span>
                         </v-list-item-icon>
                         <v-list-item-content>
-                          <a :href="nextEpisodeUrl.concat('', episode_item.episode_number)"><v-list-item-title v-text="episode.serie.title" /></a>
+                          <a :href="nextEpisodeUrl.concat('', episode_item.episode_number)"><v-list-item-title v-text="EpisodeByUrlName.serie.title" /></a>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
@@ -255,50 +255,43 @@ export default {
     VideoElement,
     Comments
   },
-  async fetch () {
-    await this.$apollo.query({
-      query: gql`query ($urlName: String){
-        EpisodeByUrlName(urlName: $urlName){
-          serie{
-            title
-            synopsis
-            genres{
-              text
+  apollo: {
+    EpisodeByUrlName () {
+      return {
+        query: gql`
+        query ($urlName: String, $episode_number: Int){
+          EpisodeByUrlName(urlName: $urlName, episode_number: $episode_number){
+            serie{
+              title
+              synopsis
+              genres{
+                text
+              }
+              episodes{
+                episode_number
+              }
+              status
+              coverUrl
+              background_coverUrl
             }
-            episodes{
-              episode_number
+            urlName
+            episode_number
+            players{
+              name
+              url
             }
-            status
-            coverUrl
-            background_coverUrl
-          }
-          urlName
-          episode_number
-          players{
-            name
-            url
-          }
-          downloads{
-            url
+            downloads{
+              url
+            }
           }
         }
-      }`,
-      variables: {
-        urlName: this.$route.params.episode
+      `,
+        variables: {
+          urlName: this.$route.params.serie,
+          episode_number: Number.parseInt(this.$route.params.episode, 10)
+        }
       }
-    }).then((input) => {
-      this.episode = input.data.EpisodeByUrlName
-      this.currentUrl = this.episode.players[0].url
-      for (let i = 0; i < this.episode.serie.episodes.length; i++) {
-        this.episodeCount.push(this.episode.serie.episodes[i].episode_number)
-      }
-      this.breadcrumb[1].text = this.episode.serie.title
-      this.breadcrumb[1].href = this.episode.urlName
-      this.nextEpisodeUrl = this.episode.urlName.slice(0, -1)
-    }).catch((error) => {
-      // eslint-disable-next-line no-console
-      console.error(error)
-    })
+    }
   },
   data () {
     this.$i18n.locale = 'en'
@@ -306,34 +299,6 @@ export default {
       locale: 'en',
       downloadsName: [],
       areDownloadLinksGenerated: false,
-      episode: {
-        serie: {
-          synopsis: '',
-          title: '',
-          genres: {
-            value: ''
-          },
-          episodes: {
-            episode_number: 0
-          },
-          status: '',
-          coverUrl: '',
-          background_coverUrl: ''
-        },
-        episode_number: '',
-        urlName: '',
-        players: [
-          {
-            short_name: '',
-            url: ''
-          }
-        ],
-        downloads: [
-          {
-            url: ''
-          }
-        ]
-      },
       currentUrl: '',
       nextEpisodeUrl: '',
       episodeCount: [],
@@ -345,8 +310,7 @@ export default {
         },
         {
           text: 'Serie',
-          disabled: false,
-          href: ''
+          disabled: true
         },
         {
           text: 'Episode',
@@ -359,9 +323,17 @@ export default {
     }
   },
   mounted () {
-    this.breadcrumb[2].text = 'Episode ' + this.episode.episode_number
-    this.breadcrumb[1].text = this.episode.serie.title
-    this.breadcrumb[1].href = '/episode/' + this.episode.urlName
+    this.breadcrumb[2].text = 'Episode ' + this.EpisodeByUrlName.episode_number
+    this.breadcrumb[1].text = this.EpisodeByUrlName.serie.title
+    if (this.EpisodeByUrlName.players[0] > 0) {
+      this.currentUrl = this.EpisodeByUrlName.players[0].url
+    }
+    for (let i = 0; i < this.EpisodeByUrlName.serie.episodes.length; i++) {
+      this.episodeCount.push(this.EpisodeByUrlName.serie.episodes[i].episode_number)
+    }
+    this.breadcrumb[1].text = this.EpisodeByUrlName.serie.title
+    this.breadcrumb[1].href = this.EpisodeByUrlName.urlName
+    this.nextEpisodeUrl = this.EpisodeByUrlName.urlName
   },
   methods: {
     changeCurrentUrl (currentUrl) {
@@ -369,13 +341,13 @@ export default {
     },
     genDownloadName () {
       if (!this.areDownloadLinksGenerated) {
-        for (let i = 0; i < this.episode.downloads.length; i++) {
+        for (let i = 0; i < this.EpisodeByUrlName.downloads.length; i++) {
           const regex = /([a-z0-9][a-z0-9-]*)?((\.[a-z]{2,6}))$/
-          const nameDownload = parse(this.episode.downloads[i].url, true)
+          const nameDownload = parse(this.EpisodeByUrlName.downloads[i].url, true)
           const parsedName = nameDownload.host
           const newName = parsedName.match(regex)
           const newDownloadButtons = {}
-          newDownloadButtons.url = this.episode.downloads[i]
+          newDownloadButtons.url = this.EpisodeByUrlName.downloads[i]
           newDownloadButtons.name = newName[1]
           this.downloadsName.push(newDownloadButtons)
           this.areDownloadLinksGenerated = true
@@ -385,7 +357,7 @@ export default {
   },
   head () {
     return {
-      title: this.episode.serie.title,
+      title: this.EpisodeByUrlName.serie.title,
       meta: [
         { hid: 'language', name: 'language', content: 'es' },
         { hid: 'Revisit-After', name: 'Revisit-After', content: '3 days' },
@@ -400,13 +372,13 @@ export default {
         { hid: 'yahoo-slurp', name: 'yahoo-slurp', content: 'all, index, follow' },
         { hid: 'msnbot', name: 'msnbot', content: 'index, follow' },
         { hid: 'googlebot-image', name: 'googlebot-image', content: 'all' },
-        { hid: 'title', name: 'title', content: 'Watch ' + this.episode.serie.title + ' episode ' + this.episode.episode_number + ' free online HD' },
-        { hid: 'description', name: 'description', content: 'Watch online ' + this.episode.serie.title + ' in best quality. I mean, its Hentaini, the best place to watch your favourite series' },
+        { hid: 'title', name: 'title', content: 'Watch ' + this.EpisodeByUrlName.serie.title + ' episode ' + this.EpisodeByUrlName.episode_number + ' free online HD' },
+        { hid: 'description', name: 'description', content: 'Watch online ' + this.EpisodeByUrlName.serie.title + ' in best quality. I mean, its Hentaini, the best place to watch your favourite series' },
         { hid: 'keywords', name: 'keywords', content: 'Watch online hentai, best HD archive of the best of japanese culture for the world, hentaini, ahegao, yuri, yaoi, tentacle, maid, siscon, brocon' },
-        { hid: 'og:title', property: 'og:title', content: this.episode.serie.title },
+        { hid: 'og:title', property: 'og:title', content: this.EpisodeByUrlName.serie.title },
         { hid: 'og:description', property: 'og:description', content: 'Its a Hentai site, what do you expect? a no-girlfriend-depression solution?' },
         { hid: 'og:url', property: 'og:url', content: 'https://hentaini.com' },
-        { hid: 'og:image', property: 'og:image', content: 'https://hentaini.com/screenshot/' + this.episode.serie.background_coverUrl },
+        { hid: 'og:image', property: 'og:image', content: 'https://hentaini.com/screenshot/' + this.EpisodeByUrlName.serie.background_coverUrl },
         { hid: 'author', name: 'author', content: 'hentaini' }
       ]
     }

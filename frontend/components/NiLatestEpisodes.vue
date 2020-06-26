@@ -39,8 +39,8 @@ export default {
         query ($limit: Int){
           Episodes(limit: $limit){
             _id
-            urlName
             episode_number
+            urlName
             serie{
               title
               status

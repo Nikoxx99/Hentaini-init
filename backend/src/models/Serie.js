@@ -23,7 +23,6 @@ const serieSchema = new Schema({
     required: true,
   },
   censorship: Boolean,
-  episodes: Array,
   created_at: {
     type: Date,
     default: Date.now
@@ -32,11 +31,14 @@ const serieSchema = new Schema({
     type: Date,
     default: Date.now
   },
+  hasEpisodes: {
+    type: Boolean,
+    default: false
+  },
   next_episode: String,
   visits: Number,
   coverUrl: String,
-  background_coverUrl: String,
-  rating: Array
+  background_coverUrl: String
 });
 
 export default model('Serie', serieSchema);

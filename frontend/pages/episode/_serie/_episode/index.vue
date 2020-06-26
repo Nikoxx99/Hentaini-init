@@ -6,8 +6,8 @@
 </template>
 
 <script>
-import NiHeader from '../../../components/NiHeader'
-import NiEpisodeRender from '../../../components/NiEpisodeRender'
+import NiHeader from '../../../../components/NiHeader'
+import NiEpisodeRender from '../../../../components/NiEpisodeRender'
 export default {
   components: {
     NiHeader,

@@ -109,7 +109,7 @@ export default {
     }
     this.$apollo.query({
       query: gql`query ($limit: Int){
-        Series(limit: $limit){
+        Series(limit: $limit, showNoEpisodes: true){
           _id
           title
           episodes {

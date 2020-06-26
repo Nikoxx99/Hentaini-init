@@ -90,10 +90,10 @@ const processUploadEpisode = async (upload,filename,episode) => {
   const { id, r_id, e_n, extension } = await storeUploadEpisode({createReadStream, filename, mimetype, episode})
   return id+'-'+r_id+'_'+e_n+'-.'+extension[1]
 }
-const genUrlName = async (serie_id, episodeNumber) => {
+const genUrlName = async (serie_id) => {
   const serieTitle = await Serie.findOne({_id: serie_id})
   const serieName = serieTitle.title.replace(/[^A-Z0-9]/ig, '-')
-  const urlNameCompose = serieName + '-' + episodeNumber
+  const urlNameCompose = serieName
   const urlName = urlNameCompose.toLowerCase()
   return urlName
 }
@@ -105,14 +105,18 @@ export const resolvers = {
     Serie: async (_,{_id}) => {
       return await Serie.findById(_id)
     },
-    Series: async (_,{limit,order}) => {
-      return await Serie.find().sort({'visits': order}).limit(limit)
+    Series: async (_,{limit,order,showNoEpisodes}) => {
+      if (showNoEpisodes) {
+        return await Serie.find().sort({'visits': order}).limit(limit)
+      } else {
+        return await Serie.find({'hasEpisodes': true}).sort({'visits': order}).limit(limit)
+      }
     },
     Episode: async (_,{_id}) => {
       return await Episode.findById(_id)
     },
-    EpisodeByUrlName: async (_,{urlName}) => {
-      return await Episode.findOne({urlName}).sort({ 'episode_number' : 'desc' })
+    EpisodeByUrlName: async (_,{urlName, episode_number}) => {
+      return await Episode.findOne({'urlName': urlName, 'episode_number': episode_number})
     },
     Episodes: async (_,{limit,showInvisible}) => {
       if (showInvisible) {
@@ -165,8 +169,11 @@ export const resolvers = {
         return simpleResponse(false,'Create Serie','Error Creating Serie')
       }
     },
-    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,urlName, ...data}}) => {
+    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number, ...data}}) => {
       var urlName = await genUrlName(serie_id, episode_number)
+      if (episode_number < 2) {
+        await Serie.updateOne({_id: serie_id}, {'hasEpisodes': true}, {multi: false})
+      }
       if(!customScreenshot){
         const payload = new Episode({
           serie_id,
@@ -186,7 +193,6 @@ export const resolvers = {
           customScreenshotUrl,
           serie_id,
           episode_number,
-          urlName,
           ...data,
         })
         const res = await payload.save()
@@ -312,13 +318,11 @@ export const resolvers = {
   },
   Serie: {
     episodes: ({_id}) => {
-      const ep = Episode.find({serie_id: _id}).sort({ 'episode_number' : 'desc' })
-      return ep
+      return Episode.find({serie_id: _id}).sort({ 'episode_number' : 'asc' })
     }
   },
   Genre: {
-    series ({url},{sort},context) {
-      console.log(sort)
+    series ({url},{sort}) {
       return Serie.find({'genres.url': url}).sort({'visits': sort})
     }
   }

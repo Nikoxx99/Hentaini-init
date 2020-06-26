@@ -1,5 +1,5 @@
 <template>
-  <a :href="'/episode/' + url">
+  <a :href="'/episode/' + url + '/' + episodeNumber">
     <v-card
       class="mx-auto"
       flat

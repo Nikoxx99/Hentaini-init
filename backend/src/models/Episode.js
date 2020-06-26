@@ -1,7 +1,6 @@
 import { Schema, model } from "mongoose";
 
 const episodeSchema = new Schema({
-  urlName: String,
   serie_id: {
     type: String,
     required: true
@@ -15,6 +14,7 @@ const episodeSchema = new Schema({
     default: Date.now
   },
   visible: Boolean,
+  urlName: String,
   language: String,
   hasCustomScreenshot: Boolean,
   screenshot: String,

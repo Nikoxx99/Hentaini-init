@@ -2,6 +2,15 @@
   <v-container>
     <form>
       <v-container>
+        <v-alert
+          v-if="alertBox"
+          type="info"
+          :class="alertBoxColor"
+          tile
+          dismissible
+        >
+          {{ createdMessage }}
+        </v-alert>
         <v-row>
           <v-col>
             <v-container>
@@ -12,7 +21,7 @@
                 persistent-hint
                 required
               />
-              <v-btn type="submit" class="mr-4" @click="createGenre">
+              <v-btn class="mr-4" @click="createGenre">
                 submit
               </v-btn>
             </v-container>
@@ -53,9 +62,17 @@ export default {
   data: () => ({
     text: '',
     hint: '',
-    genres: []
+    genres: [],
+    createdMessage: '',
+    alertBox: false,
+    alertBoxColor: ''
   }),
   created () {
+    if (this.$route.query.created) {
+      this.alertBox = true
+      this.alertBoxColor = 'blue darken-4'
+      this.createdMessage = 'Genre Created Successfully.'
+    }
     this.$apollo.query({
       query: gql`query ($limit: Int){
         Genres(limit: $limit){
@@ -94,8 +111,7 @@ export default {
         }
       }).then((input) => {
         // eslint-disable-next-line no-console
-        this.text = ''
-        this.hint = 'Genre Created Succesfully'
+        this.$router.replace({ path: '/panel/genre/create', query: { created: true } }, () => { window.location.reload(true) })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)
