@@ -156,11 +156,11 @@ export const resolvers = {
         newGenreObject.url = url
         return newGenreObject
       })
-      // const coverUrl = await processUploadCover(cover[0].file, cover[1])
+      const coverUrl = await processUploadCover(cover[0].file, cover[1])
       // const background_coverUrl = await processUploadScreenshot(background_cover[0].file, background_cover[1])
       const payload = new Serie({
         genres,
-        // coverUrl,
+        coverUrl,
         // background_coverUrl,
         ...data
       })
