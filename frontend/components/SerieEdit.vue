@@ -92,7 +92,7 @@
               </template>
               <v-date-picker v-model="next_episode" />
             </v-menu>
-            <v-btn class="mr-4 blue darken-4" large @click="editSerie">
+            <v-btn class="mr-4 blue darken-4" large @click.once="editSerie">
               submit
             </v-btn>
           </v-container>

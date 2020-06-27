@@ -21,7 +21,7 @@
                 persistent-hint
                 required
               />
-              <v-btn class="mr-4" @click="createGenre">
+              <v-btn class="mr-4" @click.once="createGenre">
                 submit
               </v-btn>
             </v-container>

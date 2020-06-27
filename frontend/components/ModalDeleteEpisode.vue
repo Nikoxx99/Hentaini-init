@@ -34,7 +34,7 @@
           <v-btn
             color="red darken-1"
             text
-            @click="deleteEpisode(episodeid)"
+            @click.once="deleteEpisode(episodeid)"
           >
             Delete
           </v-btn>

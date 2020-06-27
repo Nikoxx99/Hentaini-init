@@ -34,7 +34,7 @@
           <v-btn
             color="red darken-1"
             text
-            @click="deleteSerie(serieid)"
+            @click.once="deleteSerie(serieid)"
           >
             Delete
           </v-btn>

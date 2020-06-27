@@ -21,7 +21,7 @@
                 persistent-hint
                 required
               />
-              <v-btn type="submit" class="mr-4" @click="createCategory">
+              <v-btn type="submit" class="mr-4" @click.once="createCategory">
                 submit
               </v-btn>
             </v-container>
