@@ -100,7 +100,10 @@ module.exports = {
         disable: true
       },
       notifyButton: {
-        enable: true
+        enable: true,
+        offset: {
+          bottom: 20
+        }
       },
       promptOptions: {
         slidedown: {
