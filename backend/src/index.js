@@ -19,11 +19,7 @@ graphqlUploadExpress({ maxFileSize: 10000000, maxFiles: 10 }),
 graphqlHTTP({
   graphiql:true,
   schema: schema,
-  context:
-  SECRET,
-  headers: {
-    'Content-Type' : 'application/*'
-  }
+  context: SECRET
 }))
 app.use(express.static('cdn'));
 
