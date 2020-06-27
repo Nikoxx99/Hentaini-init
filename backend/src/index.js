@@ -14,7 +14,9 @@ app.get('/', (req,res) => {
   })
 })
 var corsOptions = {
-  origin: '*',
+  origin: 'https://hentaini.com',
+  methods: 'POST, PUT, OPTIONS, DELETE, GET',
+  allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   optionsSuccessStatus: 200
 }
 app.use(cors(corsOptions))
