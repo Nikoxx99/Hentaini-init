@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <ToolBar header="Create Category" />
-    <PanelTemplate />
     <v-main>
       <CreateCategory />
     </v-main>
@@ -9,15 +7,12 @@
 </template>
 
 <script>
-import PanelTemplate from '../../../components/PanelTemplate'
 import CreateCategory from '../../../components/CreateCategory'
-import ToolBar from '../../../components/ToolBar'
 export default {
+  layout: 'panel',
   middleware: 'authenticated',
   components: {
-    PanelTemplate,
-    CreateCategory,
-    ToolBar
+    CreateCategory
   },
   data () {
     return {

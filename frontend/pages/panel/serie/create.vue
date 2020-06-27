@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <ToolBar header="Create Serie" />
-    <PanelTemplate />
     <v-main>
       <CreateSerie />
     </v-main>
@@ -9,15 +7,12 @@
 </template>
 
 <script>
-import PanelTemplate from '../../../components/PanelTemplate'
 import CreateSerie from '../../../components/CreateSerie'
-import ToolBar from '../../../components/ToolBar'
 export default {
+  layout: 'panel',
   middleware: 'authenticated',
   components: {
-    PanelTemplate,
-    CreateSerie,
-    ToolBar
+    CreateSerie
   },
   data () {
     return {

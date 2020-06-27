@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <ToolBar header="Episodes From Serie" />
-    <PanelTemplate />
     <v-main>
       <EpisodeList />
     </v-main>
@@ -9,15 +7,12 @@
 </template>
 
 <script>
-import PanelTemplate from '../../../../../components/PanelTemplate'
 import EpisodeList from '../../../../../components/EpisodeList'
-import ToolBar from '../../../../../components/ToolBar'
 export default {
+  layout: 'panel',
   middleware: 'authenticated',
   components: {
-    PanelTemplate,
-    EpisodeList,
-    ToolBar
+    EpisodeList
   },
   data () {
     return {

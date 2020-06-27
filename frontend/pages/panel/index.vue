@@ -1,24 +1,17 @@
 <template>
   <v-app>
-    <v-navigation-drawer
-      permanent
-      width="100%"
-    >
-      <v-row class="fill-height" no-gutters>
-        <PanelTemplate />
-        <Logo />
-      </v-row>
-    </v-navigation-drawer>
+    <v-main>
+      <Logo />
+    </v-main>
   </v-app>
 </template>
 
 <script>
 import Logo from '../../components/Logo'
-import PanelTemplate from '../../components/PanelTemplate'
 export default {
+  layout: 'panel',
   middleware: 'authenticated',
   components: {
-    PanelTemplate,
     Logo
   },
   data () {

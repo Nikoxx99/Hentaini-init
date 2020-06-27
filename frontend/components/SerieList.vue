@@ -43,17 +43,17 @@
                 <td>{{ serie.visits }}</td>
                 <td>{{ serie._id }}</td>
                 <td>
-                  <v-btn :href="'/panel/serie/' + serie._id + '/episode/create'">
+                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/create'">
                     <v-icon>
                       mdi-plus-circle
                     </v-icon>
                   </v-btn>
-                  <v-btn :href="'/panel/serie/' + serie._id + '/episodes'">
+                  <v-btn :to="'/panel/serie/' + serie._id + '/episodes'">
                     <v-icon>
                       mdi-play-circle
                     </v-icon>
                   </v-btn>
-                  <v-btn :href="'/panel/serie/' + serie._id + '/edit'">
+                  <v-btn :to="'/panel/serie/' + serie._id + '/edit'">
                     <v-icon>
                       mdi-circle-edit-outline
                     </v-icon>

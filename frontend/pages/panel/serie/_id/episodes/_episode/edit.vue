@@ -1,7 +1,5 @@
 <template>
   <v-app>
-    <ToolBar header="Edit Episode" />
-    <PanelTemplate />
     <v-main>
       <EpisodeEdit />
     </v-main>
@@ -9,15 +7,12 @@
 </template>
 
 <script>
-import PanelTemplate from '../../../../../../components/PanelTemplate'
 import EpisodeEdit from '../../../../../../components/EpisodeEdit'
-import ToolBar from '../../../../../../components/ToolBar'
 export default {
+  layout: 'panel',
   middleware: 'authenticated',
   components: {
-    PanelTemplate,
-    EpisodeEdit,
-    ToolBar
+    EpisodeEdit
   },
   data () {
     return {

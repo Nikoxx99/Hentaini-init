@@ -1,8 +1,6 @@
 <template>
   <div>
     <v-app>
-      <ToolBar header="Create Genre" />
-      <PanelTemplate />
       <v-main>
         <CreateGenre />
       </v-main>
@@ -11,15 +9,12 @@
 </template>
 
 <script>
-import PanelTemplate from '../../../components/PanelTemplate'
 import CreateGenre from '../../../components/CreateGenre'
-import ToolBar from '../../../components/ToolBar'
 export default {
+  layout: 'panel',
   middleware: 'authenticated',
   components: {
-    PanelTemplate,
-    CreateGenre,
-    ToolBar
+    CreateGenre
   },
   data () {
     return {
