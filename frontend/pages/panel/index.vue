@@ -1,18 +1,18 @@
 <template>
   <v-app>
     <v-main>
-      <Logo />
+      <Dashboard />
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Logo from '../../components/Logo'
+import Dashboard from '../../components/Dashboard/Dashboard'
 export default {
   layout: 'panel',
   middleware: 'authenticated',
   components: {
-    Logo
+    Dashboard
   },
   data () {
     return {
