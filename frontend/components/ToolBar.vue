@@ -83,65 +83,22 @@
           </v-list-item>
 
           <v-divider />
-
-          <v-expansion-panels accordion flat tile active-class>
-            <v-expansion-panel>
-              <v-expansion-panel-header>
-                Serie
-                <template v-slot:actions>
-                  <v-icon>mdi-cog</v-icon>
-                </template>
-              </v-expansion-panel-header>
-              <v-expansion-panel-content color="grey darken-3">
-                <nuxt-link to="/panel/serie/create">
-                  Create Serie
-                </nuxt-link>
-              </v-expansion-panel-content>
-              <v-expansion-panel-content>
-                <nuxt-link to="/panel/serie">
-                  List Series
-                </nuxt-link>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-header expand-icon="mdi-account" disable-icon-rotate>
-                User
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                List User
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
-                Genre
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <nuxt-link to="/panel/genre/create">
-                  Create Genre
-                </nuxt-link>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
-                Category
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <nuxt-link to="/panel/category/create">
-                  Create Category
-                </nuxt-link>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-            <v-expansion-panel>
-              <v-expansion-panel-header expand-icon="mdi-format-list-bulleted-type" disable-icon-rotate>
-                Player
-              </v-expansion-panel-header>
-              <v-expansion-panel-content>
-                <nuxt-link to="/panel/player/create">
-                  Create Player
-                </nuxt-link>
-              </v-expansion-panel-content>
-            </v-expansion-panel>
-          </v-expansion-panels>
+          <v-list>
+            <v-list-item-group>
+              <v-list-item
+                v-for="link in navs"
+                :key="link.id"
+                :to="link.url"
+              >
+                <v-list-item-icon>
+                  <v-icon v-text="link.icon" />
+                </v-list-item-icon>
+                <v-list-item-content>
+                  <v-list-item-title v-text="link.name" />
+                </v-list-item-content>
+              </v-list-item>
+            </v-list-item-group>
+          </v-list>
           <Logo class="ml-4" />
         </v-layout>
       </v-img>
@@ -166,7 +123,15 @@ export default {
     title: 'I got a digital dash -Future Hendrixx',
     responsive: false,
     responsiveInput: false,
-    nav: true
+    nav: true,
+    navs: [
+      { id: 1, name: 'Panel Home', url: '/panel/', icon: 'mdi-home' },
+      { id: 2, name: 'Create Serie', url: '/panel/serie/create', icon: 'mdi-plus-circle' },
+      { id: 3, name: 'List Series', url: '/panel/serie', icon: 'mdi-format-list-bulleted-square' },
+      { id: 4, name: 'Create Genre', url: '/panel/genre/create', icon: 'mdi-account-circle' },
+      { id: 5, name: 'Create Category', url: '/panel/category/create', icon: 'mdi-clipboard-list' },
+      { id: 6, name: 'Create Player', url: '/panel/player/create', icon: 'mdi-play-circle' }
+    ]
   })
 }
 </script>
