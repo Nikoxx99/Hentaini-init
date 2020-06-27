@@ -156,6 +156,7 @@ export const resolvers = {
         newGenreObject.url = url
         return newGenreObject
       })
+      console.table({cover, background_cover})
       const coverUrl = await processUploadCover(cover[0].file, cover[1])
       const background_coverUrl = await processUploadScreenshot(background_cover[0].file, background_cover[1])
       const payload = new Serie({
