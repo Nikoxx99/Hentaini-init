@@ -40,9 +40,9 @@ module.exports = {
     '@nuxtjs/eslint-module',
     '@nuxtjs/vuetify',
     '@nuxtjs/apollo',
-    ['@nuxtjs/google-analytics', {
+    '@nuxtjs/google-analytics', {
       id: 'UA-170511662-1'
-    }]
+    }
   ],
   apollo: {
     clientConfigs: {
