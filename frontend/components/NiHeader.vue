@@ -73,12 +73,18 @@
             </v-list-item-avatar>
           </v-list-item>
 
-          <v-list-item link>
+          <v-list-item v-if="$store.state.auth" link>
             <v-list-item-content>
               <v-list-item-title class="title">
                 {{ $store.state.auth.username }}
               </v-list-item-title>
-              <v-list-item-subtitle>Back to home</v-list-item-subtitle>
+            </v-list-item-content>
+          </v-list-item>
+          <v-list-item v-else link to="/login">
+            <v-list-item-content>
+              <v-list-item-title class="title">
+                Login or Register
+              </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
 

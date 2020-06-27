@@ -5,11 +5,6 @@
     <v-container><v-divider /></v-container>
     <NiLatestSeries />
     <NiMobileHeader />
-    <v-btn
-      @click="openSlideDownNotification"
-    >
-      Open Notification Slidedown
-    </v-btn>
   </div>
 </template>
 
@@ -33,11 +28,6 @@ export default {
     }
   },
   methods: {
-    openSlideDownNotification () {
-      this.$OneSignal.push(() => {
-        this.$OneSignal.showSlidedownPrompt()
-      })
-    }
   },
   head () {
     return {
