@@ -99,7 +99,6 @@
               </v-list-item>
             </v-list-item-group>
           </v-list>
-          <Logo class="ml-4" />
         </v-layout>
       </v-img>
     </v-navigation-drawer>
