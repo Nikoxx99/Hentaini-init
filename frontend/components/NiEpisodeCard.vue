@@ -9,7 +9,7 @@
       <v-img
         class="white--text align-end"
         :aspect-ratio="16/9"
-        :src="'https://cdn.hentaini.com/screenshot/'+screenshot"
+        :src="`${CDN}/screenshot/${screenshot}`"
       >
         <v-card-text class="text--primary">
           <v-chip
@@ -58,7 +58,8 @@ export default {
   data () {
     this.$i18n.locale = 'en'
     return {
-      locale: 'en'
+      locale: 'en',
+      CDN: process.env.CDN_URI
     }
   }
 }

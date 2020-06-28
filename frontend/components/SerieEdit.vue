@@ -102,13 +102,13 @@
                 v-if="coverPreview"
                 cols="6"
               >
-                <v-img :src="'https://cdn.hentaini.com/cover/' + coverPreview" />
+                <v-img :src="`${CDN}/cover/${coverPreview}`" />
               </v-col>
               <v-col
                 v-if="screenshotPreview"
                 cols="6"
               >
-                <v-img :src="'https://cdn.hentaini.com/screenshot/' + screenshotPreview" />
+                <v-img :src="`${CDN}/screenshot/${screenshotPreview}`" />
               </v-col>
             </v-row>
           </v-container>
@@ -144,7 +144,8 @@ export default {
     censorship: false,
     next_episode: '',
     coverPreview: '',
-    screenshotPreview: ''
+    screenshotPreview: '',
+    CDN: process.env.CDN_URI
   }),
 
   computed: {

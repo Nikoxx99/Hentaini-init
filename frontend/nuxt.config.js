@@ -1,5 +1,5 @@
 const colors = require('vuetify/es5/util/colors').default
-
+require('dotenv').config()
 module.exports = {
   mode: 'universal',
   /*
@@ -38,6 +38,7 @@ module.exports = {
   buildModules: [
     // Doc: https://github.com/nuxt-community/eslint-module
     '@nuxtjs/eslint-module',
+    '@nuxtjs/dotenv',
     '@nuxtjs/vuetify',
     '@nuxtjs/apollo',
     ['@nuxtjs/google-analytics', {
@@ -47,7 +48,7 @@ module.exports = {
   apollo: {
     clientConfigs: {
       default: {
-        httpEndpoint: 'https://api.hentaini.com'
+        httpEndpoint: process.env.API_ENDPOINT
       }
     }
   },
@@ -94,7 +95,7 @@ module.exports = {
 
   oneSignal: {
     init: {
-      appId: 'e223e60d-38fd-4700-96f2-5c301b1ee4e7',
+      appId: process.env.ONESIGNAL_API_ID,
       allowLocalhostAsSecureOrigin: true,
       welcomeNotification: {
         disable: true

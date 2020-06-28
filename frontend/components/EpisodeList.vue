@@ -10,7 +10,7 @@
             class="white--text align-end"
             height="50vh"
             width="auto"
-            :src="'https://cdn.hentaini.com/cover/'+series.coverUrl"
+            :src="`${CDN}/cover/${series.coverUrl}`"
           >
             <v-card-title>{{ series.title }}</v-card-title>
           </v-img>
@@ -105,7 +105,8 @@ export default {
       },
       coverUrl: 'load.jpg'
     },
-    url: ''
+    url: '',
+    CDN: process.env.CDN_URI
   }),
   created () {
     this.$apollo.query({

@@ -27,6 +27,13 @@
                 persistent-hint
                 required
               />
+              <v-text-field
+                v-model="player_code"
+                label="Player Code"
+                placeholder="Example: https://clipwatching.com/embed-codigo.html"
+                persistent-hint
+                required
+              />
               <v-btn type="submit" class="mr-4" @click.once="createPlayer">
                 submit
               </v-btn>
@@ -50,6 +57,7 @@
                   <v-list-item-content>
                     <v-list-item-title>{{ player.name }}</v-list-item-title>
                     <v-list-item-subtitle>Short name: {{ player.short_name }}</v-list-item-subtitle>
+                    <v-list-item-subtitle>Player Code: {{ player.player_code }}</v-list-item-subtitle>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -68,6 +76,7 @@ export default {
   data: () => ({
     name: '',
     short_name: '',
+    player_code: '',
     hint: '',
     players: [],
     createdMessage: '',
@@ -85,6 +94,7 @@ export default {
         Players(limit: $limit){
           name
           short_name
+          player_code
         }
       }`,
       variables: {
@@ -112,7 +122,8 @@ export default {
         variables: {
           input: {
             name: this.name,
-            short_name: this.short_name
+            short_name: this.short_name,
+            player_code: this.player_code
           }
         }
       }).then((input) => {

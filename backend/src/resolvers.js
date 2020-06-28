@@ -8,6 +8,7 @@ import Player from "./models/Player"
 import ViewList from "./models/ViewList";
 import { auth } from "./auth";
 import { createWriteStream } from "fs";
+import fs from "fs";
 import shortid from "shortid";
 import sharp from "sharp";
 import { sendNotificationFn } from "./partials/sendNotification";
@@ -172,7 +173,15 @@ export const resolvers = {
         return simpleResponse(false,'Create Serie','Error Creating Serie')
       }
     },
-    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification, ...data}}) => {
+    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players, ...data}}) => {
+      var players = await Promise.all(players.map(async (newPlayerObject) => {
+        const player = await Player.find({ 'short_name': newPlayerObject.name })
+        const player_code = player[0].player_code
+        const player_url = player_code.replace('codigo',newPlayerObject.url)
+        newPlayerObject.name = newPlayerObject.name
+        newPlayerObject.url = player_url
+        return newPlayerObject
+      }))
       var urlName = await genUrlName(serie_id, episode_number)
       const serie = await Serie.findById(serie_id)
       if (episode_number < 2) {
@@ -180,17 +189,17 @@ export const resolvers = {
       }
       if (sendNotification) {
         var message = { 
-          app_id: "e223e60d-38fd-4700-96f2-5c301b1ee4e7",
+          app_id: process.env.ONESIGNAL_API_ID,
           contents: {
             "en": "New episode of " + serie.title
           },
           headings: {
             "en": "Hentaini"
           },
-          url: 'https://hentaini.com/episode/' + urlName + '/' + episode_number,
-          big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.background_coverUrl,
-          chrome_web_image: 'https://cdn.hentaini.com/screenshot/' + serie.background_coverUrl,
-          chrome_big_picture: 'https://cdn.hentaini.com/screenshot/' + serie.background_coverUrl,
+          url: process.env.BASE_URI + '/episode/' + urlName + '/' + episode_number,
+          big_picture: process.env.CDN_URI + '/screenshot/' + serie.background_coverUrl,
+          chrome_web_image: process.env.CDN_URI + '/screenshot/' + serie.background_coverUrl,
+          chrome_big_picture: process.env.CDN_URI + '/screenshot/' + serie.background_coverUrl,
           included_segments: ["All"]
         };
         const sentNotification = sendNotificationFn(message)
@@ -201,6 +210,7 @@ export const resolvers = {
           serie_id,
           episode_number,
           urlName,
+          players,
           ...data
         })
         const res =  await payload.save()
@@ -214,6 +224,7 @@ export const resolvers = {
         const payload = new Episode({
           customScreenshotUrl,
           serie_id,
+          players,
           episode_number,
           ...data,
         })
@@ -315,7 +326,22 @@ export const resolvers = {
     },
     deleteSerie: async (_,{id}) => {
       const deleteSerie = await Serie.findByIdAndDelete(id)
-      await Episode.deleteMany({serie_id: id})
+      console.log(deleteSerie)
+      const pathCover = 'cdn/cover/'+deleteSerie.coverUrl
+      const pathBackgroundCover = 'cdn/screenshot/'+deleteSerie.background_coverUrl
+      fs.unlink(pathCover, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
+      fs.unlink(pathBackgroundCover, (err) => {
+        if (err) {
+          console.error(err)
+          return
+        }
+      })
+      // await Episode.deleteMany({serie_id: id})
       if(deleteSerie){
         return simpleResponse(true,'Delete Serie','Serie deleted successfully.')
       }else{

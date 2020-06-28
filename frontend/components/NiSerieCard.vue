@@ -8,7 +8,7 @@
       >
         <v-img
           :aspect-ratio="9/14"
-          :src="'https://cdn.hentaini.com/cover/'+screenshot"
+          :src="`${CDN}/screenshot/${screenshot}`"
         >
           <v-expand-transition>
             <div
@@ -89,7 +89,8 @@ export default {
   data () {
     this.$i18n.locale = 'en'
     return {
-      locale: 'en'
+      locale: 'en',
+      CDN: process.env.CDN_URI
     }
   }
 }

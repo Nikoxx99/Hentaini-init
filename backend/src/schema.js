@@ -51,6 +51,7 @@ const typeDefs = `
     name: String
     short_name: String
     url: String
+    player_code: String
   }
 
   type Download {
@@ -185,6 +186,7 @@ const typeDefs = `
     name: String
     short_name: String
     url: String
+    player_code: String
   }
 
   input DownloadInput {

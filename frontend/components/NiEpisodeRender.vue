@@ -135,7 +135,7 @@
             >
               <v-img
                 height="auto"
-                :src="'https://cdn.hentaini.com/screenshot/'+EpisodeByUrlName.serie.background_coverUrl"
+                :src="`${CDN}/screenshot/${EpisodeByUrlName.serie.background_coverUrl}`"
               />
               <v-card-title>{{ EpisodeByUrlName.serie.title }}</v-card-title>
               <v-card-text>
@@ -290,6 +290,7 @@ export default {
     this.$i18n.locale = 'en'
     return {
       locale: 'en',
+      CDN: process.env.CDN_URI,
       downloadsName: [],
       areDownloadLinksGenerated: false,
       currentUrl: '',

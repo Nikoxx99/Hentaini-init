@@ -49,7 +49,7 @@
               label="Select a Custom Image"
               @change="screenshotSelected"
             />
-            <v-btn class="mr-4 blue darken-4" large @click.once="createEpisode">
+            <v-btn class="mr-4 blue darken-4" large @click="createEpisode">
               submit
             </v-btn>
           </v-container>
@@ -82,7 +82,7 @@
                 :id="'code'+index"
                 slot="playerCode"
                 v-model="player.url"
-                label="Player URL"
+                label="Player Code"
                 hide-details
                 solo
               />
@@ -197,6 +197,7 @@ export default {
         Players(limit: $limit){
           name
           short_name
+          player_code
         }
       }`,
       variables: {

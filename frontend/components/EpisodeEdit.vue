@@ -52,7 +52,7 @@
             <h2>Current Screenshot Image</h2>
             <v-row>
               <v-img
-                :src="'https://cdn.hentaini.com/screenshot/'+screenshot"
+                :src="`${CDN}/screenshot/${screenshot}`"
               />
             </v-row>
           </v-container>
@@ -171,7 +171,8 @@ export default {
     screenshot: '',
     playerList: [],
     players: [],
-    downloadList: []
+    downloadList: [],
+    CDN: process.env.CDN_URI
   }),
 
   computed: {
