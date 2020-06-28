@@ -179,6 +179,7 @@ export const resolvers = {
         const player_code = player[0].player_code
         const player_url = player_code.replace('codigo',newPlayerObject.url)
         newPlayerObject.name = newPlayerObject.name
+        newPlayerObject.code = newPlayerObject.url
         newPlayerObject.url = player_url
         return newPlayerObject
       }))
@@ -305,10 +306,22 @@ export const resolvers = {
         return simpleResponse(false,'Edit Serie','Error Editing Serie')
       }
     },
-    editEpisode: async (_,{input: {customScreenshot, ...data}}) => {
+    editEpisode: async (_,{input: {customScreenshot, players, ...data}}) => {
       const id = data._id
+      var players = await Promise.all(players.map(async (newPlayerObject) => {
+        const dbPlayer = await Player.find({ 'short_name': newPlayerObject.name })
+        const userCode = newPlayerObject.code
+        const userName = newPlayerObject.name
+
+        const player_code = dbPlayer[0].player_code
+        const player_composedUrl = player_code.replace('codigo',userCode)
+        newPlayerObject.name = userName
+        newPlayerObject.code = userCode
+        newPlayerObject.url = player_composedUrl
+        return newPlayerObject
+      }))
       if(!customScreenshot){
-        const res = await Episode.updateOne({_id: id}, data, {multi: false})
+        const res = await Episode.updateOne({_id: id}, {...data,players}, {multi: false})
         if(res){
           return simpleResponse(true,'Edit Episode','Episode Edited Successfuly')
         }else{
@@ -316,7 +329,7 @@ export const resolvers = {
         }
       }else{
         const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
-        const res = await Episode.updateOne({_id: id}, {...data,customScreenshotUrl}, {multi: false})
+        const res = await Episode.updateOne({_id: id}, {...data,players,customScreenshotUrl}, {multi: false})
         if(res){
           return simpleResponse(true,'Episode Edit New Image','Episode Edited Successfuly With new Image')
         }else{

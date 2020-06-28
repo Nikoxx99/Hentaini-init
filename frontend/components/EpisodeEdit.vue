@@ -84,7 +84,7 @@
               <v-text-field
                 :id="'code'+index"
                 slot="playerCode"
-                v-model="player.url"
+                v-model="player.code"
                 label="Player URL"
                 hide-details
                 solo
@@ -194,7 +194,7 @@ export default {
           language
           players{
             name
-            url
+            code
           }
           downloads{
             url
