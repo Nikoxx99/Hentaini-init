@@ -73,7 +73,7 @@
                       depressed
                       rounded
                       @click="toggle"
-                      @focus="changeCurrentUrl(player.url,player.name)"
+                      @focus="changeCurrentUrl(player.url)"
                     >
                       {{ player.name }}
                     </v-btn>
@@ -354,12 +354,8 @@ export default {
     })
   },
   methods: {
-    changeCurrentUrl (currentUrl, playerName) {
-      if (playerName === 'A') {
-        this.currentUrl = 'https://player.hentaini.com/amz.php?v=' + currentUrl + '&ext=es'
-      } else {
-        this.currentUrl = currentUrl
-      }
+    changeCurrentUrl (currentUrl) {
+      this.currentUrl = currentUrl
     },
     genDownloadName () {
       if (!this.areDownloadLinksGenerated) {
