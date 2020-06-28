@@ -8,7 +8,7 @@
       >
         <v-img
           :aspect-ratio="9/14"
-          :src="`${CDN}/screenshot/${screenshot}`"
+          :src="`${CDN}/cover/${screenshot}`"
         >
           <v-expand-transition>
             <div
