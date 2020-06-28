@@ -85,7 +85,7 @@
                 :id="'code'+index"
                 slot="playerCode"
                 v-model="player.code"
-                label="Player URL"
+                label="Player Code"
                 hide-details
                 solo
               />
