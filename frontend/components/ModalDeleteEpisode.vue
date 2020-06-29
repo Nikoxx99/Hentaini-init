@@ -1,12 +1,20 @@
 <template>
   <span>
-    <v-btn
-      @click.stop="modal = true"
-    >
-      <v-icon>
-        mdi-delete-outline
-      </v-icon>
-    </v-btn>
+    <v-tooltip top>
+      <template v-slot:activator="{ on, attrs }">
+        <v-btn
+          v-bind="attrs"
+          class="red darken-4"
+          v-on="on"
+          @click.stop="modal = true"
+        >
+          <v-icon>
+            mdi-delete-outline
+          </v-icon>
+        </v-btn>
+      </template>
+      <span>Delete Episode</span>
+    </v-tooltip>
     <v-dialog
       v-model="modal"
       max-width="290"

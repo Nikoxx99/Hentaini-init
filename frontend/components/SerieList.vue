@@ -72,16 +72,34 @@
                     </template>
                     <span>Create Episode</span>
                   </v-tooltip>
-                  <v-btn :to="'/panel/serie/' + serie._id + '/episodes'">
-                    <v-icon>
-                      mdi-play-circle
-                    </v-icon>
-                  </v-btn>
-                  <v-btn :to="'/panel/serie/' + serie._id + '/edit'">
-                    <v-icon>
-                      mdi-circle-edit-outline
-                    </v-icon>
-                  </v-btn>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        :to="'/panel/serie/' + serie._id + '/episodes'"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon>
+                          mdi-play-circle
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Episode List</span>
+                  </v-tooltip>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        :to="'/panel/serie/' + serie._id + '/edit'"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon>
+                          mdi-circle-edit-outline
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Edit Serie</span>
+                  </v-tooltip>
                   <ModalDeleteSerie :title="serie.title" :serieid="serie._id" />
                 </td>
               </tr>

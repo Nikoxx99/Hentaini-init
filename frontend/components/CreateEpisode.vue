@@ -49,9 +49,25 @@
               label="Select a Custom Image"
               @change="screenshotSelected"
             />
-            <v-btn class="mr-4 blue darken-4" large @click="createEpisode">
+            <v-btn class="mr-4 blue darken-4" large @click.once="createEpisode">
               submit
             </v-btn>
+          </v-container>
+          <v-container v-if="screenshot && !hasCustomScreenshot">
+            <h2>Default Screenshot Image</h2>
+            <v-row>
+              <v-img
+                :src="`${CDN}/screenshot/${screenshot}`"
+              />
+            </v-row>
+          </v-container>
+          <v-container v-if="customScreenshot && hasCustomScreenshot">
+            <h2>Custom Screenshot Image</h2>
+            <v-row>
+              <v-img
+                :src="screenshotPreview"
+              />
+            </v-row>
           </v-container>
         </v-card>
       </v-col>
@@ -95,6 +111,12 @@
             </PlayerInput>
             <v-btn class="mr-4 blue darken-4" large @click="addPlayerSlot">
               Add Player
+            </v-btn>
+            <v-btn class="mr-4 green darken-4" large @click="playerListModel">
+              Airing Model
+            </v-btn>
+            <v-btn class="mr-4 grey darken-4" large @click="resetPlayerList">
+              Clear Fields
             </v-btn>
           </v-container>
         </v-card>
@@ -154,6 +176,7 @@ export default {
     name: { required, maxLength: minLength(1) }
   },
   data: () => ({
+    CDN: process.env.CDN_URI,
     currentCounter: 0,
     serie_id: '',
     serie_title: '',
@@ -161,11 +184,12 @@ export default {
     created_at: '',
     visible: true,
     sendNotification: true,
-    language: '',
+    language: 'ENGLISH',
     languages: ['ENGLISH', 'RUSSIAN', 'SPANISH'],
     screenshot: '',
     customScreenshot: undefined,
     hasCustomScreenshot: false,
+    screenshotPreview: '',
     playerList: [],
     players: [],
     downloadList: []
@@ -251,6 +275,7 @@ export default {
       this.customScreenshot.push(this.$refs.screenshot.$refs.input.files[0])
       this.customScreenshot.push(this.serie_title)
       this.customScreenshot.push(this.episode_number)
+      this.screenshotPreview = URL.createObjectURL(this.$refs.screenshot.$refs.input.files[0])
     },
     detectNewImage () {
       if (this.hascustomimage) {
@@ -275,6 +300,22 @@ export default {
     },
     removeDownloadSlot (slot) {
       this.downloadList.splice(slot, 1)
+    },
+    resetPlayerList () {
+      this.playerList = []
+    },
+    playerListModel () {
+      this.playerList = []
+      this.playerList.push(
+        { name: 'C', url: '' },
+        { name: 'CW', url: '' },
+        { name: 'F', url: '' },
+        { name: 'A', url: '' },
+        { name: 'MU', url: '' },
+        { name: 'S', url: '' },
+        { name: 'Y', url: '' },
+        { name: 'M', url: '' }
+      )
     }
   }
 }

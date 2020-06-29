@@ -64,11 +64,20 @@
               >
                 <td>{{ episode.episode_number }}</td>
                 <td>
-                  <v-btn :href="'/panel/serie/' + url + '/episodes/' + episode._id + '/edit'">
-                    <v-icon>
-                      mdi-circle-edit-outline
-                    </v-icon>
-                  </v-btn>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        :href="'/panel/serie/' + url + '/episodes/' + episode._id + '/edit'"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon>
+                          mdi-circle-edit-outline
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Edit Episode</span>
+                  </v-tooltip>
                   <ModalDeleteEpisode :episodenumber="episode.episode_number" :episodeid="episode._id" />
                 </td>
               </tr>

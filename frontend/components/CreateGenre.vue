@@ -21,7 +21,7 @@
                 persistent-hint
                 required
               />
-              <v-btn class="mr-4" @click.once="createGenre">
+              <v-btn class="mr-4 blue darken-4" @click.once="createGenre">
                 submit
               </v-btn>
             </v-container>

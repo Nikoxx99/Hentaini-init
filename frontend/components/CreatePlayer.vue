@@ -34,7 +34,7 @@
                 persistent-hint
                 required
               />
-              <v-btn type="submit" class="mr-4" @click.once="createPlayer">
+              <v-btn type="submit" class="mr-4 blue darken-4" @click.once="createPlayer">
                 submit
               </v-btn>
             </v-container>
