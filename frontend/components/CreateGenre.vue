@@ -21,7 +21,7 @@
                 persistent-hint
                 required
               />
-              <v-btn class="mr-4 blue darken-4" @click.once="createGenre">
+              <v-btn class="mr-4 blue darken-4" @click="createGenre">
                 submit
               </v-btn>
             </v-container>
@@ -33,7 +33,6 @@
               <v-card-title class="blue darken-3">
                 Available Genres
               </v-card-title>
-              <v-subheader>In the future you're be able to remove it from the list</v-subheader>
               <v-list
                 rounded
                 shaped
@@ -110,8 +109,13 @@ export default {
           }
         }
       }).then((input) => {
-        // eslint-disable-next-line no-console
-        this.$router.replace({ path: '/panel/genre/create', query: { created: true } }, () => { window.location.reload(true) })
+        if (input.data.createGenre.success) {
+          this.$router.push({ path: '/panel/genre/create', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
+        } else {
+          this.alertBox = true
+          this.alertBoxColor = 'red darken-4'
+          this.createdMessage = input.data.createGenre.errors[0].message
+        }
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

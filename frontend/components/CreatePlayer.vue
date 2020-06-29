@@ -34,7 +34,7 @@
                 persistent-hint
                 required
               />
-              <v-btn type="submit" class="mr-4 blue darken-4" @click.once="createPlayer">
+              <v-btn class="mr-4 blue darken-4" @click="createPlayer">
                 submit
               </v-btn>
             </v-container>
@@ -109,6 +109,11 @@ export default {
   },
   methods: {
     createPlayer () {
+      if (!this.name || !this.short_name || !this.player_code) {
+        this.alertBox = true
+        this.alertBoxColor = 'blue darken-4'
+        this.createdMessage = 'You Must fill al the Fields'
+      }
       this.$apollo.mutate({
         mutation: gql`mutation ($input: PlayerInput){
           createPlayer(input: $input){
@@ -127,8 +132,13 @@ export default {
           }
         }
       }).then((input) => {
-        // eslint-disable-next-line no-console
-        this.$router.replace({ path: '/panel/player/create', query: { created: true } }, () => { window.location.reload(true) })
+        if (input.data.createPlayer.success) {
+          this.$router.push({ path: '/panel/player/create', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
+        } else {
+          this.alertBox = true
+          this.alertBoxColor = 'red darken-4'
+          this.createdMessage = input.data.createPlayer.errors[0].message
+        }
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

@@ -135,7 +135,7 @@
             >
               <v-img
                 height="auto"
-                :src="`${CDN}/screenshot/${EpisodeByUrlName.serie.background_coverUrl}`"
+                :src="`${CDN}/screenshot/${EpisodeByUrlName.screenshot}`"
               />
               <v-card-title>{{ EpisodeByUrlName.serie.title }}</v-card-title>
               <v-card-text>
@@ -265,10 +265,10 @@ export default {
               }
               status
               coverUrl
-              background_coverUrl
             }
             urlName
             episode_number
+            screenshot
             players{
               name
               url

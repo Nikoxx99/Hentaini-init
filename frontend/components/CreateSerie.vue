@@ -3,7 +3,6 @@
     <v-alert
       v-if="error || genreError"
       type="error"
-      :class="alertBoxColor"
       tile
       dismissible
       outlined
@@ -113,7 +112,7 @@
               </template>
               <v-date-picker v-model="next_episode" />
             </v-menu>
-            <v-btn class="mr-4 blue darken-4" large @click.once="createSerie">
+            <v-btn class="mr-4 blue darken-4" large @click="createSerie">
               submit
             </v-btn>
           </v-container>
@@ -176,7 +175,8 @@ export default {
     coverPreview: '',
     screenshotPreview: '',
     error: false,
-    errorMessage: ''
+    errorMessage: '',
+    alertBoxColor: ''
   }),
 
   computed: {
@@ -256,10 +256,18 @@ export default {
           }
         }
       }).then((input) => {
-        this.$router.push({ path: '/panel/serie', query: { created: true } }, () => { window.location.reload(true) })
+        console.log(input)
+        if (input.data.createSerie.success) {
+          this.$router.push({ path: '/panel/serie', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
+        } else {
+          this.error = true
+          this.alertBoxColor = 'red darken-4'
+          this.errorMessage = input.data.createSerie.errors[0].message
+        }
       }).catch((error) => {
         // eslint-disable-next-line no-console
-        console.error(error)
+        this.error = true
+        this.errorMessage = error
       })
     },
     coverSelected (e) {

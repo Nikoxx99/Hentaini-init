@@ -21,7 +21,7 @@
           :episodeNumber="episode.episode_number"
           :status="episode.serie.status"
           :url="episode.urlName"
-          :screenshot="episode.serie.background_coverUrl"
+          :screenshot="episode.screenshot"
         />
       </v-col>
     </v-row>
@@ -41,11 +41,11 @@ export default {
             _id
             episode_number
             urlName
+            screenshot
             serie{
               title
               status
               coverUrl
-              background_coverUrl
             }
           }
         }

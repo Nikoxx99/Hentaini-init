@@ -52,11 +52,19 @@
               submit
             </v-btn>
           </v-container>
-          <v-container v-if="screenshot">
+          <v-container v-if="screenshot && !hasCustomScreenshot">
             <h2>Current Screenshot Image</h2>
             <v-row>
               <v-img
                 :src="`${CDN}/screenshot/${screenshot}`"
+              />
+            </v-row>
+          </v-container>
+          <v-container v-if="customScreenshot && hasCustomScreenshot">
+            <h2>Custom Screenshot Image</h2>
+            <v-row>
+              <v-img
+                :src="screenshotPreview"
               />
             </v-row>
           </v-container>
@@ -150,7 +158,7 @@ import { required, minLength } from 'vuelidate/lib/validators'
 import PlayerInput from './PlayerInput'
 import DownloadInput from './DownloadInput'
 export default {
-  name: 'CreateEpisode',
+  name: 'EditEpisode',
   components: {
     PlayerInput,
     DownloadInput
@@ -171,8 +179,9 @@ export default {
     language: '',
     languages: ['ENGLISH', 'RUSSIAN', 'SPANISH'],
     hasCustomScreenshot: false,
-    customScreenshot: undefined,
+    customScreenshot: [],
     screenshot: '',
+    screenshotPreview: '',
     playerList: [],
     players: [],
     downloadList: [],
@@ -289,12 +298,13 @@ export default {
       this.customScreenshot.push(this.$refs.screenshot.$refs.input.files[0])
       this.customScreenshot.push(this.serie_title)
       this.customScreenshot.push(this.episode_number)
+      this.screenshotPreview = URL.createObjectURL(this.$refs.screenshot.$refs.input.files[0])
     },
     detectNewImage () {
       if (this.hasCustomScreenshot) {
         this.customScreenshot = []
       } else {
-        this.customScreenshot = undefined
+        this.customScreenshot = []
       }
     },
     addPlayerSlot () {

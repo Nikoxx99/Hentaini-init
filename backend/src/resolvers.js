@@ -152,6 +152,9 @@ export const resolvers = {
   },
   Mutation:{
     createSerie: async (_,{input: {cover, background_cover, genres, ...data}}) => {
+      if (!data) {
+        return simpleResponse(false,'Create Serie','You Must fill all the Fields')
+      }
       // eslint-disable-next-line no-redeclare
       var genres = genres.map(function(newGenreObject){
         const url_regex = newGenreObject.text.replace(/[^A-Z0-9]/ig, '-')
@@ -186,7 +189,7 @@ export const resolvers = {
         return simpleResponse(false,'Edit Serie','Error Editing Serie Featured State')
       }
     },
-    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players, ...data}}) => {
+    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players, screenshot, ...data}}) => {
       // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
         const player = await Player.find({ 'short_name': newPlayerObject.name })
@@ -232,6 +235,7 @@ export const resolvers = {
           episode_number,
           urlName,
           players,
+          screenshot,
           ...data
         })
         const res =  await payload.save()
@@ -241,10 +245,12 @@ export const resolvers = {
           return simpleResponse(false,'Create Episode','Error Creating Episode')
         }
       }else{
-        const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
+        // eslint-disable-next-line no-redeclare
+        var screenshot = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
         const payload = new Episode({
-          customScreenshotUrl,
+          screenshot,
           serie_id,
+          urlName,
           players,
           episode_number,
           ...data,
@@ -257,11 +263,13 @@ export const resolvers = {
         }
       }
     },
-    createGenre: async (_,{input}) => {
-      const url_regex = input.text.replace(/[^A-Z0-9]/ig, '-')
+    createGenre: async (_,{input: {text, value}}) => {
+      const genre = await Genre.find({'text': text})
+      if (genre.length > 0) {
+        return simpleResponse(false,'Create Genre','Genre Already Exists')
+      }
+      const url_regex = text.replace(/[^A-Z0-9]/ig, '-')
       const url = url_regex.toLowerCase()
-      const value = input.text
-      const text = input.text
       const payload = new Genre({text, value, url})
       const res =  await payload.save()
       if(res){
@@ -270,8 +278,12 @@ export const resolvers = {
         return simpleResponse(false,'Create Genre','Error Creating Genre')
       }
     },
-    createCategory: async (_,{input}) => {
-      const payload = new Category(input)
+    createCategory: async (_,{input: { name }}) => {
+      const category = await Category.find({'name': name})
+      if (category.length > 0) {
+        return simpleResponse(false,'Create Category','Category Already Exists')
+      }
+      const payload = new Category({name})
       const res =  await payload.save()
       if(res){
         return simpleResponse(true,'Create Category','Category Created Successfuly')
@@ -279,8 +291,15 @@ export const resolvers = {
         return simpleResponse(false,'Create Category','Error Creating Category')
       }
     },
-    createPlayer: async (_,{input}) => {
-      const payload = new Player(input)
+    createPlayer: async (_,{input: {name, short_name, player_code}}) => {
+      const player = await Player.find({'name': name, 'short_name': short_name})
+      if (player.length > 0) {
+        return simpleResponse(false,'Create Player','Player Already Exists')
+      }
+      if (!name || !short_name || !player_code) {
+        return simpleResponse(false,'Create Player','You must fill all the fields')
+      }
+      const payload = new Player({name, short_name, player_code})
       const res =  await payload.save()
       if(res){
         return simpleResponse(true,'Create Player','Player Created Successfuly')
@@ -326,7 +345,7 @@ export const resolvers = {
         return simpleResponse(false,'Edit Serie','Error Editing Serie')
       }
     },
-    editEpisode: async (_,{input: {customScreenshot, players, ...data}}) => {
+    editEpisode: async (_,{input: {customScreenshot, players, screenshot, ...data}}) => {
       const id = data._id
       // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
@@ -342,15 +361,16 @@ export const resolvers = {
         return newPlayerObject
       }))
       if(!customScreenshot){
-        const res = await Episode.updateOne({_id: id}, {...data,players}, {multi: false})
+        const res = await Episode.updateOne({_id: id}, {...data,players,screenshot}, {multi: false})
         if(res){
           return simpleResponse(true,'Edit Episode','Episode Edited Successfuly')
         }else{
           return simpleResponse(false,'Edit Episode','Error Editing Episode')
         }
       }else{
-        const customScreenshotUrl = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
-        const res = await Episode.updateOne({_id: id}, {...data,players,customScreenshotUrl}, {multi: false})
+        // eslint-disable-next-line no-redeclare
+        var screenshot = await processUploadEpisode(customScreenshot[0].file, customScreenshot[1], customScreenshot[2])
+        const res = await Episode.updateOne({_id: id}, {...data,players,screenshot}, {multi: false})
         if(res){
           return simpleResponse(true,'Episode Edit New Image','Episode Edited Successfuly With new Image')
         }else{

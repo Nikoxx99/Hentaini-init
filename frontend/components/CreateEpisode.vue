@@ -61,7 +61,7 @@
               />
             </v-row>
           </v-container>
-          <v-container v-if="customScreenshot && hasCustomScreenshot">
+          <v-container v-if="customScreenshot.length > 0 && hasCustomScreenshot">
             <h2>Custom Screenshot Image</h2>
             <v-row>
               <v-img
@@ -187,7 +187,7 @@ export default {
     language: 'ENGLISH',
     languages: ['ENGLISH', 'RUSSIAN', 'SPANISH'],
     screenshot: '',
-    customScreenshot: undefined,
+    customScreenshot: [],
     hasCustomScreenshot: false,
     screenshotPreview: '',
     playerList: [],
@@ -278,10 +278,10 @@ export default {
       this.screenshotPreview = URL.createObjectURL(this.$refs.screenshot.$refs.input.files[0])
     },
     detectNewImage () {
-      if (this.hascustomimage) {
+      if (this.hasCustomScreenshot) {
         this.customScreenshot = []
       } else {
-        this.customScreenshot = undefined
+        this.customScreenshot = []
       }
     },
     addPlayerSlot () {
