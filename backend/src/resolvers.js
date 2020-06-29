@@ -190,7 +190,7 @@ export const resolvers = {
       }
     },
     createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players, screenshot, ...data}}) => {
-      console.log(data)
+      console.log('Hola')
       // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
         const player = await Player.find({ 'short_name': newPlayerObject.name })
