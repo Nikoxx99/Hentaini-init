@@ -189,8 +189,8 @@ export const resolvers = {
         return simpleResponse(false,'Edit Serie','Error Editing Serie Featured State')
       }
     },
-    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players, screenshot, ...data}}) => {
-      console.log('Hola')
+    createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players,screenshot,hasCustomScreenshot, ...data}}) => {
+      console.log(hasCustomScreenshot)
       // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
         const player = await Player.find({ 'short_name': newPlayerObject.name })
@@ -227,10 +227,9 @@ export const resolvers = {
           chrome_big_picture: process.env.CDN_URI + '/screenshot/' + serie.background_coverUrl,
           included_segments: ['All']
         }
-        const sentNotification = sendNotificationFn(message)
-        console.log(sentNotification)
+        sendNotificationFn(message)
       }
-      if(!customScreenshot){
+      if(!hasCustomScreenshot){
         const payload = new Episode({
           serie_id,
           episode_number,
