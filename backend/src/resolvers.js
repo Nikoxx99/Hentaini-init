@@ -190,6 +190,7 @@ export const resolvers = {
       }
     },
     createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players, screenshot, ...data}}) => {
+      console.log(data)
       // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
         const player = await Player.find({ 'short_name': newPlayerObject.name })
@@ -230,7 +231,6 @@ export const resolvers = {
         console.log(sentNotification)
       }
       if(!customScreenshot){
-        console.log('CS false')
         const payload = new Episode({
           serie_id,
           episode_number,
