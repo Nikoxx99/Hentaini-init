@@ -230,6 +230,7 @@ export const resolvers = {
         console.log(sentNotification)
       }
       if(!customScreenshot){
+        console.log('CS false')
         const payload = new Episode({
           serie_id,
           episode_number,
