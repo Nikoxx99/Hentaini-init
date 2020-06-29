@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
 const serieSchema = new Schema({
   title: {
@@ -35,10 +35,11 @@ const serieSchema = new Schema({
     type: Boolean,
     default: false
   },
+  isFeatured: Boolean,
   next_episode: String,
   visits: Number,
   coverUrl: String,
   background_coverUrl: String
-});
+})
 
-export default model('Serie', serieSchema);
+export default model('Serie', serieSchema)

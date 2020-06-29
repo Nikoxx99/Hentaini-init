@@ -1,79 +1,79 @@
-import Serie from "./models/Serie";
-import Episode from "./models/Episode";
-import Genre from "./models/Genre";
-import Category from "./models/Category";
-import User from "./models/User";
-import Role from "./models/Role";
-import Player from "./models/Player"
-import ViewList from "./models/ViewList";
-import { auth } from "./auth";
-import { createWriteStream } from "fs";
-import fs from "fs";
-import shortid from "shortid";
-import sharp from "sharp";
-import { sendNotificationFn } from "./partials/sendNotification";
+import Serie from './models/Serie'
+import Episode from './models/Episode'
+import Genre from './models/Genre'
+import Category from './models/Category'
+import User from './models/User'
+import Role from './models/Role'
+import Player from './models/Player'
+import ViewList from './models/ViewList'
+import { auth } from './auth'
+import { createWriteStream } from 'fs'
+import fs from 'fs'
+import shortid from 'shortid'
+import sharp from 'sharp'
+import { sendNotificationFn } from './partials/sendNotification'
 
 const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
-  const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
+  const id1 = filename.replace(/[^A-Z0-9]/ig, '_')
   const id = id1.toLowerCase()
   const r_id = shortid.generate()
   const extension = mimetype.split('/')
   const path = `cdn/cover/${id}-${r_id}-.${extension[1]}`
-  const stream = createReadStream();
+  const stream = createReadStream()
   const resize = sharp()
     .resize(270, 420,{
       fit: sharp.fit.cover,
       withoutEnlargement: true
     })
   return new Promise((resolve, reject) => 
-  stream
-  .pipe(resize)
-  .pipe(createWriteStream(path))
-  .on("finish", () => resolve({ id, path, r_id, extension }))
-  .on("error", reject)
+    stream
+      .pipe(resize)
+      .pipe(createWriteStream(path))
+      .on('finish', () => resolve({ id, path, r_id, extension }))
+      .on('error', reject)
   
   )
 }
 const storeUploadScreenshot = async ({createReadStream, filename, mimetype}) => {
-  const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
+  const id1 = filename.replace(/[^A-Z0-9]/ig, '_')
   const id = id1.toLowerCase()
   const r_id = shortid.generate()
   const extension = mimetype.split('/')
   const path = `cdn/screenshot/${id}-${r_id}-.${extension[1]}`
-  const stream = createReadStream();
+  const stream = createReadStream()
   const resize = sharp()
     .resize(1280, 720,{
       fit: sharp.fit.cover,
       withoutEnlargement: true
     })
   return new Promise((resolve, reject) => 
-  stream
-  .pipe(resize)
-  .pipe(createWriteStream(path))
-  .on("finish", () => resolve({ id, path, r_id, extension }))
-  .on("error", reject)
+    stream
+      .pipe(resize)
+      .pipe(createWriteStream(path))
+      .on('finish', () => resolve({ id, path, r_id, extension }))
+      .on('error', reject)
   
   )
 }
 const storeUploadEpisode = async ({createReadStream, filename, mimetype, episode}) => {
-  const id1 = filename.replace(/[^A-Z0-9]/ig, "_")
+  const id1 = filename.replace(/[^A-Z0-9]/ig, '_')
   const id = id1.toLowerCase()
   const r_id = shortid.generate()
   const e_n = episode
   const extension = mimetype.split('/')
   const path = `cdn/screenshot/${id}-${r_id}_${e_n}-.${extension[1]}`
-  const stream = createReadStream();
+  const stream = createReadStream()
   const resize = sharp()
     .resize(1280, 720,{
       fit: sharp.fit.cover,
       withoutEnlargement: true
     })
   return new Promise((resolve, reject) => 
-  stream
-    .pipe(resize)
-    .pipe(createWriteStream(path))
-    .on("finish", () => resolve({ id, path, r_id, e_n, extension }))
-    .on("error", reject)
+    stream
+      .pipe(resize)
+      .pipe(createWriteStream(path))
+      .on('finish', () => resolve({ id, path, r_id, e_n, extension }))
+      .on('error', reject)
   
   )
 }
@@ -115,6 +115,9 @@ export const resolvers = {
         return await Serie.find({'hasEpisodes': true}).sort({'visits': order}).limit(limit)
       }
     },
+    FeaturedSeries: async () => {
+      return await Serie.find({'isFeatured': true, 'hasEpisodes': true})
+    },
     Episode: async (_,{_id}) => {
       return await Episode.findById(_id)
     },
@@ -149,9 +152,11 @@ export const resolvers = {
   },
   Mutation:{
     createSerie: async (_,{input: {cover, background_cover, genres, ...data}}) => {
+      // eslint-disable-next-line no-redeclare
       var genres = genres.map(function(newGenreObject){
-        const url_regex = newGenreObject.text.replace(/[^A-Z0-9]/ig, "-")
+        const url_regex = newGenreObject.text.replace(/[^A-Z0-9]/ig, '-')
         const url = url_regex.toLowerCase()
+        // eslint-disable-next-line no-self-assign
         newGenreObject.text = newGenreObject.text
         newGenreObject.value = newGenreObject.text
         newGenreObject.url = url
@@ -173,11 +178,21 @@ export const resolvers = {
         return simpleResponse(false,'Create Serie','Error Creating Serie')
       }
     },
+    featuredSerie: async (_,{_id, state}) => {
+      const res = await Serie.updateOne({_id: _id}, {isFeatured: state}, {multi: false})
+      if(res){
+        return simpleResponse(true,'Edit Serie','Serie Featured State Edited Successfuly')
+      }else{
+        return simpleResponse(false,'Edit Serie','Error Editing Serie Featured State')
+      }
+    },
     createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players, ...data}}) => {
+      // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
         const player = await Player.find({ 'short_name': newPlayerObject.name })
         const player_code = player[0].player_code
         const player_url = player_code.replace('codigo',newPlayerObject.url)
+        // eslint-disable-next-line no-self-assign
         newPlayerObject.name = newPlayerObject.name
         newPlayerObject.code = newPlayerObject.url
         newPlayerObject.url = player_url
@@ -190,19 +205,24 @@ export const resolvers = {
       }
       if (sendNotification) {
         var message = { 
+          // eslint-disable-next-line no-undef
           app_id: process.env.ONESIGNAL_API_ID,
           contents: {
-            "en": "New episode of " + serie.title
+            'en': 'New episode of ' + serie.title
           },
           headings: {
-            "en": "Hentaini"
+            'en': 'Hentaini'
           },
+          // eslint-disable-next-line no-undef
           url: process.env.BASE_URI + '/episode/' + urlName + '/' + episode_number,
+          // eslint-disable-next-line no-undef
           big_picture: process.env.CDN_URI + '/screenshot/' + serie.background_coverUrl,
+          // eslint-disable-next-line no-undef
           chrome_web_image: process.env.CDN_URI + '/screenshot/' + serie.background_coverUrl,
+          // eslint-disable-next-line no-undef
           chrome_big_picture: process.env.CDN_URI + '/screenshot/' + serie.background_coverUrl,
-          included_segments: ["All"]
-        };
+          included_segments: ['All']
+        }
         const sentNotification = sendNotificationFn(message)
         console.log(sentNotification)
       }
@@ -238,7 +258,7 @@ export const resolvers = {
       }
     },
     createGenre: async (_,{input}) => {
-      const url_regex = input.text.replace(/[^A-Z0-9]/ig, "-")
+      const url_regex = input.text.replace(/[^A-Z0-9]/ig, '-')
       const url = url_regex.toLowerCase()
       const value = input.text
       const text = input.text
@@ -308,6 +328,7 @@ export const resolvers = {
     },
     editEpisode: async (_,{input: {customScreenshot, players, ...data}}) => {
       const id = data._id
+      // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
         const dbPlayer = await Player.find({ 'short_name': newPlayerObject.name })
         const userCode = newPlayerObject.code

@@ -1,7 +1,7 @@
-import passport from "passport";
-import LocalStrategy from "passport-local";
+import passport from 'passport'
+import LocalStrategy from 'passport-local'
 
-import User from "../models/User";
+import User from '../models/User'
 
 passport.use( new LocalStrategy ({
   usernameField: 'email'

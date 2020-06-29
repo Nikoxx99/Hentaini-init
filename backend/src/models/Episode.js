@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
 const episodeSchema = new Schema({
   serie_id: {
@@ -21,6 +21,6 @@ const episodeSchema = new Schema({
   customScreenshotUrl: String,
   players: Array,
   downloads: Array
-});
+})
 
-export default model('Episode', episodeSchema);
+export default model('Episode', episodeSchema)

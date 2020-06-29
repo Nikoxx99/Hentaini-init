@@ -35,19 +35,43 @@
             </thead>
             <tbody>
               <tr
-                v-for="serie in series"
-                :key="serie._id"
+                v-for="(serie,index) in series"
+                :key="index"
               >
                 <td>{{ serie.title }}</td>
                 <td>{{ serie.episodes.length }}</td>
                 <td>{{ serie.visits }}</td>
                 <td>{{ serie._id }}</td>
                 <td>
-                  <v-btn :to="'/panel/serie/' + serie._id + '/episode/create'">
-                    <v-icon>
-                      mdi-plus-circle
-                    </v-icon>
-                  </v-btn>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        v-bind="attrs"
+                        :class="{ 'blue darken-4': serie.isFeatured }"
+                        v-on="on"
+                        @click="setFeatured(serie._id, index)"
+                      >
+                        <v-icon>
+                          mdi-star
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Toggle Featured</span>
+                  </v-tooltip>
+                  <v-tooltip top>
+                    <template v-slot:activator="{ on, attrs }">
+                      <v-btn
+                        :to="'/panel/serie/' + serie._id + '/episode/create'"
+                        v-bind="attrs"
+                        v-on="on"
+                      >
+                        <v-icon>
+                          mdi-plus-circle
+                        </v-icon>
+                      </v-btn>
+                    </template>
+                    <span>Create Episode</span>
+                  </v-tooltip>
                   <v-btn :to="'/panel/serie/' + serie._id + '/episodes'">
                     <v-icon>
                       mdi-play-circle
@@ -112,6 +136,7 @@ export default {
         Series(limit: $limit, showNoEpisodes: true){
           _id
           title
+          isFeatured
           episodes {
             _id
           }
@@ -129,6 +154,22 @@ export default {
       // eslint-disable-next-line no-console
       console.error(error)
     })
+  },
+  methods: {
+    setFeatured (serieid, index) {
+      this.series[index].isFeatured = !this.series[index].isFeatured
+      this.$apollo.mutate({
+        mutation: gql`mutation ($_id: ID, $state: Boolean){
+          featuredSerie(_id: $_id, state: $state){
+            success
+          }
+        }`,
+        variables: {
+          _id: serieid,
+          state: this.series[index].isFeatured
+        }
+      })
+    }
   }
 }
 </script>

@@ -1,4 +1,4 @@
-import { Schema, model } from "mongoose";
+import { Schema, model } from 'mongoose'
 
 const genreSchema = new Schema({
   text: {
@@ -12,6 +12,6 @@ const genreSchema = new Schema({
     type: String,
     required: true
   }
-});
+})
 
-export default model('Genre', genreSchema);
+export default model('Genre', genreSchema)

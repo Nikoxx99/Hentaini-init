@@ -1,6 +1,7 @@
 <template>
   <div>
     <NiHeader />
+    <Carousel />
     <NiLatestEpisodes />
     <v-container><v-divider /></v-container>
     <NiLatestSeries />
@@ -13,12 +14,14 @@ import NiHeader from '../components/NiHeader'
 import NiLatestEpisodes from '../components/NiLatestEpisodes'
 import NiLatestSeries from '../components/NiLatestSeries'
 import NiMobileHeader from '../components/NiMobileHeader'
+import Carousel from '../components/Carousel/Carousel'
 export default {
   components: {
     NiHeader,
     NiLatestEpisodes,
     NiLatestSeries,
-    NiMobileHeader
+    NiMobileHeader,
+    Carousel
   },
   data () {
     this.$i18n.locale = 'en'

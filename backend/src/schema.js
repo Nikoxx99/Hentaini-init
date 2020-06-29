@@ -5,6 +5,7 @@ const typeDefs = `
   type Query {
     Serie(_id: ID): Serie
     Series(limit: Int, order: String, showNoEpisodes: Boolean): [Serie]
+    FeaturedSeries: [Serie]
     Episode(_id: ID): Episode
     EpisodeByUrlName(urlName: String, episode_number: Int): Episode
     Episodes(limit: Int, showInvisible: Boolean): [Episode]
@@ -31,6 +32,7 @@ const typeDefs = `
     coverUrl: String
     background_coverUrl: String
     rating: String
+    isFeatured: Boolean
     hasEpisodes: Boolean
   }
   type Episode {
@@ -112,6 +114,7 @@ const typeDefs = `
 
   type Mutation {
     createSerie(input: SerieInput): SimpleResponse
+    featuredSerie(_id: ID, state: Boolean): SimpleResponse
     createEpisode(input: EpisodeInput): SimpleResponse
     createGenre(input: GenreInput): SimpleResponse
     createCategory(input: CategoryInput): SimpleResponse
@@ -230,7 +233,7 @@ const typeDefs = `
     username: String!
     password: String!
   }
-`;
+`
 
 export default makeExecutableSchema({
   typeDefs: typeDefs,

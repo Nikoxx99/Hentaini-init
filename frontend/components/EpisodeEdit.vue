@@ -44,7 +44,11 @@
               label="Select a Custom Image"
               @change="screenshotSelected"
             />
-            <v-btn class="mr-4 blue darken-4" large @click.once="editEpisode">
+            <v-btn
+              class="mr-4 blue darken-4"
+              large
+              @click.once="editEpisode"
+            >
               submit
             </v-btn>
           </v-container>
