@@ -1,5 +1,14 @@
 <template>
   <v-container>
+    <v-alert
+      v-if="alertBox"
+      type="info"
+      :class="alertBoxColor"
+      tile
+      dismissible
+    >
+      {{ createdMessage }}
+    </v-alert>
     <v-row>
       <v-col cols="3">
         <v-card
@@ -78,7 +87,7 @@
                     </template>
                     <span>Edit Episode</span>
                   </v-tooltip>
-                  <ModalDeleteEpisode :episodenumber="episode.episode_number" :episodeid="episode._id" />
+                  <ModalDeleteEpisode :episodenumber="episode.episode_number" :episodeid="episode._id" :serieid="$route.params.id" />
                 </td>
               </tr>
             </tbody>
@@ -115,9 +124,27 @@ export default {
       coverUrl: 'load.jpg'
     },
     url: '',
-    CDN: process.env.CDN_URI
+    CDN: process.env.CDN_URI,
+    alertBox: false,
+    alertBoxColor: '',
+    createdMessage: ''
   }),
   created () {
+    if (this.$route.query.created) {
+      this.alertBox = true
+      this.alertBoxColor = 'blue darken-4'
+      this.createdMessage = 'Episode Created Successfully.'
+    }
+    if (this.$route.query.edited) {
+      this.alertBox = true
+      this.alertBoxColor = 'yellow darken-4'
+      this.createdMessage = 'Episode Edited Successfully.'
+    }
+    if (this.$route.query.deleted) {
+      this.alertBox = true
+      this.alertBoxColor = 'red darken-4'
+      this.createdMessage = 'Episode Deleted Successfully.'
+    }
     this.$apollo.query({
       query: gql`query ($id: ID){
         Serie(_id: $id){
@@ -127,6 +154,9 @@ export default {
           visits
           episodes {
             _id
+            serie{
+              _id
+            }
             episode_number
           }
           coverUrl

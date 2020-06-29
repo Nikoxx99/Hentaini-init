@@ -165,7 +165,6 @@ export const resolvers = {
         newGenreObject.url = url
         return newGenreObject
       })
-      console.table({cover, background_cover})
       const coverUrl = await processUploadCover(cover[0].file, cover[1])
       const background_coverUrl = await processUploadScreenshot(background_cover[0].file, background_cover[1])
       const payload = new Serie({
@@ -190,7 +189,13 @@ export const resolvers = {
       }
     },
     createEpisode: async (_,{input: {customScreenshot,serie_id,episode_number,sendNotification,players,screenshot,hasCustomScreenshot, ...data}}) => {
-      console.log(hasCustomScreenshot)
+      const episode = await Episode.find({'serie_id': serie_id, 'episode_number': episode_number})
+      if (episode.length > 0) {
+        const prevEpisode = episode[0].episode_number
+        if(prevEpisode === episode_number) {
+          return simpleResponse(false,'Create Episode','This Episode Number Already Exists')
+        }
+      }
       // eslint-disable-next-line no-redeclare
       var players = await Promise.all(players.map(async (newPlayerObject) => {
         const player = await Player.find({ 'short_name': newPlayerObject.name })

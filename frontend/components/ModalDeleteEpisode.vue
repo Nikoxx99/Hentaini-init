@@ -63,6 +63,10 @@ export default {
     episodenumber: {
       type: Number,
       default: 0
+    },
+    serieid: {
+      type: String,
+      default: ''
     }
   },
   data: () => ({
@@ -84,7 +88,7 @@ export default {
           id: this.episodeid
         }
       }).then((input) => {
-        window.location.reload(true)
+        this.$router.push({ path: '/panel/serie/' + this.serieid + '/episodes', query: { deleted: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

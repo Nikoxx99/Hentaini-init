@@ -47,7 +47,7 @@
             <v-btn
               class="mr-4 blue darken-4"
               large
-              @click.once="editEpisode"
+              @click="editEpisode"
             >
               submit
             </v-btn>
@@ -286,7 +286,7 @@ export default {
           }
         }
       }).then((input) => {
-        this.$router.push({ path: '/panel/serie/' + this.serie_id + '/episodes' })
+        this.$router.push({ path: '/panel/serie/' + this.serie_id + '/episodes', query: { edited: true } })
         // this.$router.push({ path: '/panel/serie/' })
       }).catch((error) => {
         // eslint-disable-next-line no-console

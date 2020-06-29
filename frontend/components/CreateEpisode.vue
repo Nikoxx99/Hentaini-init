@@ -1,5 +1,14 @@
 <template>
   <v-container>
+    <v-alert
+      v-if="alertBox"
+      type="info"
+      :class="alertBoxColor"
+      tile
+      dismissible
+    >
+      {{ errorMessage }}
+    </v-alert>
     <v-row>
       <v-col cols="6">
         <v-card
@@ -49,7 +58,7 @@
               label="Select a Custom Image"
               @change="screenshotSelected"
             />
-            <v-btn class="mr-4 blue darken-4" large @click.once="createEpisode">
+            <v-btn class="mr-4 blue darken-4" large @click="createEpisode">
               submit
             </v-btn>
           </v-container>
@@ -192,7 +201,10 @@ export default {
     screenshotPreview: '',
     playerList: [],
     players: [],
-    downloadList: []
+    downloadList: [],
+    alertBox: false,
+    alertBoxColor: '',
+    errorMessage: ''
   }),
 
   computed: {
@@ -263,8 +275,13 @@ export default {
           }
         }
       }).then((input) => {
-        this.$router.push({ path: '/panel/serie/' + this.serie_id + '/episodes' })
-        // this.$router.push({ path: '/panel/serie/' })
+        if (input.data.createEpisode.success) {
+          this.$router.push({ path: '/panel/serie/' + this.serie_id + '/episodes', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
+        } else {
+          this.alertBox = true
+          this.alertBoxColor = 'red darken-4'
+          this.errorMessage = input.data.createEpisode.errors[0].message
+        }
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)
