@@ -16,6 +16,7 @@ const typeDefs = `
     Players(limit: Int): [Player]
     Users(limit: Int): [User]
     Roles: [Role]
+    Search(search: String): [Serie]
   }
   type Serie {
     _id: ID

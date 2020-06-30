@@ -1,5 +1,5 @@
 <template>
-  <v-carousel v-model="model">
+  <v-carousel v-model="model" :show-arrows="false">
     <v-carousel-item
       v-for="serie in FeaturedSeries"
       :key="serie.title"

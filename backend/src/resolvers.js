@@ -148,6 +148,23 @@ export const resolvers = {
     },
     Users: async (_,{limit}) => {
       return await User.find().limit(limit)
+    },
+    Search: async (_,{search}) => {
+      return await Serie.find(
+        {
+          $and:[
+            {
+              $or:[
+                {'title':{ $regex: '.*' + search + '.*' }},
+                {'title_english':{ $regex: '.*' + search + '.*' }}
+              ]
+            },
+            {
+              'hasEpisodes': true
+            }
+          ]
+        }
+      )
     }
   },
   Mutation:{

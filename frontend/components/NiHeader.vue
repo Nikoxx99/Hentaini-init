@@ -2,6 +2,7 @@
   <div>
     <v-toolbar
       dark
+      style="position:relative;z-index:1"
     >
       <v-app-bar-nav-icon
         class="d-flex d-md-none d-lg-none d-lx-flex"
@@ -34,6 +35,9 @@
         </li>
       </ul>
       <v-spacer />
+      <v-row class="mr-2 d-none d-md-flex d-lg-flex d-lx-flex">
+        <Search />
+      </v-row>
       <v-btn v-if="!$store.state.auth" icon large to="/login">
         <v-icon>mdi-account</v-icon>
       </v-btn>
@@ -89,6 +93,9 @@
           </v-list-item>
 
           <v-divider />
+          <v-row class="px-4 d-flex d-sm-flex d-sx-flex d-md-none d-lg-none d-lx-none">
+            <Search />
+          </v-row>
           <v-list>
             <v-list-item-group>
               <v-list-item
@@ -115,16 +122,20 @@
 <script>
 import Cookie from 'js-cookie'
 import Logo from '../components/Logo'
+import Search from '../components/Utils/Search'
 export default {
   name: 'NiHeader',
   components: {
-    Logo
+    Logo,
+    Search
   },
   data () {
     this.$i18n.locale = 'en'
     return {
       locale: 'en',
       nav: false,
+      search: '',
+      focus: false,
       navs: [
         { id: 1, name: 'Explore', url: '/explore', icon: 'mdi-home' },
         { id: 2, name: 'Airing', url: '/airing', icon: 'mdi-plus-circle' },
