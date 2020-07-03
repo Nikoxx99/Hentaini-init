@@ -23,12 +23,20 @@ var corsOptions = {
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   optionsSuccessStatus: 200
 }
+
+// eslint-disable-next-line no-undef
+if (process.env.GRAPHIQL === 'TRUE') {
+  var isGraphiQLActivated = true
+}else {
+  // eslint-disable-next-line no-redeclare
+  var isGraphiQLActivated = false
+}
 app.use(cors(corsOptions))
 
 app.use('/graphql',
   graphqlUploadExpress({ maxFileSize: 50000000, maxFiles: 10 }),
   graphqlHTTP({
-    graphiql:false,
+    graphiql:isGraphiQLActivated,
     schema: schema,
     context: SECRET
   }))
