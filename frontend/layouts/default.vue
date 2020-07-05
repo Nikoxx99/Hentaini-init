@@ -42,4 +42,16 @@ a {
 ul {
   list-style: none;
 }
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background-color: #222;
+}
+::-webkit-scrollbar-thumb {
+  background: #1976d2;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #12589e;
+}
 </style>
