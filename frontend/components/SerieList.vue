@@ -115,7 +115,7 @@
 import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
-import ModalDeleteSerie from './ModalDeleteSerie'
+import ModalDeleteSerie from './Delete/ModalDeleteSerie'
 export default {
   name: 'SerieList',
   components: {

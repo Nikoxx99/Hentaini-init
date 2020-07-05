@@ -19,17 +19,17 @@
           </v-card-title>
           <v-container>
             <v-text-field
-              v-model="title"
+              v-model="serie.title"
               :rules="titleRules"
               label="Hentai Title"
               required
             />
             <v-text-field
-              v-model="title_english"
+              v-model="serie.title_english"
               label="Hentai English Title"
             />
             <v-textarea
-              v-model="synopsis"
+              v-model="serie.synopsis"
               :rules="synopsisRules"
               name="synopsis"
               label="Synopsis"
@@ -37,8 +37,8 @@
               hint="Describe the Hentai"
             />
             <v-combobox
-              v-model="genres"
-              :items="genre"
+              v-model="serie.genres"
+              :items="genreList"
               :error="genreError"
               label="Hentai Genres"
               multiple
@@ -49,19 +49,19 @@
               @click="genreError = false"
             />
             <v-select
-              v-model="serie_type"
+              v-model="serie.serie_type"
               :items="categories"
               filled
               label="Category"
             />
             <v-select
-              v-model="status"
-              :items="stat"
+              v-model="serie.status"
+              :items="statusList"
               filled
               label="Status"
             />
             <v-switch
-              v-model="censorship"
+              v-model="serie.censorship"
               filled
               label="Censorship"
             />
@@ -103,16 +103,22 @@
             >
               <template v-slot:activator="{ on }">
                 <v-text-field
-                  v-model="next_episode"
+                  v-model="serie.next_episode"
                   label="Next episode on"
                   prepend-icon="mdi-calendar"
                   readonly
                   v-on="on"
                 />
               </template>
-              <v-date-picker v-model="next_episode" />
+              <v-date-picker v-model="serie.next_episode" />
             </v-menu>
-            <v-btn class="mr-4 blue darken-4" large @click="createSerie">
+            <v-btn
+              class="mr-4 blue darken-4"
+              :loading="isSubmitting"
+              :disabled="isSubmitting"
+              large
+              @click="createSerie"
+            >
               submit
             </v-btn>
           </v-container>
@@ -151,32 +157,34 @@ export default {
   },
 
   data: () => ({
-    title: '',
+    serie: {
+      title: '',
+      title_english: '',
+      synopsis: '',
+      genres: [],
+      serie_type: '',
+      status: '',
+      next_episode: '',
+      censorship: false,
+      cover: [],
+      background_cover: []
+    },
     titleRules: [
       v => !!v || 'Title is required'
     ],
-    title_english: '',
-    synopsis: '',
     synopsisRules: [
       v => !!v || 'Synopsis is required'
     ],
-    genres: [],
-    genre: [],
-    genreError: false,
-    serie_type: '',
+    genreList: [],
     categories: [],
-    status: '',
-    stat: ['AIRING', 'FINALIZED'],
-    censorship: false,
-    cover: [],
-    background_cover: [],
-    next_episode: '',
-    items: ['Item 1', 'Item 2'],
+    genreError: false,
+    statusList: ['AIRING', 'FINALIZED'],
     coverPreview: '',
     screenshotPreview: '',
     error: false,
     errorMessage: '',
-    alertBoxColor: ''
+    alertBoxColor: '',
+    isSubmitting: false
   }),
 
   computed: {
@@ -193,7 +201,7 @@ export default {
       }
     }).then((input) => {
       for (let i = 0; i < input.data.Genres.length; i++) {
-        this.genre.push({
+        this.genreList.push({
           text: input.data.Genres[i].text,
           value: input.data.Genres[i].text
         })
@@ -223,11 +231,11 @@ export default {
   },
   methods: {
     createSerie () {
-      if (this.cover < 1 || this.background_cover < 1) {
+      if (this.serie.cover < 1 || this.serie.background_cover < 1) {
         this.error = true
         this.errorMessage = 'You must define an cover and screenshot image.'
       }
-      if (this.genres < 1) {
+      if (this.serie.genres < 1) {
         this.genreError = true
         this.errorMessage = 'You must select one or more genres.'
       }
@@ -243,21 +251,21 @@ export default {
         }`,
         variables: {
           input: {
-            title: this.title,
-            title_english: this.title_english,
-            synopsis: this.synopsis,
-            genres: this.genres,
-            status: this.status,
-            serie_type: this.serie_type,
-            next_episode: this.next_episode,
-            censorship: this.censorship,
-            cover: this.cover,
-            background_cover: this.background_cover
+            title: this.serie.title,
+            title_english: this.serie.title_english,
+            synopsis: this.serie.synopsis,
+            genres: this.serie.genres,
+            status: this.serie.status,
+            serie_type: this.serie.serie_type,
+            next_episode: this.serie.next_episode,
+            censorship: this.serie.censorship,
+            cover: this.serie.cover,
+            background_cover: this.serie.background_cover
           }
         }
       }).then((input) => {
-        console.log(input)
         if (input.data.createSerie.success) {
+          this.isSubmitting = !this.isSubmitting
           this.$router.push({ path: '/panel/serie', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
         } else {
           this.error = true
@@ -271,30 +279,26 @@ export default {
       })
     },
     coverSelected (e) {
-      this.cover = []
-      this.cover.push(this.$refs.cover.$refs.input.files[0])
-      this.cover.push(this.title)
-      if (this.cover !== undefined) {
+      this.serie.cover = []
+      this.serie.cover.push(this.$refs.cover.$refs.input.files[0])
+      this.serie.cover.push(this.serie.title)
+      if (this.serie.cover !== undefined) {
         this.coverPreview = URL.createObjectURL(this.$refs.cover.$refs.input.files[0])
       }
     },
     background_coverSelected (e) {
-      this.background_cover.push(this.$refs.background_cover.$refs.input.files[0])
-      this.background_cover.push(this.title)
+      this.serie.background_cover.push(this.$refs.background_cover.$refs.input.files[0])
+      this.serie.background_cover.push(this.serie.title)
       this.screenshotPreview = URL.createObjectURL(this.$refs.background_cover.$refs.input.files[0])
     },
     initialCoverClear () {
-      this.cover = []
+      this.serie.cover = []
       this.error = false
     },
     initialScreenshotClear () {
-      this.background_cover = []
+      this.serie.background_cover = []
       this.error = false
     }
   }
 }
 </script>
-
-<style>
-
-</style>

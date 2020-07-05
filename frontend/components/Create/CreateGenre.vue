@@ -1,27 +1,32 @@
 <template>
   <v-container>
-    <v-alert
-      v-if="alertBox"
-      type="info"
-      :class="alertBoxColor"
-      tile
-      dismissible
-    >
-      {{ createdMessage }}
-    </v-alert>
     <form>
       <v-container>
+        <v-alert
+          v-if="alertBox"
+          type="info"
+          :class="alertBoxColor"
+          tile
+          dismissible
+        >
+          {{ createdMessage }}
+        </v-alert>
         <v-row>
           <v-col>
             <v-container>
               <v-text-field
-                v-model="name"
-                label="Category Name"
+                v-model="text"
+                label="Genre Name"
                 :hint="hint"
                 persistent-hint
                 required
               />
-              <v-btn class="mr-4 blue darken-4" @click="createCategory">
+              <v-btn
+                class="mr-4 blue darken-4"
+                :loading="isSubmitting"
+                :disabled="isSubmitting"
+                @click="createGenre"
+              >
                 submit
               </v-btn>
             </v-container>
@@ -31,18 +36,18 @@
               tile
             >
               <v-card-title class="blue darken-3">
-                Available Categories
+                Available Genres
               </v-card-title>
               <v-list
                 rounded
                 shaped
               >
                 <v-list-item
-                  v-for="category in categories"
-                  :key="category.id"
+                  v-for="genre in genres"
+                  :key="genre.id"
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{ category.name }}</v-list-item-title>
+                    <v-list-item-title>{{ genre.text }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -57,43 +62,44 @@
 <script>
 import gql from 'graphql-tag'
 export default {
-  name: 'CreateCategory',
+  name: 'CreateGenre',
   data: () => ({
-    name: '',
+    text: '',
     hint: '',
-    categories: '',
+    genres: [],
     createdMessage: '',
     alertBox: false,
-    alertBoxColor: ''
+    alertBoxColor: '',
+    isSubmitting: false
   }),
   created () {
     if (this.$route.query.created) {
       this.alertBox = true
       this.alertBoxColor = 'blue darken-4'
-      this.createdMessage = 'Category Created Successfully.'
+      this.createdMessage = 'Genre Created Successfully.'
     }
     this.$apollo.query({
       query: gql`query ($limit: Int){
-        Categories(limit: $limit){
-          _id
-          name
+        Genres(limit: $limit){
+          text
+          url
         }
       }`,
       variables: {
         limit: 1000
       }
     }).then((input) => {
-      this.categories = input.data.Categories
+      this.genres = input.data.Genres
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
     })
   },
   methods: {
-    createCategory () {
+    createGenre () {
       this.$apollo.mutate({
-        mutation: gql`mutation ($input: CategoryInput){
-          createCategory(input: $input){
+        mutation: gql`mutation ($input: GenreInput){
+          createGenre(input: $input){
             success
             errors{
               path
@@ -103,16 +109,19 @@ export default {
         }`,
         variables: {
           input: {
-            name: this.name
+            text: this.text,
+            value: this.text,
+            url: this.text
           }
         }
       }).then((input) => {
-        if (input.data.createCategory.success) {
-          this.$router.push({ path: '/panel/category/create', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
+        if (input.data.createGenre.success) {
+          this.isSubmitting = !this.isSubmitting
+          this.$router.push({ path: '/panel/genre/create', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
         } else {
           this.alertBox = true
           this.alertBoxColor = 'red darken-4'
-          this.createdMessage = input.data.createCategory.errors[0].message
+          this.createdMessage = input.data.createGenre.errors[0].message
         }
       }).catch((error) => {
         // eslint-disable-next-line no-console

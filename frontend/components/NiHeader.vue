@@ -59,6 +59,7 @@
       dark
       floating
       mobile-breakpoint="960"
+      disable-resize-watcher
       width="260"
       absolute
     >
@@ -121,7 +122,7 @@
 
 <script>
 import Cookie from 'js-cookie'
-import Logo from '../components/Logo'
+import Logo from '../components/Layout/Logo'
 import Search from '../components/Utils/Search'
 export default {
   name: 'NiHeader',

@@ -2,6 +2,9 @@
   <v-container>
     <v-row>
       <v-col>
+        <h5>
+          <a href="/explore">Explore Recent Hentai Episodes</a>
+        </h5>
         <h1>Recent Episodes</h1>
       </v-col>
     </v-row>

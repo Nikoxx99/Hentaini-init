@@ -7,8 +7,8 @@
 </template>
 
 <script>
-import ToolBar from '../components/ToolBar'
-import Footer from '../components/Footer'
+import ToolBar from '../components/Layout/ToolBar'
+import Footer from '../components/Layout/Footer'
 export default {
   components: {
     ToolBar,

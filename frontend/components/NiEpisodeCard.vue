@@ -6,22 +6,30 @@
       tile
       color="#111"
     >
-      <v-img
-        class="white--text align-end"
-        :aspect-ratio="16/9"
-        :src="`${CDN}/screenshot/${screenshot}`"
-      >
-        <v-card-text class="text--primary">
-          <v-chip
-            color="blue darken-3"
-            text-color="white"
-          >
-            <v-icon left>mdi-play</v-icon>
-            Episode: {{ episodeNumber }}
-          </v-chip>
-        </v-card-text>
-      </v-img>
-      <v-card-title style="padding-left:0">{{ title }}</v-card-title>
+      <v-hover v-slot:default="{ hover }">
+        <v-img
+          class="white--text align-end"
+          style="position:relative"
+          :gradient="hover ? 'to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)' : ''"
+          :aspect-ratio="16/9"
+          :src="`${CDN}/screenshot/${screenshot}`"
+        >
+          <div style="position:absolute;top:50%;left:50%; transform: translate(-50%, -50%)">
+            <v-icon style="font-size:4rem">mdi-play</v-icon>
+          </div>
+          <v-card-text class="text--primary">
+            <v-chip
+              color="blue darken-3"
+              text-color="white"
+              small
+            >
+              <v-icon left>mdi-play</v-icon>
+              Episode: {{ episodeNumber }}
+            </v-chip>
+          </v-card-text>
+        </v-img>
+      </v-hover>
+      <v-card-title style="padding-left:0;font-size:1rem">{{ title }}</v-card-title>
     </v-card>
   </a>
 </template>

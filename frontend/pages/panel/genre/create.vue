@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import CreateGenre from '../../../components/CreateGenre'
+import CreateGenre from '../../../components/Create/CreateGenre'
 export default {
   layout: 'panel',
   middleware: 'authenticated',

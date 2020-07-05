@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CreateEpisode from '../../../../../components/CreateEpisode'
+import CreateEpisode from '../../../../../components/Create/CreateEpisode'
 export default {
   layout: 'panel',
   middleware: 'authenticated',

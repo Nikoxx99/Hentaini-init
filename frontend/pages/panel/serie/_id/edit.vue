@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import SerieEdit from '../../../../components/SerieEdit'
+import SerieEdit from '../../../../components/Edit/SerieEdit'
 export default {
   layout: 'panel',
   middleware: 'authenticated',

@@ -33,13 +33,16 @@ if (process.env.GRAPHIQL === 'TRUE') {
 }
 app.use(cors(corsOptions))
 
-app.use('/graphql',
+app.post('/graphql',
   graphqlUploadExpress({ maxFileSize: 50000000, maxFiles: 10 }),
   graphqlHTTP({
     graphiql:isGraphiQLActivated,
     schema: schema,
     context: SECRET
   }))
+app.get('/graphql', ( req, res ) => {
+  res.redirect('/')
+})
 app.use(express.static('cdn'))
 
 app.listen(4000, () =>{

@@ -13,7 +13,7 @@
 
 <script>
 import NiUserAuthForm from '../components/NiUserAuthForm'
-import Logo from '../components/Logo'
+import Logo from '../components/Layout/Logo'
 export default {
   components: {
     NiUserAuthForm,

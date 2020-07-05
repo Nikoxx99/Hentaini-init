@@ -102,7 +102,7 @@
 import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
-import ModalDeleteEpisode from './ModalDeleteEpisode'
+import ModalDeleteEpisode from './Delete/ModalDeleteEpisode'
 export default {
   name: 'EpisodeList',
   components: {

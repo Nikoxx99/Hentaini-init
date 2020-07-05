@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CreateSerie from '../../../components/CreateSerie'
+import CreateSerie from '../../../components/Create/CreateSerie'
 export default {
   layout: 'panel',
   middleware: 'authenticated',

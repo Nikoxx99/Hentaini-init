@@ -13,18 +13,19 @@
           <v-expand-transition>
             <div
               v-if="hover"
-              class="d-flex transition-fast-in-fast-out grey darken-3 v-card--reveal display-3 white--text"
+              class="d-flex transition-fast-in-fast-out grey darken-3 v-card--reveal display-3 white--text px-3"
               style="height: 100%;"
             >
               <v-container>
                 <v-row>
-                  <Logo class="mx-auto" />
-                  <v-card-title>
+                  <v-card-title
+                    class="text-body-2 text-sm-h5 text-md-h5 text-lg-body-1"
+                  >
                     {{ title }}
                   </v-card-title>
                 </v-row>
                 <v-row>
-                  <v-card-text>
+                  <v-card-text style="font-size:0.7rem">
                     {{ synopsis.substr(0,200) + '...' }}
                   </v-card-text>
                 </v-row>
@@ -35,7 +36,9 @@
                     color="blue darken-3"
                     text-color="white"
                     small
-                    class="mx-auto"
+                    class="mx-auto my-2"
+                    :href="`/genres/${genre.url}`"
+                    style="font-size:0.7rem"
                   >
                     {{ genre.text }}
                   </v-chip>
@@ -50,12 +53,8 @@
 </template>
 
 <script>
-import Logo from '../components/Logo'
 export default {
   name: 'NiSerieCard',
-  components: {
-    Logo
-  },
   props: {
     title: {
       type: String,

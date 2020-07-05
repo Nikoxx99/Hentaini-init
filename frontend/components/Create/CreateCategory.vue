@@ -16,25 +16,17 @@
             <v-container>
               <v-text-field
                 v-model="name"
-                label="Player Name"
+                label="Category Name"
                 :hint="hint"
                 persistent-hint
                 required
               />
-              <v-text-field
-                v-model="short_name"
-                label="Player Short Name"
-                persistent-hint
-                required
-              />
-              <v-text-field
-                v-model="player_code"
-                label="Player Code"
-                placeholder="Example: https://clipwatching.com/embed-codigo.html"
-                persistent-hint
-                required
-              />
-              <v-btn class="mr-4 blue darken-4" @click="createPlayer">
+              <v-btn
+                class="mr-4 blue darken-4"
+                :loading="isSubmitting"
+                :disabled="isSubmitting"
+                @click="createCategory"
+              >
                 submit
               </v-btn>
             </v-container>
@@ -44,20 +36,18 @@
               tile
             >
               <v-card-title class="blue darken-3">
-                Available Players
+                Available Categories
               </v-card-title>
               <v-list
                 rounded
                 shaped
               >
                 <v-list-item
-                  v-for="player in players"
-                  :key="player.id"
+                  v-for="category in categories"
+                  :key="category.id"
                 >
                   <v-list-item-content>
-                    <v-list-item-title>{{ player.name }}</v-list-item-title>
-                    <v-list-item-subtitle>Short name: {{ player.short_name }}</v-list-item-subtitle>
-                    <v-list-item-subtitle>Player Code: {{ player.player_code }}</v-list-item-subtitle>
+                    <v-list-item-title>{{ category.name }}</v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -72,51 +62,44 @@
 <script>
 import gql from 'graphql-tag'
 export default {
-  name: 'CreatePlayer',
+  name: 'CreateCategory',
   data: () => ({
     name: '',
-    short_name: '',
-    player_code: '',
     hint: '',
-    players: [],
+    categories: '',
     createdMessage: '',
     alertBox: false,
-    alertBoxColor: ''
+    alertBoxColor: '',
+    isSubmitting: false
   }),
   created () {
     if (this.$route.query.created) {
       this.alertBox = true
       this.alertBoxColor = 'blue darken-4'
-      this.createdMessage = 'Player Created Successfully.'
+      this.createdMessage = 'Category Created Successfully.'
     }
     this.$apollo.query({
       query: gql`query ($limit: Int){
-        Players(limit: $limit){
+        Categories(limit: $limit){
+          _id
           name
-          short_name
-          player_code
         }
       }`,
       variables: {
-        limit: 100
+        limit: 1000
       }
     }).then((input) => {
-      this.players = input.data.Players
+      this.categories = input.data.Categories
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
     })
   },
   methods: {
-    createPlayer () {
-      if (!this.name || !this.short_name || !this.player_code) {
-        this.alertBox = true
-        this.alertBoxColor = 'blue darken-4'
-        this.createdMessage = 'You Must fill al the Fields'
-      }
+    createCategory () {
       this.$apollo.mutate({
-        mutation: gql`mutation ($input: PlayerInput){
-          createPlayer(input: $input){
+        mutation: gql`mutation ($input: CategoryInput){
+          createCategory(input: $input){
             success
             errors{
               path
@@ -126,18 +109,17 @@ export default {
         }`,
         variables: {
           input: {
-            name: this.name,
-            short_name: this.short_name,
-            player_code: this.player_code
+            name: this.name
           }
         }
       }).then((input) => {
-        if (input.data.createPlayer.success) {
-          this.$router.push({ path: '/panel/player/create', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
+        if (input.data.createCategory.success) {
+          this.isSubmitting = !this.isSubmitting
+          this.$router.push({ path: '/panel/category/create', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
         } else {
           this.alertBox = true
           this.alertBoxColor = 'red darken-4'
-          this.createdMessage = input.data.createPlayer.errors[0].message
+          this.createdMessage = input.data.createCategory.errors[0].message
         }
       }).catch((error) => {
         // eslint-disable-next-line no-console

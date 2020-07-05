@@ -2,14 +2,17 @@
   <v-container>
     <v-row>
       <v-col>
-        <h1>Recent Series</h1>
+        <h5>
+          <a href="/explore">Explore Recent Hentai Series</a>
+        </h5>
+        <h1>Recent Hentai</h1>
       </v-col>
     </v-row>
     <v-row>
       <v-col
         v-for="(serie) in Series"
         :key="serie._id"
-        cols="12"
+        cols="6"
         lg="2"
         md="4"
         sm="6"
@@ -45,6 +48,7 @@ export default {
             }
             genres{
               text
+              url
             }
             title
             synopsis

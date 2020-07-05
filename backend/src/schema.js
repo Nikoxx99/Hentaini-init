@@ -72,6 +72,7 @@ const typeDefs = `
   type GenreQuery {
     text: String
     value: String
+    url: String
   }
 
   type Category {

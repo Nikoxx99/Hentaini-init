@@ -87,7 +87,6 @@ export default {
         }
       }).then((input) => {
         this.searchResult = input.data.Search
-        console.log(this.searchResult)
       }).catch((error) => {
         // eslint-disable-next-line no-console
         console.error(error)

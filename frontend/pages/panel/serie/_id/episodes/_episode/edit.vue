@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import EpisodeEdit from '../../../../../../components/EpisodeEdit'
+import EpisodeEdit from '../../../../../../components/Edit/EpisodeEdit'
 export default {
   layout: 'panel',
   middleware: 'authenticated',

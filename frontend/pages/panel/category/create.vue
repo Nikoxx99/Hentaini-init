@@ -7,7 +7,7 @@
 </template>
 
 <script>
-import CreateCategory from '../../../components/CreateCategory'
+import CreateCategory from '../../../components/Create/CreateCategory'
 export default {
   layout: 'panel',
   middleware: 'authenticated',

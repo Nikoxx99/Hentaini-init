@@ -9,7 +9,7 @@
 </template>
 
 <script>
-import CreatePlayer from '../../../components/CreatePlayer'
+import CreatePlayer from '../../../components/Create/CreatePlayer'
 export default {
   layout: 'panel',
   middleware: 'authenticated',

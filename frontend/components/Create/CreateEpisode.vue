@@ -19,7 +19,7 @@
           </v-card-title>
           <v-container>
             <v-text-field
-              v-model="serie_id"
+              v-model="episode.serie_id"
               label="Episode From"
               readonly
               required
@@ -30,29 +30,29 @@
               prepend-icon="mdi-bell"
             />
             <v-text-field
-              v-model.number="episode_number"
+              v-model.number="episode.episode_number"
               label="Episode Number"
               type="number"
               required
             />
             <v-switch
-              v-model="visible"
+              v-model="episode.visible"
               label="Is Visible?"
             />
             <v-select
-              v-model="language"
+              v-model="episode.language"
               :items="languages"
               filled
               label="Language"
             />
             <v-switch
-              v-model="hasCustomScreenshot"
+              v-model="episode.hasCustomScreenshot"
               label="Use Custom Image?"
               prepend-icon="mdi-image"
               @change="detectNewImage"
             />
             <v-file-input
-              v-if="hasCustomScreenshot"
+              v-if="episode.hasCustomScreenshot"
               ref="screenshot"
               accept="image/*"
               label="Select a Custom Image"
@@ -62,15 +62,15 @@
               submit
             </v-btn>
           </v-container>
-          <v-container v-if="screenshot && !hasCustomScreenshot">
+          <v-container v-if="episode.screenshot && !episode.hasCustomScreenshot">
             <h2>Default Screenshot Image</h2>
             <v-row>
               <v-img
-                :src="`${CDN}/screenshot/${screenshot}`"
+                :src="`${CDN}/screenshot/${episode.screenshot}`"
               />
             </v-row>
           </v-container>
-          <v-container v-if="customScreenshot.length > 0 && hasCustomScreenshot">
+          <v-container v-if="episode.customScreenshot.length > 0 && episode.hasCustomScreenshot">
             <h2>Custom Screenshot Image</h2>
             <v-row>
               <v-img
@@ -89,7 +89,7 @@
           </v-card-title>
           <v-container>
             <PlayerInput
-              v-for="(player, index) in playerList"
+              v-for="(player, index) in episode.playerList"
               :id="'container'+index"
               :key="index"
               :index="index"
@@ -137,7 +137,7 @@
           </v-card-title>
           <v-container>
             <DownloadInput
-              v-for="(download, index) in downloadList"
+              v-for="(download, index) in episode.downloadList"
               :id="'container'+index"
               :key="index"
               :index="index"
@@ -157,7 +157,13 @@
                 <v-icon>mdi-delete</v-icon>
               </v-btn>
             </DownloadInput>
-            <v-btn class="mr-4 blue darken-4" large @click="addDownloadSlot">
+            <v-btn
+              class="mr-4 blue darken-4"
+              :loading="isSubmitting"
+              :disabled="isSubmitting"
+              large
+              @click="addDownloadSlot"
+            >
               Add Download
             </v-btn>
           </v-container>
@@ -171,8 +177,8 @@
 import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
-import PlayerInput from './PlayerInput'
-import DownloadInput from './DownloadInput'
+import PlayerInput from '../Template/PlayerInput'
+import DownloadInput from '../Template/DownloadInput'
 export default {
   name: 'CreateEpisode',
   components: {
@@ -185,32 +191,31 @@ export default {
     name: { required, maxLength: minLength(1) }
   },
   data: () => ({
+    episode: {
+      serie_id: '',
+      episode_number: 1,
+      visible: true,
+      language: 'ENGLISH',
+      hasCustomScreenshot: false,
+      screenshot: '',
+      customScreenshot: [],
+      playerList: [],
+      downloadList: []
+    },
+    serie_title: '',
     CDN: process.env.CDN_URI,
     currentCounter: 0,
-    serie_id: '',
-    serie_title: '',
-    episode_number: 1,
-    created_at: '',
-    visible: true,
     sendNotification: true,
-    language: 'ENGLISH',
     languages: ['ENGLISH', 'RUSSIAN', 'SPANISH'],
-    screenshot: '',
-    customScreenshot: [],
-    hasCustomScreenshot: false,
     screenshotPreview: '',
-    playerList: [],
     players: [],
-    downloadList: [],
     alertBox: false,
     alertBoxColor: '',
-    errorMessage: ''
+    errorMessage: '',
+    isSubmitting: false
   }),
-
-  computed: {
-  },
   async created () {
-    this.serie_id = this.$route.params.id
+    this.episode.serie_id = this.$route.params.id
     await this.$apollo.query({
       query: gql`query ($serie_id: ID){
         Serie(_id: $serie_id){
@@ -219,11 +224,11 @@ export default {
         }
       }`,
       variables: {
-        serie_id: this.serie_id
+        serie_id: this.$route.params.id
       }
     }).then((input) => {
       this.serie_title = input.data.Serie.title
-      this.screenshot = input.data.Serie.background_coverUrl
+      this.episode.screenshot = input.data.Serie.background_coverUrl
     }).catch((error) => {
       // eslint-disable-next-line no-console
       console.error(error)
@@ -262,21 +267,22 @@ export default {
         }`,
         variables: {
           input: {
-            serie_id: this.serie_id,
-            episode_number: this.episode_number,
-            visible: this.visible,
+            serie_id: this.episode.serie_id,
+            episode_number: this.episode.episode_number,
+            visible: this.episode.visible,
             sendNotification: this.sendNotification,
-            language: this.language,
-            hasCustomScreenshot: this.hasCustomScreenshot,
-            screenshot: this.screenshot,
+            language: this.episode.language,
+            hasCustomScreenshot: this.episode.hasCustomScreenshot,
+            screenshot: this.episode.screenshot,
             customScreenshot: this.customScreenshot,
-            players: this.playerList,
-            downloads: this.downloadList
+            players: this.episode.playerList,
+            downloads: this.episode.downloadList
           }
         }
       }).then((input) => {
         if (input.data.createEpisode.success) {
-          this.$router.push({ path: '/panel/serie/' + this.serie_id + '/episodes', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
+          this.isSubmitting = !this.isSubmitting
+          this.$router.push({ path: '/panel/serie/' + this.episode.serie_id + '/episodes', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
         } else {
           this.alertBox = true
           this.alertBoxColor = 'red darken-4'
@@ -288,42 +294,42 @@ export default {
       })
     },
     screenshotSelected () {
-      this.customScreenshot = []
-      this.customScreenshot.push(this.$refs.screenshot.$refs.input.files[0])
-      this.customScreenshot.push(this.serie_title)
-      this.customScreenshot.push(this.episode_number)
+      this.episode.customScreenshot = []
+      this.episode.customScreenshot.push(this.$refs.screenshot.$refs.input.files[0])
+      this.episode.customScreenshot.push(this.episode.serie_title)
+      this.episode.customScreenshot.push(this.episode.episode_number)
       this.screenshotPreview = URL.createObjectURL(this.$refs.screenshot.$refs.input.files[0])
     },
     detectNewImage () {
-      if (this.hasCustomScreenshot) {
-        this.customScreenshot = []
+      if (this.episode.hasCustomScreenshot) {
+        this.episode.customScreenshot = []
       } else {
-        this.customScreenshot = []
+        this.episode.customScreenshot = []
       }
     },
     addPlayerSlot () {
-      this.playerList.push({
+      this.episode.playerList.push({
         name: '',
         url: ''
       })
     },
     addDownloadSlot () {
-      this.downloadList.push({
+      this.episode.downloadList.push({
         url: ''
       })
     },
     removePlayerSlot (slot) {
-      this.playerList.splice(slot, 1)
+      this.episode.playerList.splice(slot, 1)
     },
     removeDownloadSlot (slot) {
-      this.downloadList.splice(slot, 1)
+      this.episode.downloadList.splice(slot, 1)
     },
     resetPlayerList () {
-      this.playerList = []
+      this.episode.playerList = []
     },
     playerListModel () {
-      this.playerList = []
-      this.playerList.push(
+      this.episode.playerList = []
+      this.episode.playerList.push(
         { name: 'C', url: '' },
         { name: 'CW', url: '' },
         { name: 'F', url: '' },

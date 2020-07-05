@@ -241,7 +241,7 @@
 import gql from 'graphql-tag'
 import parse from 'url-parse'
 import VideoElement from './VideoElement'
-import Comments from './Comments'
+import Comments from './Layout/Comments'
 export default {
   components: {
     VideoElement,

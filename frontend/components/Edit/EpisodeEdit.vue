@@ -155,8 +155,8 @@
 import gql from 'graphql-tag'
 import { validationMixin } from 'vuelidate'
 import { required, minLength } from 'vuelidate/lib/validators'
-import PlayerInput from './PlayerInput'
-import DownloadInput from './DownloadInput'
+import PlayerInput from '../Template/PlayerInput'
+import DownloadInput from '../Template/DownloadInput'
 export default {
   name: 'EditEpisode',
   components: {

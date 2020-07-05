@@ -13,7 +13,7 @@
 
 <script>
 import NiUserRegisterForm from '../components/NiUserRegisterForm'
-import Logo from '../components/Logo'
+import Logo from '../components/Layout/Logo'
 export default {
   components: {
     NiUserRegisterForm,
