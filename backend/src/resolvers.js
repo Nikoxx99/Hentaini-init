@@ -155,8 +155,8 @@ export const resolvers = {
           $and:[
             {
               $or:[
-                {'title':{ $regex: '.*' + search + '.*' }},
-                {'title_english':{ $regex: '.*' + search + '.*' }}
+                {'title':{ $regex: new RegExp(search, 'i') }},
+                {'title_english':{ $regex: new RegExp(search, 'i') }}
               ]
             },
             {
