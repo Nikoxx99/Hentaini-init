@@ -8,16 +8,24 @@
     >
       <v-hover v-slot:default="{ hover }">
         <v-img
-          class="white--text align-end"
+          class="white--text"
           style="position:relative"
-          :gradient="hover ? 'to top right, rgba(100,115,201,.33), rgba(25,32,72,.7)' : ''"
           :aspect-ratio="16/9"
           :src="`${CDN}/screenshot/${screenshot}`"
         >
-          <div style="position:absolute;top:50%;left:50%; transform: translate(-50%, -50%)">
+          <div
+            :class="hover ? 'fill-height gradient gradient-hover' : 'fill-height gradient'"
+          />
+          <div
+            :class="hover ? 'play-button play-hover' : 'play-button'"
+            style="position:absolute;top:50%;left:50%; transform: translate(-50%, -50%)"
+          >
             <v-icon style="font-size:4rem">mdi-play</v-icon>
           </div>
-          <v-card-text class="text--primary">
+          <v-card-text
+            class="align-self-end text--primary"
+            style="position:absolute;bottom:0"
+          >
             <v-chip
               color="blue darken-3"
               text-color="white"
@@ -29,7 +37,8 @@
           </v-card-text>
         </v-img>
       </v-hover>
-      <v-card-title style="padding-left:0;font-size:1rem">{{ title }}</v-card-title>
+      <v-card-title class="pb-0 pt-2 pl-0" style="font-size:1rem">{{ title }}</v-card-title>
+      <v-card-text class="py-0 pl-0 grey--text darken-3">{{ $moment(created).fromNow() }}</v-card-text>
     </v-card>
   </a>
 </template>
@@ -61,6 +70,10 @@ export default {
     screenshot: {
       type: String,
       default: ''
+    },
+    created: {
+      type: String,
+      default: ''
     }
   },
   data () {
@@ -73,6 +86,19 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+.play-button {
+  transition: all .2s ease-in-out;
+}
 
+.play-button:not(.play-hover) {
+  opacity: 0;
+}
+.gradient {
+  transition: all .2s ease-in-out;
+  background-image: linear-gradient(to top right, rgba(100,115,201,.33), rgba(25,32,72,.7));
+}
+.gradient:not(.gradient-hover){
+  opacity: 0;
+}
 </style>

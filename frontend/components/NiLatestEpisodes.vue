@@ -6,6 +6,12 @@
           <a href="/explore">Explore Recent Hentai Episodes</a>
         </h5>
         <h1>Recent Episodes</h1>
+        <h4 class="grey--text text-body-2 darken-3">
+          <v-icon class="grey--text darken-3">
+            mdi-clock-outline
+          </v-icon>
+          Updated {{ $moment(Episodes[0].created_at).fromNow() }}
+        </h4>
       </v-col>
     </v-row>
     <v-row>
@@ -25,6 +31,7 @@
           :status="episode.serie.status"
           :url="episode.urlName"
           :screenshot="episode.screenshot"
+          :created="episode.created_at"
         />
       </v-col>
     </v-row>
@@ -50,6 +57,7 @@ export default {
               status
               coverUrl
             }
+            created_at
           }
         }
       `,

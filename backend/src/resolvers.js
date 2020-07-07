@@ -108,10 +108,22 @@ export const resolvers = {
     Serie: async (_,{_id}) => {
       return await Serie.findById(_id)
     },
-    Series: async (_,{limit,order,showNoEpisodes}) => {
+    Series: async (_,{limit,order,filter,genre,showNoEpisodes}) => {
+      const isFilterSelected = filter
+      const isGenreSelected = genre
       if (showNoEpisodes) {
         return await Serie.find().sort({'visits': order}).limit(limit)
       } else {
+        if (isFilterSelected) {
+          if (filter === 'airing') {
+            return await Serie.find({'hasEpisodes': true, 'status': 'AIRING'}).sort({'visits': order}).limit(limit)
+          } else if (filter === 'no-censorship') {
+            return await Serie.find({'hasEpisodes': true, 'censorship': false}).sort({'visits': order}).limit(limit)
+          }
+        }
+        if (isGenreSelected) {
+          return await Serie.find({'genres.url': genre }).sort({'visits': order}).limit(limit)
+        }
         return await Serie.find({'hasEpisodes': true}).sort({'visits': order}).limit(limit)
       }
     },
@@ -459,8 +471,12 @@ export const resolvers = {
     }
   },
   Genre: {
-    series ({url},{sort}) {
-      return Serie.find({'genres.url': url}).sort({'visits': sort})
+    series ({url},{sort,showNoEpisodes}) {
+      if(showNoEpisodes){
+        return Serie.find({'genres.url': url}).sort({'visits': sort})
+      }else{
+        return Serie.find({'hasEpisodes': true, 'genres.url': url}).sort({'visits': sort})
+      }
     }
   }
 }

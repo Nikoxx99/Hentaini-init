@@ -133,9 +133,9 @@ export default {
           }
           this.$store.commit('setAuth', auth)
           Cookie.set('auth', auth)
-          this.$router.push('/')
+          this.$router.replace('/')
         } else {
-          this.$router.push('/login?loginFailed=true')
+          this.loginFailed = true
         }
       }).catch((error) => {
         // eslint-disable-next-line no-console

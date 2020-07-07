@@ -4,7 +4,7 @@ import {resolvers} from './resolvers'
 const typeDefs = `
   type Query {
     Serie(_id: ID): Serie
-    Series(limit: Int, order: String, showNoEpisodes: Boolean): [Serie]
+    Series(limit: Int, order: String, filter: String, genre: String, showNoEpisodes: Boolean): [Serie]
     FeaturedSeries: [Serie]
     Episode(_id: ID): Episode
     EpisodeByUrlName(urlName: String, episode_number: Int): Episode
@@ -48,6 +48,7 @@ const typeDefs = `
     visible: Boolean
     players: [Player]
     downloads: [Download]
+    created_at: Date
   }
 
   type Player {
@@ -66,7 +67,7 @@ const typeDefs = `
     _id: ID
     text: String
     url: String
-    series(sort: String): [Serie]
+    series(sort: String, showNoEpisodes: Boolean): [Serie]
   }
 
   type GenreQuery {
@@ -113,6 +114,7 @@ const typeDefs = `
   }
 
   scalar Upload
+  scalar Date
 
   type Mutation {
     createSerie(input: SerieInput): SimpleResponse

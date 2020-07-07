@@ -42,10 +42,15 @@ module.exports = {
     '@nuxtjs/dotenv',
     '@nuxtjs/vuetify',
     '@nuxtjs/apollo',
+    '@nuxtjs/moment',
     ['@nuxtjs/google-analytics', {
       id: 'UA-170511662-1'
     }]
   ],
+  moment: {
+    timezone: true
+  },
+
   apollo: {
     clientConfigs: {
       default: {

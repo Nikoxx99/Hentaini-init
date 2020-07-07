@@ -37,7 +37,7 @@
                     text-color="white"
                     small
                     class="mx-auto my-2"
-                    :href="`/genres/${genre.url}`"
+                    :href="`/explore?genre=${genre.url}`"
                     style="font-size:0.7rem"
                   >
                     {{ genre.text }}

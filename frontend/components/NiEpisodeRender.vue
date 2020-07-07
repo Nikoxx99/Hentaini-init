@@ -194,6 +194,7 @@
                   <v-chip
                     v-for="genre in EpisodeByUrlName.serie.genres"
                     :key="genre.text"
+                    :href="`/explore?genre=${genre.url}`"
                   >
                     {{ genre.text }}
                   </v-chip>
@@ -222,7 +223,7 @@
                           <span background-color="blue darken-4">{{ episode_item.episode_number }}</span>
                         </v-list-item-icon>
                         <v-list-item-content>
-                          <a :href="nextEpisodeUrl.concat('', episode_item.episode_number)"><v-list-item-title v-text="EpisodeByUrlName.serie.title" /></a>
+                          <a :href="`/episode/${EpisodeByUrlName.urlName}/${episode_item.episode_number}`"><v-list-item-title v-text="EpisodeByUrlName.serie.title" /></a>
                         </v-list-item-content>
                       </v-list-item>
                     </v-list-item-group>
@@ -259,6 +260,7 @@ export default {
               synopsis
               genres{
                 text
+                url
               }
               episodes{
                 episode_number

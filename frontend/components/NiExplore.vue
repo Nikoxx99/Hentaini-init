@@ -1,15 +1,26 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-container>
+      <v-container class="pb-0">
         <v-row>
-          <v-breadcrumbs :items="breadcrumb" divider="•" style="padding:1rem 1rem 1rem 1rem" class="grey darken-4" />
+          <v-breadcrumbs
+            :items="breadcrumb"
+            divider="•"
+            style="padding:1rem 1rem 1rem 1rem"
+            class="grey darken-4 rounded-r-xl"
+          />
         </v-row>
         <v-row>
-          <v-col cols="12" class="grey darken-4 mt-4 px-2">
+          <v-col v-if="$route.query.genre" cols="12" class="mt-4 px-2">
+            <h1>No GF? No problem. Explore our <strong class="blue--text darken-4"> {{ prettyGenre }} </strong> catalog.</h1>
+          </v-col>
+          <v-col v-else cols="12" class="mt-4 px-2">
             <h1>No GF? No problem. Explore our catalog.</h1>
           </v-col>
-          <v-col cols="12" class="grey darken-4 px-2">
+          <v-col v-if="$route.query.genre" cols="12" class="px-2 pb-0">
+            <p>You can serch for the best {{ prettyGenre }} Hentai out there in this page.</p>
+          </v-col>
+          <v-col v-else cols="12" class="px-2 pb-0">
             <p>You can serch for the best Hentai out there in this page.</p>
           </v-col>
         </v-row>
@@ -26,8 +37,38 @@
             lg="3"
           >
             <v-expansion-panels
+              v-model="expandedFilterBy"
+              multiple
+              tile
+            >
+              <v-expansion-panel>
+                <v-expansion-panel-header>FILTER</v-expansion-panel-header>
+                <v-expansion-panel-content class="px-0">
+                  <v-list
+                    rounded
+                    :subheader="false"
+                  >
+                    <v-list-item
+                      v-for="filter in Filters"
+                      :key="filter.id"
+                      :href="`/explore?filter=${filter.url}`"
+                      :class="filter.class"
+                    >
+                      <v-list-item-icon>
+                        <v-icon>mdi-filter</v-icon>
+                      </v-list-item-icon>
+                      <v-list-item-content>
+                        <v-list-item-title v-text="filter.name" />
+                      </v-list-item-content>
+                    </v-list-item>
+                  </v-list>
+                </v-expansion-panel-content>
+              </v-expansion-panel>
+            </v-expansion-panels>
+            <v-expansion-panels
               v-model="expandedOrderBy"
               multiple
+              tile
             >
               <v-expansion-panel class="blue darken-4">
                 <v-expansion-panel-header>ORDER BY</v-expansion-panel-header>
@@ -56,6 +97,7 @@
             <v-expansion-panels
               v-model="expanded"
               multiple
+              tile
             >
               <v-expansion-panel>
                 <v-expansion-panel-header>HENTAI GENRES</v-expansion-panel-header>
@@ -67,7 +109,7 @@
                     <v-list-item
                       v-for="genre in Genres"
                       :key="genre.text"
-                      :href="`/genres/${genre.url}`"
+                      :href="`/explore?genre=${genre.url}`"
                     >
                       <v-list-item-icon>
                         <v-icon>mdi-folder-search-outline</v-icon>
@@ -127,8 +169,8 @@ export default {
     Series () {
       return {
         query: gql`
-        query ($limit: Int, $order: String){
-          Series(limit: $limit, order: $order){
+        query ($limit: Int, $order: String, $filter: String, $genre: String){
+          Series(limit: $limit, order: $order, filter: $filter, genre: $genre){
             title
             synopsis
             genres{
@@ -139,17 +181,11 @@ export default {
           }
         }
       `,
-        variables () {
-          if (!this.$route.query.order) {
-            return {
-              limit: 1000
-            }
-          } else {
-            return {
-              limit: 1000,
-              order: this.$route.query.order
-            }
-          }
+        variables: {
+          imit: 1000,
+          order: this.$route.query.order,
+          filter: this.$route.query.filter,
+          genre: this.$route.query.genre
         }
       }
     },
@@ -175,15 +211,21 @@ export default {
       locale: 'en',
       expanded: [0],
       expandedOrderBy: [0],
+      expandedFilterBy: [0],
       innerWidth: 0,
+      prettyGenre: '',
       Genres: {
         episodes: {
           urlName: ''
         }
       },
       Orders: [
-        { name: 'Most Views', url: 'ascending' },
-        { name: 'Low Views', url: 'descending' }
+        { id: 1, name: 'Most Views', url: 'ascending' },
+        { id: 2, name: 'Low Views', url: 'descending' }
+      ],
+      Filters: [
+        { id: 1, name: 'Airing', url: 'airing', class: 'grey darken-4' },
+        { id: 2, name: 'No Censorship', url: 'no-censorship', class: 'grey darken-4' }
       ],
       breadcrumb: [
         {
@@ -203,16 +245,42 @@ export default {
       if (innerWidth < 1264) {
         this.expanded = []
         this.expandedOrderBy = []
+        this.expandedFilterBy = []
       } else {
         this.expanded = [0]
         this.expandedOrderBy = [0]
+        this.expandedFilterBy = [0]
       }
     }
   },
-  mounted () {
+  created () {
+    if (this.$route.query.filter) {
+      const filter = this.$route.query.filter
+      if (filter === 'airing') {
+        this.Filters[0].class = 'blue darken-4'
+      } else if (filter === 'no-censorship') {
+        this.Filters[1].class = 'blue darken-4'
+      }
+    }
+  },
+  beforeMount () {
     window.addEventListener('resize', () => {
       this.innerWidth = window.innerWidth
     })
+    this.innerWidth = window.innerWidth
+    if (innerWidth < 1264) {
+      this.expanded = []
+      this.expandedOrderBy = []
+      this.expandedFilterBy = []
+    } else {
+      this.expanded = [0]
+      this.expandedOrderBy = [0]
+      this.expandedFilterBy = [0]
+    }
+    if (this.$route.query.genre) {
+      const g = this.Genres.find(genre => genre.url === this.$route.query.genre)
+      this.prettyGenre = g.text
+    }
   }
 }
 </script>

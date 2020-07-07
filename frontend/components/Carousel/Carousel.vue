@@ -24,6 +24,7 @@
               <v-chip
                 v-for="genre in serie.genres"
                 :key="genre.text"
+                :href="`/explore?genre=${genre.url}`"
               >
                 {{ genre.text }}
               </v-chip>
@@ -49,6 +50,7 @@ export default {
             synopsis
             genres {
               text
+              url
             }
             status
             serie_type
