@@ -38,6 +38,7 @@
         </v-img>
       </v-hover>
       <v-card-title class="pb-0 pt-2 pl-0" style="font-size:1rem">{{ title }}</v-card-title>
+      <v-card-text class="py-0 pl-0 grey--text darken-3">{{ $moment(created).fromNow() }}</v-card-text>
     </v-card>
   </a>
 </template>
