@@ -146,6 +146,7 @@
                     :synopsis="serie.synopsis"
                     :genres="serie.genres"
                     :status="serie.status"
+                    :url="serie.episodes[0].urlName"
                     :screenshot="serie.coverUrl"
                   />
                 </v-col>
@@ -173,6 +174,10 @@ export default {
           Series(limit: $limit, order: $order, filter: $filter, genre: $genre){
             title
             synopsis
+            episodes{
+              episode_number
+              urlName
+            }
             genres{
               text
             }
