@@ -10,7 +10,6 @@
           <v-icon class="grey--text darken-3">
             mdi-clock-outline
           </v-icon>
-          Updated {{ $moment(Episodes[0].created_at).fromNow() }}
         </h4>
       </v-col>
     </v-row>
