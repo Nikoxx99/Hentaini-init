@@ -20,7 +20,9 @@
             :class="hover ? 'play-button play-hover' : 'play-button'"
             style="position:absolute;top:50%;left:50%; transform: translate(-50%, -50%)"
           >
-            <v-icon style="font-size:4rem">mdi-play</v-icon>
+            <v-icon style="font-size:4rem">
+              mdi-play
+            </v-icon>
           </div>
           <v-card-text
             class="align-self-end text--primary"
@@ -31,14 +33,20 @@
               text-color="white"
               small
             >
-              <v-icon left>mdi-play</v-icon>
+              <v-icon left>
+                mdi-play
+              </v-icon>
               Episode: {{ episodeNumber }}
             </v-chip>
           </v-card-text>
         </v-img>
       </v-hover>
-      <v-card-title class="pb-0 pt-2 pl-0" style="font-size:1rem">{{ title }}</v-card-title>
-      <v-card-text class="py-0 pl-0 grey--text darken-3">{{ $moment(created).fromNow() }}</v-card-text>
+      <v-card-title class="pb-0 pt-2 pl-0" style="font-size:1rem">
+        {{ title }}
+      </v-card-title>
+      <v-card-text class="py-0 pl-0 grey--text darken-3">
+        {{ $moment(created).fromNow() }}
+      </v-card-text>
     </v-card>
   </a>
 </template>

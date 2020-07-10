@@ -97,6 +97,7 @@ export default {
   },
   methods: {
     createCategory () {
+      this.isSubmitting = !this.isSubmitting
       this.$apollo.mutate({
         mutation: gql`mutation ($input: CategoryInput){
           createCategory(input: $input){
@@ -114,12 +115,12 @@ export default {
         }
       }).then((input) => {
         if (input.data.createCategory.success) {
-          this.isSubmitting = !this.isSubmitting
           this.$router.push({ path: '/panel/category/create', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
         } else {
           this.alertBox = true
           this.alertBoxColor = 'red darken-4'
           this.createdMessage = input.data.createCategory.errors[0].message
+          this.isSubmitting = false
         }
       }).catch((error) => {
         // eslint-disable-next-line no-console

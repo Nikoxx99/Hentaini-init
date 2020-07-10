@@ -255,6 +255,7 @@ export default {
   },
   methods: {
     createEpisode () {
+      this.isSubmitting = !this.isSubmitting
       this.$apollo.mutate({
         mutation: gql`mutation ($input: EpisodeInput){
           createEpisode(input: $input){
@@ -281,12 +282,12 @@ export default {
         }
       }).then((input) => {
         if (input.data.createEpisode.success) {
-          this.isSubmitting = !this.isSubmitting
           this.$router.push({ path: '/panel/serie/' + this.episode.serie_id + '/episodes', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
         } else {
           this.alertBox = true
           this.alertBoxColor = 'red darken-4'
           this.errorMessage = input.data.createEpisode.errors[0].message
+          this.isSubmitting = false
         }
       }).catch((error) => {
         // eslint-disable-next-line no-console

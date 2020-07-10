@@ -231,13 +231,16 @@ export default {
   },
   methods: {
     createSerie () {
+      this.isSubmitting = !this.isSubmitting
       if (this.serie.cover < 1 || this.serie.background_cover < 1) {
         this.error = true
         this.errorMessage = 'You must define an cover and screenshot image.'
+        this.isSubmitting = false
       }
       if (this.serie.genres < 1) {
         this.genreError = true
         this.errorMessage = 'You must select one or more genres.'
+        this.isSubmitting = false
       }
       this.$apollo.mutate({
         mutation: gql`mutation ($input: SerieInput){
@@ -265,12 +268,12 @@ export default {
         }
       }).then((input) => {
         if (input.data.createSerie.success) {
-          this.isSubmitting = !this.isSubmitting
           this.$router.push({ path: '/panel/serie', query: { created: true } }, () => { window.location.reload(true) }, () => { window.location.reload(true) })
         } else {
           this.error = true
           this.alertBoxColor = 'red darken-4'
           this.errorMessage = input.data.createSerie.errors[0].message
+          this.isSubmitting = false
         }
       }).catch((error) => {
         // eslint-disable-next-line no-console
