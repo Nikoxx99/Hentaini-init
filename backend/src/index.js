@@ -18,7 +18,7 @@ app.get('/', (req,res) => {
 })
 var corsOptions = {
   // eslint-disable-next-line no-undef
-  origin: '*',
+  origin: process.env.CORS_ORIGIN,
   methods: 'POST, PUT, OPTIONS, DELETE, GET',
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   optionsSuccessStatus: 200
@@ -31,9 +31,9 @@ if (process.env.GRAPHIQL === 'TRUE') {
   // eslint-disable-next-line no-redeclare
   var isGraphiQLActivated = false
 }
-app.use(cors(corsOptions))
 
 app.post('/graphql',
+  cors(corsOptions),
   graphqlUploadExpress({ maxFileSize: 50000000, maxFiles: 10 }),
   graphqlHTTP({
     graphiql:isGraphiQLActivated,
@@ -41,7 +41,9 @@ app.post('/graphql',
     context: SECRET
   }))
 app.get('/graphql', ( req, res ) => {
-  res.redirect('/')
+  res.json({
+    msg: 'Oh you checky wanker...'
+  })
 })
 app.use(express.static('cdn'))
 

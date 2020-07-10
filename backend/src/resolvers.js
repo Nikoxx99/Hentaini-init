@@ -1,3 +1,9 @@
+import { createWriteStream } from 'fs'
+import { auth } from './auth'
+import { sendNotificationFn } from './partials/sendNotification'
+import fs from 'fs'
+import shortid from 'shortid'
+import sharp from 'sharp'
 import Serie from './models/Serie'
 import Episode from './models/Episode'
 import Genre from './models/Genre'
@@ -6,12 +12,6 @@ import User from './models/User'
 import Role from './models/Role'
 import Player from './models/Player'
 import ViewList from './models/ViewList'
-import { auth } from './auth'
-import { createWriteStream } from 'fs'
-import fs from 'fs'
-import shortid from 'shortid'
-import sharp from 'sharp'
-import { sendNotificationFn } from './partials/sendNotification'
 
 const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
   const id1 = filename.replace(/[^A-Z0-9]/ig, '_')
