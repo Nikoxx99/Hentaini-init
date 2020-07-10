@@ -18,7 +18,7 @@ app.get('/', (req,res) => {
 })
 var corsOptions = {
   // eslint-disable-next-line no-undef
-  origin: process.env.CORS_ORIGIN,
+  origin: '*',
   methods: 'POST, PUT, OPTIONS, DELETE, GET',
   allowedHeaders: 'Origin, X-Requested-With, Content-Type, Accept',
   optionsSuccessStatus: 200
