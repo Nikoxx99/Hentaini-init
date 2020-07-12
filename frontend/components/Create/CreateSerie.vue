@@ -162,7 +162,7 @@ export default {
       title_english: '',
       synopsis: '',
       genres: [],
-      serie_type: '',
+      serie_type: 'HENTAI',
       status: '',
       next_episode: '',
       censorship: false,
@@ -297,10 +297,12 @@ export default {
     initialCoverClear () {
       this.serie.cover = []
       this.error = false
+      this.isSubmitting = false
     },
     initialScreenshotClear () {
       this.serie.background_cover = []
       this.error = false
+      this.isSubmitting = false
     }
   }
 }

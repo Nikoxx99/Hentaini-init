@@ -5,7 +5,8 @@ import { GraphQLFileLoader } from '@graphql-tools/graphql-file-loader'
 import { addResolversToSchema } from '@graphql-tools/schema'
 
 // eslint-disable-next-line no-undef
-const schema = loadSchemaSync(join(__dirname, './schema.graphql'), {
+const route = join(__dirname, './schema.gql')
+const schema = loadSchemaSync(route , {
   loaders: [
     new GraphQLFileLoader(),
   ]
