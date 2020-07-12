@@ -10,12 +10,12 @@
       <v-icon>mdi-home</v-icon>
     </v-btn>
 
-    <v-btn to="/airing">
+    <v-btn to="/explore?filter=airing">
       <span>{{ $t('mobile.airing') }}</span>
       <v-icon>mdi-plus-thick</v-icon>
     </v-btn>
 
-    <v-btn to="/suggestions">
+    <v-btn to="/">
       <span>{{ $t('mobile.suggestions') }}</span>
       <v-icon>mdi-format-list-bulleted-square</v-icon>
     </v-btn>

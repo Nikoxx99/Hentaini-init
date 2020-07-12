@@ -211,8 +211,8 @@ export default {
       focus: false,
       navs: [
         { id: 1, name: this.$t('menu.explore'), url: '/explore', icon: 'mdi-home' },
-        { id: 2, name: this.$t('menu.airing'), url: '/airing', icon: 'mdi-plus-circle' },
-        { id: 3, name: this.$t('menu.suggestions'), url: '/suggestions', icon: 'mdi-format-list-bulleted-square' }
+        { id: 2, name: this.$t('menu.airing'), url: '/explore?filter=airing', icon: 'mdi-plus-circle' },
+        { id: 3, name: this.$t('menu.suggestions'), url: '/', icon: 'mdi-format-list-bulleted-square' }
       ]
     }
   },
