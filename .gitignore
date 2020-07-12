@@ -2,3 +2,5 @@
 backend/cdn/
 
 frontend/static/OneSignalSDKWorker.js
+
+*.old

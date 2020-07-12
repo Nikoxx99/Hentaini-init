@@ -9,12 +9,6 @@
 
 <script>
 export default {
-  data () {
-    this.$i18n.locale = 'en'
-    return {
-      locale: 'en'
-    }
-  }
 }
 </script>
 

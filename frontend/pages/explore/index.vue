@@ -14,9 +14,7 @@ export default {
     NiExplore
   },
   data () {
-    this.$i18n.locale = 'en'
     return {
-      locale: 'en',
       title: 'Hentaini | Explore our catalog'
     }
   },

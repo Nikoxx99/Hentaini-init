@@ -24,9 +24,7 @@ export default {
     Carousel
   },
   data () {
-    this.$i18n.locale = 'en'
     return {
-      locale: 'en',
       title: 'Hentaini | Make your parents proud'
     }
   },

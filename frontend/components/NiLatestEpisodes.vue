@@ -3,14 +3,14 @@
     <v-row>
       <v-col>
         <h5>
-          <a href="/explore">Explore Recent Hentai Episodes</a>
+          <a href="/explore">{{ $t('landpage.latest_episodes_little') }}</a>
         </h5>
-        <h1>Recent Episodes</h1>
+        <h1>{{ $t('landpage.latest_episodes') }}</h1>
         <h4 class="grey--text text-body-2 darken-3">
           <v-icon class="grey--text darken-3">
             mdi-clock-outline
           </v-icon>
-          Updated {{ $moment(Episodes[0].created_at).fromNow() }}
+          {{ $t('landpage.updated_text') }} {{ $moment(Episodes[0].created_at).fromNow() }}
         </h4>
       </v-col>
     </v-row>
@@ -68,12 +68,6 @@ export default {
   },
   components: {
     NiEpisodeCard
-  },
-  data () {
-    this.$i18n.locale = 'en'
-    return {
-      locale: 'en'
-    }
   }
 }
 </script>

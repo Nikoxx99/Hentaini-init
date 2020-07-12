@@ -289,9 +289,7 @@ export default {
     }
   },
   data () {
-    this.$i18n.locale = 'en'
     return {
-      locale: 'en',
       CDN: process.env.CDN_URI,
       downloadsName: [],
       areDownloadLinksGenerated: false,

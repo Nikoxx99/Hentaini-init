@@ -17,9 +17,7 @@ export default {
     NiMobileHeader
   },
   data () {
-    this.$i18n.locale = 'en'
     return {
-      locale: 'en'
     }
   }
 }

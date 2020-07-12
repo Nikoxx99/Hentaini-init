@@ -12,16 +12,16 @@
         </v-row>
         <v-row>
           <v-col v-if="$route.query.genre" cols="12" class="mt-4 px-2">
-            <h1>No GF? No problem. Explore our <strong class="blue--text darken-4"> {{ prettyGenre }} </strong> catalog.</h1>
+            <h1>{{ $t('explore.on_genre_title_part_1') }} <strong class="blue--text darken-4"> {{ prettyGenre }} </strong> {{ $t('explore.on_genre_title_part_2') }}</h1>
           </v-col>
           <v-col v-else cols="12" class="mt-4 px-2">
-            <h1>No GF? No problem. Explore our catalog.</h1>
+            <h1>{{ $t('explore.title') }}</h1>
           </v-col>
           <v-col v-if="$route.query.genre" cols="12" class="px-2 pb-0">
-            <p>You can serch for the best {{ prettyGenre }} Hentai out there in this page.</p>
+            <p>{{ $t('explore.on_genre_suntitle_part_1') }} {{ prettyGenre }} {{ $t('explore.on_genre_suntitle_part_2') }}</p>
           </v-col>
           <v-col v-else cols="12" class="px-2 pb-0">
-            <p>You can serch for the best Hentai out there in this page.</p>
+            <p>{{ $t('explore.subtitle') }}</p>
           </v-col>
         </v-row>
       </v-container>
@@ -42,7 +42,7 @@
               tile
             >
               <v-expansion-panel>
-                <v-expansion-panel-header>FILTER</v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('explore.filter.title') }}</v-expansion-panel-header>
                 <v-expansion-panel-content class="px-0">
                   <v-list
                     rounded
@@ -71,7 +71,7 @@
               tile
             >
               <v-expansion-panel class="blue darken-4">
-                <v-expansion-panel-header>ORDER BY</v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('explore.order_by.title') }}</v-expansion-panel-header>
                 <v-expansion-panel-content class="px-0">
                   <v-list
                     rounded
@@ -100,7 +100,7 @@
               tile
             >
               <v-expansion-panel>
-                <v-expansion-panel-header>HENTAI GENRES</v-expansion-panel-header>
+                <v-expansion-panel-header>{{ $t('explore.genres') }}</v-expansion-panel-header>
                 <v-expansion-panel-content class="px-0">
                   <v-list
                     rounded
@@ -211,9 +211,7 @@ export default {
     }
   },
   data () {
-    this.$i18n.locale = 'en'
     return {
-      locale: 'en',
       expanded: [0],
       expandedOrderBy: [0],
       expandedFilterBy: [0],
@@ -225,12 +223,12 @@ export default {
         }
       },
       Orders: [
-        { id: 1, name: 'Most Views', url: 'ascending' },
-        { id: 2, name: 'Low Views', url: 'descending' }
+        { id: 1, name: this.$t('explore.order_by.most_views'), url: 'ascending' },
+        { id: 2, name: this.$t('explore.order_by.low_views'), url: 'descending' }
       ],
       Filters: [
-        { id: 1, name: 'Airing', url: 'airing', class: 'grey darken-4' },
-        { id: 2, name: 'No Censorship', url: 'no-censorship', class: 'grey darken-4' }
+        { id: 1, name: this.$t('explore.filter.airing'), url: 'airing', class: 'grey darken-4' },
+        { id: 2, name: this.$t('explore.filter.censorship'), url: 'no-censorship', class: 'grey darken-4' }
       ],
       breadcrumb: [
         {

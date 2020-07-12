@@ -3,9 +3,9 @@
     <v-row>
       <v-col>
         <h5>
-          <a href="/explore">Explore Recent Hentai Series</a>
+          <a href="/explore">{{ $t('landpage.latest_series_little') }}</a>
         </h5>
-        <h1>Recent Hentai</h1>
+        <h1>{{ $t('landpage.latest_series') }}</h1>
       </v-col>
     </v-row>
     <v-row>
@@ -66,9 +66,7 @@ export default {
     NiSerieCard
   },
   data () {
-    this.$i18n.locale = 'en'
     return {
-      locale: 'en',
       Series: {
         episodes: {
           urlName: ''

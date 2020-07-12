@@ -141,9 +141,7 @@ export default {
     }
   },
   data () {
-    this.$i18n.locale = 'en'
     return {
-      locale: 'en',
       actualGenre: this.$route.params.genre,
       Orders: [
         { name: 'Most Views', url: 'ascending' },

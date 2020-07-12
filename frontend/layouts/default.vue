@@ -10,12 +10,6 @@ import Footer from '../components/Layout/Footer'
 export default {
   components: {
     Footer
-  },
-  data () {
-    this.$i18n.locale = 'en'
-    return {
-      locale: 'en'
-    }
   }
 }
 </script>

@@ -48,7 +48,8 @@ module.exports = {
     }]
   ],
   moment: {
-    timezone: true
+    timezone: true,
+    locales: ['es']
   },
 
   apollo: {
@@ -70,27 +71,31 @@ module.exports = {
   ],
 
   i18n: {
+    lazy: true,
     locales: [
       {
         code: 'en',
+        name: 'English',
         iso: 'en-US',
         file: 'en.js'
       },
       {
         code: 'es',
+        name: 'Español',
         iso: 'es-ES',
         file: 'es.js'
-      },
-      {
-        code: 'ru',
-        iso: 'ru-RU',
-        file: 'ru.js'
       }
     ],
-    lazy: true,
-    langDir: 'lang/',
     defaultLocale: 'en',
-    rootRedirect: true
+    strategy: 'prefix_and_default',
+    langDir: 'lang/',
+    detectBrowserLanguage: {
+      useCookie: true,
+      cookieDomain: null,
+      cookieKey: 'i18n_redirected',
+      alwaysRedirect: true,
+      fallbackLocale: 'en'
+    }
   },
   /*
   ** Axios module configuration
