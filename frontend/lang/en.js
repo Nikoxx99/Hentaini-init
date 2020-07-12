@@ -15,7 +15,8 @@ export default {
     change_language: 'Change Language',
     user_profile: 'Profile',
     admin_panel_button: 'Admin Panel',
-    logout_text: 'Logout'
+    logout_text: 'Logout',
+    login_register_nav: 'Login or Register'
   },
   mobile: {
     home: 'Home',

@@ -1,5 +1,8 @@
 <template>
-  <v-card>
+  <v-card
+    flat
+    color="rgba(51,51,51,0.5)"
+  >
     <v-alert
       v-if="firstTime"
       type="info"
@@ -15,11 +18,11 @@
     >
       Invalid login credentials. Try again.
     </v-alert>
-    <v-card-title>
+    <v-card-title class="justify-center">
       Login into your account
     </v-card-title>
-    <v-container>
-      <form>
+    <v-card-text>
+      <form @keyup.enter="login">
         <v-text-field
           v-model="username"
           :error-messages="nameErrors"
@@ -35,20 +38,29 @@
           label="Password"
           hint="Enter your password"
           required
-          counter
           @click:append="showPassword = !showPassword"
         />
-        <v-btn class="mr-4 blue darken-4" @click="login">
-          Login
-        </v-btn>
-        <v-btn class="mr-4" @click="clear">
-          Clear
-        </v-btn>
-        <v-btn href="/register">
-          Register
-        </v-btn>
       </form>
-    </v-container>
+    </v-card-text>
+    <v-card-text>
+      <v-btn tile text block class="my-2 blue darken-4" @click.enter="login">
+        Login
+      </v-btn>
+      <v-btn block text class="gray darken-4" href="/">
+        Back to home
+      </v-btn>
+    </v-card-text>
+    <v-card-text>
+      <h4 class="text-center">
+        Not registered yet?
+      </h4>
+      <p class="text-center">
+        Join us and access the best Hentai in the interwebs!
+      </p>
+      <v-btn block tile text class="yellow darken-4" href="/register">
+        Register
+      </v-btn>
+    </v-card-text>
   </v-card>
 </template>
 
@@ -98,11 +110,8 @@ export default {
   },
   methods: {
     clear () {
-      this.$v.$reset()
-      this.name = ''
-      this.email = ''
-      this.select = null
-      this.checkbox = false
+      this.username = ''
+      this.password = ''
     },
     login () {
       this.$apollo.mutate({

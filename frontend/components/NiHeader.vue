@@ -3,6 +3,7 @@
     <v-toolbar
       dark
       style="position:relative;z-index:1"
+      flat
     >
       <v-app-bar-nav-icon
         class="d-flex d-md-none d-lg-none d-lx-flex"
@@ -135,13 +136,13 @@
       disable-resize-watcher
       width="260"
       absolute
+      style="z-index:2!important"
     >
       <v-img
         src="/img/nav-bg.jpg"
         height="100%"
       >
         <v-layout
-          class=""
           tag="v-list"
           column
         >
@@ -161,7 +162,7 @@
           <v-list-item v-else link to="/login">
             <v-list-item-content>
               <v-list-item-title class="title">
-                Login or Register
+                {{ $t('menu.login_register_nav') }}
               </v-list-item-title>
             </v-list-item-content>
           </v-list-item>
@@ -209,9 +210,9 @@ export default {
       search: '',
       focus: false,
       navs: [
-        { id: 1, name: 'Explore', url: '/explore', icon: 'mdi-home' },
-        { id: 2, name: 'Airing', url: '/airing', icon: 'mdi-plus-circle' },
-        { id: 3, name: 'Suggestions', url: '/suggestions', icon: 'mdi-format-list-bulleted-square' }
+        { id: 1, name: this.$t('menu.explore'), url: '/explore', icon: 'mdi-home' },
+        { id: 2, name: this.$t('menu.airing'), url: '/airing', icon: 'mdi-plus-circle' },
+        { id: 3, name: this.$t('menu.suggestions'), url: '/suggestions', icon: 'mdi-format-list-bulleted-square' }
       ]
     }
   },

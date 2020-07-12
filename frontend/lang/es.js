@@ -15,7 +15,8 @@ export default {
     change_language: 'Cambiar Idioma',
     user_profile: 'Perfil',
     admin_panel_button: 'Panel Admin',
-    logout_text: 'Cerrar Sesión'
+    logout_text: 'Cerrar Sesión',
+    login_register_nav: 'Ingresa o Registrate'
   },
   mobile: {
     home: 'Inicio',

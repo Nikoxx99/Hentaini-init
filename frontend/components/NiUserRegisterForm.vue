@@ -1,9 +1,12 @@
 <template>
-  <v-card>
-    <v-card-title>
+  <v-card
+    flat
+    color="rgba(51,51,51,0.5)"
+  >
+    <v-card-title class="justify-center">
       Register a new Account
     </v-card-title>
-    <v-container>
+    <v-card-text>
       <form>
         <v-text-field
           v-model="username"
@@ -39,14 +42,27 @@
           @blur="matchPasswords"
           @click:append="showPassword = !showPassword"
         />
-        <v-btn class="mr-4 blue darken-4" @click="createUser">
-          Register
-        </v-btn>
-        <v-btn @click="clear">
-          Clear
-        </v-btn>
       </form>
-    </v-container>
+    </v-card-text>
+    <v-card-text>
+      <v-btn block text class="my-2 yellow darken-4" @click="createUser">
+        Register
+      </v-btn>
+      <v-btn block text class="gray darken-4" href="/">
+        Back to home
+      </v-btn>
+    </v-card-text>
+    <v-card-text>
+      <h4 class="text-center">
+        Aready a member?
+      </h4>
+      <p class="text-center">
+        Log into your account and navigate for your favorite Hentai
+      </p>
+      <v-btn block tile text class="blue darken-4" href="/login">
+        Login
+      </v-btn>
+    </v-card-text>
   </v-card>
 </template>
 

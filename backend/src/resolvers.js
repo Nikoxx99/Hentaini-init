@@ -128,7 +128,18 @@ export const resolvers = {
       }
     },
     FeaturedSeries: async () => {
-      return await Serie.find({'isFeatured': true, 'hasEpisodes': true})
+      const series_query = await Serie.find({'hasEpisodes': true})
+      function shuffle(arr) {
+        let rand, temp, i
+        for (i = arr.length - 1; i > 0; i -= 1) {
+          rand = Math.floor((i + 1) * Math.random())
+          temp = arr[rand]
+          arr[rand] = arr[i]
+          arr[i] = temp
+        }
+        return arr
+      }
+      return shuffle(series_query)
     },
     Episode: async (_,{_id}) => {
       return await Episode.findById(_id)
