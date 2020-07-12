@@ -97,7 +97,7 @@
           </template>
           <span>{{ $t('menu.user_profile') }}</span>
         </v-tooltip>
-        <v-tooltip bottom>
+        <v-tooltip v-if="$store.state.auth.role === 2" bottom>
           <template v-slot:activator="{ on, attrs }">
             <v-btn
               icon
