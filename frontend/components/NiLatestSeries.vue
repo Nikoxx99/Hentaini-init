@@ -58,7 +58,7 @@ export default {
         }
       `,
       variables: {
-        limit: 10
+        limit: 24
       }
     }
   },
