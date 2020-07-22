@@ -133,6 +133,7 @@
               class="mx-auto"
               width="100%"
             >
+              <div data-nat="301" />
               <v-img
                 height="auto"
                 :src="`${CDN}/screenshot/${EpisodeByUrlName.screenshot}`"
