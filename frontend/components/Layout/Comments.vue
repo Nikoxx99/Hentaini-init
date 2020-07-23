@@ -1,6 +1,7 @@
 <template>
   <div>
     <h1>{{ $t('episode.comments_section_header') }}</h1>
+    <div data-nat="311" />
     <div class="comments">
       <Disqus shortname="hentaini" />
     </div>
