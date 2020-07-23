@@ -377,9 +377,6 @@ export default {
   head () {
     return {
       title: this.EpisodeByUrlName.serie.title,
-      script: [
-        { src: 'https://cst.wpu.sh/static/adManager.js', data-admpid: '183' }
-      ],
       meta: [
         { hid: 'language', name: 'language', content: 'es' },
         { hid: 'Revisit-After', name: 'Revisit-After', content: '3 days' },
