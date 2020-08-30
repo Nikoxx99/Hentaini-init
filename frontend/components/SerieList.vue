@@ -2,7 +2,6 @@
   <v-container>
     <v-row>
       <v-col cols="12">
-        <h3>All Series</h3>
         <v-alert
           v-if="alertBox"
           type="info"
@@ -12,100 +11,94 @@
         >
           {{ createdMessage }}
         </v-alert>
-        <v-simple-table width="100%">
-          <template v-slot:default>
-            <thead>
-              <tr>
-                <th class="text-left">
-                  Name
-                </th>
-                <th class="text-left">
-                  Episodes
-                </th>
-                <th class="text-left">
-                  Visits
-                </th>
-                <th class="text-left">
-                  ID
-                </th>
-                <th class="text-left">
-                  Actions
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="(serie,index) in series"
-                :key="index"
-              >
-                <td>{{ serie.title }}</td>
-                <td>{{ serie.episodes.length }}</td>
-                <td>{{ serie.visits }}</td>
-                <td>{{ serie._id }}</td>
-                <td>
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        v-bind="attrs"
-                        :class="{ 'blue darken-4': serie.isFeatured }"
-                        v-on="on"
-                        @click="setFeatured(serie._id, index)"
-                      >
-                        <v-icon>
-                          mdi-star
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Toggle Featured</span>
-                  </v-tooltip>
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        :to="'/panel/serie/' + serie._id + '/episode/create'"
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        <v-icon>
-                          mdi-plus-circle
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Create Episode</span>
-                  </v-tooltip>
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        :to="'/panel/serie/' + serie._id + '/episodes'"
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        <v-icon>
-                          mdi-play-circle
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Episode List</span>
-                  </v-tooltip>
-                  <v-tooltip top>
-                    <template v-slot:activator="{ on, attrs }">
-                      <v-btn
-                        :to="'/panel/serie/' + serie._id + '/edit'"
-                        v-bind="attrs"
-                        v-on="on"
-                      >
-                        <v-icon>
-                          mdi-circle-edit-outline
-                        </v-icon>
-                      </v-btn>
-                    </template>
-                    <span>Edit Serie</span>
-                  </v-tooltip>
-                  <ModalDeleteSerie :title="serie.title" :serieid="serie._id" />
-                </td>
-              </tr>
-            </tbody>
+        <v-card-title>
+          All Series
+          <v-spacer />
+          <v-text-field
+            v-model="search"
+            append-icon="mdi-magnify"
+            label="Search for Hentai"
+            single-line
+            hide-details
+            class="white--text"
+          />
+        </v-card-title>
+        <v-data-table
+          :headers="headers"
+          :items="series"
+          :page.sync="page"
+          :search="search"
+          :items-per-page="itemsPerPage"
+          hide-default-footer
+          class="elevation-1"
+          @page-count="pageCount = $event"
+        >
+          <template v-slot:item.isFeatured="{ item }">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  v-bind="attrs"
+                  :class="{ 'blue darken-4': item.isFeatured }"
+                  v-on="on"
+                  @click="setFeatured(item._id, series.map(function(x) {return x._id; }).indexOf(item._id))"
+                >
+                  <v-icon>
+                    mdi-star
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Toggle Featured</span>
+            </v-tooltip>
           </template>
-        </v-simple-table>
+          <template v-slot:item.actions="{ item }">
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  :to="'/panel/serie/' + item._id + '/episode/create'"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>
+                    mdi-plus-circle
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Create Episode</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  :to="'/panel/serie/' + item._id + '/episodes'"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>
+                    mdi-play-circle
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Episode List</span>
+            </v-tooltip>
+            <v-tooltip top>
+              <template v-slot:activator="{ on, attrs }">
+                <v-btn
+                  :to="'/panel/serie/' + item._id + '/edit'"
+                  v-bind="attrs"
+                  v-on="on"
+                >
+                  <v-icon>
+                    mdi-circle-edit-outline
+                  </v-icon>
+                </v-btn>
+              </template>
+              <span>Edit Serie</span>
+            </v-tooltip>
+            <ModalDeleteSerie :title="item.title" :serieid="item._id" />
+          </template>
+        </v-data-table>
+        <div class="text-center pt-2">
+          <v-pagination v-model="page" :length="pageCount" />
+        </div>
       </v-col>
     </v-row>
   </v-container>
@@ -128,10 +121,27 @@ export default {
   },
 
   data: () => ({
+    search: '',
     series: [],
     alertBox: false,
     createdMessage: '',
-    alertBoxColor: ''
+    alertBoxColor: '',
+    page: 0,
+    itemsPerPage: 50,
+    pageCount: 1,
+    headers: [
+      {
+        text: 'Name',
+        align: 'start',
+        sortable: false,
+        value: 'title'
+      },
+      { text: 'Episodes', value: 'episodes.length' },
+      { text: 'Visits', value: 'visits' },
+      { text: 'ID', value: '_id' },
+      { text: 'Featured', sortable: true, value: 'isFeatured' },
+      { text: 'Actions', value: 'actions' }
+    ]
   }),
   created () {
     if (this.$route.query.created) {

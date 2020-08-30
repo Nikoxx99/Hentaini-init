@@ -128,7 +128,7 @@ export const resolvers = {
       }
     },
     FeaturedSeries: async () => {
-      const series_query = await Serie.find({'hasEpisodes': true})
+      const series_query = await Serie.find({'isFeatured': true,'hasEpisodes': true})
       function shuffle(arr) {
         let rand, temp, i
         for (i = arr.length - 1; i > 0; i -= 1) {

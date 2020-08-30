@@ -34,6 +34,23 @@
             </nuxt-link>
           </v-btn>
         </li>
+        <li class="mr-2">
+          <v-tooltip bottom>
+            <template v-slot:activator="{ on, attrs }">
+              <v-btn
+                icon
+                large
+                href="https://discord.gg/D9BuePA"
+                target="_blank"
+                v-bind="attrs"
+                v-on="on"
+              >
+                <v-icon>mdi-discord</v-icon>
+              </v-btn>
+            </template>
+            <span>Discord</span>
+          </v-tooltip>
+        </li>
       </ul>
       <v-spacer />
       <v-row class="mr-2 d-none d-md-flex d-lg-flex d-lx-flex">
