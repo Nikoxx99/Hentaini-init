@@ -11,6 +11,7 @@ export default {
     explore: 'EXPLORE',
     airing: 'AIRING',
     suggestions: 'SUGGESTIONS',
+    rrss: 'Join us on',
     search_bar_text: 'Search Hentai',
     change_language: 'Change Language',
     user_profile: 'Profile',

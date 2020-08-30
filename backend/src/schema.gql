@@ -13,6 +13,7 @@ type Query {
     Users(limit: Int): [User]
     Roles: [Role]
     Search(search: String): [Serie]
+    Rrss(limit: Int): [Rrss]
   }
   type Serie {
     _id: ID
@@ -98,6 +99,11 @@ type Query {
     username: String
     errors: [Error]
   }
+  type Rrss {
+    name: String
+    url: String
+    active: Boolean
+  }
 
   scalar Upload
   scalar Date
@@ -118,6 +124,8 @@ type Query {
     login(input: LoginInput): Response
     uploadFile(file: Upload!): SimpleResponse
     viewRegister(input: viewInput): SimpleResponse
+    createRrss(input: inputCreateRrss): SimpleResponse
+    updateRrss(input: inputRrss): SimpleResponse
   }
   input SerieInput {
     title: String
@@ -211,4 +219,14 @@ type Query {
   input LoginInput {
     username: String!
     password: String!
+  }
+  input inputCreateRrss {
+    name: String
+    url: String
+    active: Boolean
+  }
+  input inputRrss {
+    name: String
+    url: String
+    active: Boolean
   }

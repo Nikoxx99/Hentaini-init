@@ -12,6 +12,7 @@ import User from './models/User'
 import Role from './models/Role'
 import Player from './models/Player'
 import ViewList from './models/ViewList'
+import Rrss from './models/Rrss'
 
 const storeUploadCover = async ({createReadStream, filename, mimetype}) => {
   const id1 = filename.replace(/[^A-Z0-9]/ig, '_')
@@ -188,7 +189,10 @@ export const resolvers = {
           ]
         }
       )
-    }
+    },
+    Rrss: async (_,{limit}) => {
+      return await Rrss.find().limit(limit)
+    },
   },
   Mutation:{
     createSerie: async (_,{input: {cover, background_cover, genres, ...data}}) => {
@@ -468,7 +472,24 @@ export const resolvers = {
         }
       }
     },
-    login: async (_, {input}, SECRET) => auth.login(input, User, SECRET)
+    login: async (_, {input}, SECRET) => auth.login(input, User, SECRET),
+    createRrss: async (_,{input}) => {
+      const newRole = new Rrss(input)
+      const res = await newRole.save()
+      if (res){
+        return simpleResponse(true,'Create Rrss','Rrss Created Successfullly.')
+      } else {
+        return simpleResponse(false,'Create Rrss','Error Creating Rrss.')
+      }
+    },
+    updateRrss: async (_,{input}) => {
+      const updateRrss = await Rrss.updateOne({name: input.name}, input, {multi: false})
+      if(updateRrss){
+        return simpleResponse(true,'Update Rrss','Rrss updated successfully.')
+      }else{
+        return simpleResponse(false,'Update Rrss','Error updating Rrss.')
+      }
+    },
     
   },
   Episode: {

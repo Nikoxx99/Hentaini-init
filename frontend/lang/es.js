@@ -11,6 +11,7 @@ export default {
     explore: 'EXPLORA',
     airing: 'EMISIÓN',
     suggestions: 'SUGERENCIAS',
+    rrss: 'Únete a nuestro',
     search_bar_text: 'Buscar Hentai',
     change_language: 'Cambiar Idioma',
     user_profile: 'Perfil',

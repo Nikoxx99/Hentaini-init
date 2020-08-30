@@ -133,14 +133,14 @@ export default {
       {
         text: 'Name',
         align: 'start',
-        sortable: false,
+        sortable: true,
         value: 'title'
       },
       { text: 'Episodes', value: 'episodes.length' },
       { text: 'Visits', value: 'visits' },
       { text: 'ID', value: '_id' },
       { text: 'Featured', sortable: true, value: 'isFeatured' },
-      { text: 'Actions', value: 'actions' }
+      { text: 'Actions', sortable: false, value: 'actions' }
     ]
   }),
   created () {

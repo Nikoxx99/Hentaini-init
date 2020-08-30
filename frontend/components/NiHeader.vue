@@ -34,21 +34,25 @@
             </nuxt-link>
           </v-btn>
         </li>
-        <li class="mr-2">
-          <v-tooltip bottom>
+        <li v-if="Rrss" class="mr-2">
+          <v-tooltip
+            v-for="rs in Rrss"
+            :key="rs.name"
+            bottom
+          >
             <template v-slot:activator="{ on, attrs }">
               <v-btn
                 icon
                 large
-                href="https://discord.gg/D9BuePA"
+                :href="rs.url"
                 target="_blank"
                 v-bind="attrs"
                 v-on="on"
               >
-                <v-icon>mdi-discord</v-icon>
+                <v-icon>mdi-{{ rs.name.toLowerCase() }}</v-icon>
               </v-btn>
             </template>
-            <span>Discord</span>
+            <span>{{ $t('menu.rrss') }} {{ rs.name }}</span>
           </v-tooltip>
         </li>
       </ul>
@@ -212,6 +216,7 @@
 </template>
 
 <script>
+import gql from 'graphql-tag'
 import Cookie from 'js-cookie'
 import Logo from '../components/Layout/Logo'
 import Search from '../components/Utils/Search'
@@ -220,6 +225,20 @@ export default {
   components: {
     Logo,
     Search
+  },
+  apollo: {
+    Rrss () {
+      return {
+        query: gql`
+        query{
+          Rrss{
+            name
+            url
+          }
+        }
+      `
+      }
+    }
   },
   data () {
     return {

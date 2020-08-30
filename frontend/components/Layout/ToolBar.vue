@@ -129,7 +129,8 @@ export default {
       { id: 3, name: 'List Series', url: '/panel/serie', icon: 'mdi-format-list-bulleted-square' },
       { id: 4, name: 'Create Genre', url: '/panel/genre/create', icon: 'mdi-account-circle' },
       { id: 5, name: 'Create Category', url: '/panel/category/create', icon: 'mdi-clipboard-list' },
-      { id: 6, name: 'Create Player', url: '/panel/player/create', icon: 'mdi-play-circle' }
+      { id: 6, name: 'Create Player', url: '/panel/player/create', icon: 'mdi-play-circle' },
+      { id: 7, name: 'Social Networks', url: '/panel/options', icon: 'mdi-cog' }
     ]
   })
 }
