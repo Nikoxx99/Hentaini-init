@@ -14,7 +14,7 @@
 </template>
 
 <script>
-import CreateRrss from '../../../components/create/CreateRrss'
+import CreateRrss from '../../../components/Create/CreateRrss'
 export default {
   layout: 'panel',
   middleware: 'authenticated',
