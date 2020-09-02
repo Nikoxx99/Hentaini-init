@@ -2,6 +2,7 @@
   <div>
     <NiHeader />
     <Carousel />
+    <TagCloud />
     <NiLatestEpisodes />
     <v-container><v-divider /></v-container>
     <NiLatestSeries />
@@ -11,6 +12,7 @@
 
 <script>
 import NiHeader from '../components/NiHeader'
+import TagCloud from '../components/TagCloud'
 import NiLatestEpisodes from '../components/NiLatestEpisodes'
 import NiLatestSeries from '../components/NiLatestSeries'
 import NiMobileHeader from '../components/NiMobileHeader'
@@ -18,6 +20,7 @@ import Carousel from '../components/Carousel/Carousel'
 export default {
   components: {
     NiHeader,
+    TagCloud,
     NiLatestEpisodes,
     NiLatestSeries,
     NiMobileHeader,
