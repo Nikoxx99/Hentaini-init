@@ -118,6 +118,7 @@ type Query {
     createUser(input: UserInput): Response
     createRole(input: RoleInput): SimpleResponse
     editSerie(input: EditSerieInput): SimpleResponse
+    editSerieStatus(input: EditSerieStatusInput): SimpleResponse
     editEpisode(input: EditEpisodeInput): SimpleResponse
     deleteSerie(id: ID): SimpleResponse
     deleteEpisode(id: ID): SimpleResponse
@@ -153,6 +154,10 @@ type Query {
     updated_at: String
     next_episode: String
     visits: Int
+  }
+  input EditSerieStatusInput {
+    _id: ID
+    status: String
   }
   input EpisodeInput {
     urlName: String

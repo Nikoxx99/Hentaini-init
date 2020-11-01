@@ -394,6 +394,16 @@ export const resolvers = {
         return simpleResponse(false,'Edit Serie','Error Editing Serie')
       }
     },
+    editSerieStatus: async (_, {input}) => {
+      const id = input._id
+      const newStatus = input.status
+      const res = await Serie.updateOne({_id: id}, {status: newStatus}, {multi: false})
+      if(res){
+        return simpleResponse(true,'Edit Serie Status','Serie Status Edited Successfuly')
+      }else{
+        return simpleResponse(false,'Edit Serie Status','Error Editing Serie Status')
+      }
+    },
     editEpisode: async (_,{input: {customScreenshot, players, screenshot, ...data}}) => {
       const id = data._id
       // eslint-disable-next-line no-redeclare
