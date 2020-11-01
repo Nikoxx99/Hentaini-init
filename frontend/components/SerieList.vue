@@ -172,7 +172,7 @@ export default {
         }
       }`,
       variables: {
-        limit: 100
+        limit: 2000
       }
     }).then((input) => {
       for (let i = 0; i < input.data.Series.length; i++) {
