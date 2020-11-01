@@ -133,7 +133,6 @@
               class="mx-auto"
               width="100%"
             >
-              <script async="async" data-cfasync="false" src="//pl15905469.bestrevenuenetwork.com/ff5ad0f9d9164a4704dcda92bc0c63c4/invoke.js" />
               <div id="container-ff5ad0f9d9164a4704dcda92bc0c63c4" />
               <v-img
                 height="auto"
