@@ -133,7 +133,13 @@
               class="mx-auto"
               width="100%"
             >
-              <div id="container-ff5ad0f9d9164a4704dcda92bc0c63c4" />
+              <a href="https://tm-offers.gamingadult.com/?offer=47&uid=d1c53b21-f8cb-414d-a456-2f0643c82204">
+                <v-img
+                  height="auto"
+                  class="mb-4"
+                  src="https://tm-banners.gamingadult.com/5bdc222ac4e75.gif"
+                />
+              </a>
               <v-img
                 height="auto"
                 :src="`${CDN}/screenshot/${EpisodeByUrlName.screenshot}`"
@@ -231,6 +237,13 @@
                   </v-list>
                 </div>
               </v-expand-transition>
+              <a href="https://tm-offers.gamingadult.com/?offer=47&uid=d1c53b21-f8cb-414d-a456-2f0643c82204">
+                <v-img
+                  height="auto"
+                  class="mb-4"
+                  src="https://tm-banners.gamingadult.com/5bdc222a9159a.gif"
+                />
+              </a>
             </v-card>
           </v-row>
         </v-container>

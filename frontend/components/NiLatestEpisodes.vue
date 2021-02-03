@@ -32,6 +32,7 @@
           :url="episode.urlName"
           :screenshot="episode.screenshot"
           :created="episode.created_at"
+          :isAd="episode.isAd"
         />
       </v-col>
     </v-row>
@@ -68,6 +69,25 @@ export default {
   },
   components: {
     NiEpisodeCard
+  },
+  mounted () {
+    this.createEpisodeAd()
+  },
+  methods: {
+    createEpisodeAd () {
+      const ad = {
+        _id: 'ad1',
+        created_at: '2020-07-10T01:25:22.543Z',
+        episode_number: 1,
+        screenshot: 'https://tm-banners.gamingadult.com/59e4a5632cd29.gif',
+        urlName: 'https://tm-offers.gamingadult.com/?offer=47&uid=d1c53b21-f8cb-414d-a456-2f0643c82204',
+        serie: {
+          title: 'Tentacle Fantasy'
+        },
+        isAd: true
+      }
+      this.Episodes.unshift(ad)
+    }
   }
 }
 </script>

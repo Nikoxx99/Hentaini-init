@@ -1,5 +1,5 @@
 <template>
-  <a :href="'/episode/' + url + '/' + episodeNumber">
+  <a v-if="!isAd" :href="'/episode/' + url + '/' + episodeNumber">
     <v-card
       class="mx-auto"
       flat
@@ -49,6 +49,27 @@
       </v-card-text>
     </v-card>
   </a>
+  <a
+    v-else
+    :href="url"
+  >
+    <v-card
+      class="mx-auto"
+      flat
+      tile
+      color="#111"
+    >
+      <v-img
+        class="white--text"
+        style="position:relative"
+        :aspect-ratio="16/9"
+        :src="screenshot"
+      />
+      <v-card-title class="pb-0 pt-2 pl-0" style="font-size:1rem">
+        {{ title }}
+      </v-card-title>
+    </v-card>
+  </a>
 </template>
 
 <script>
@@ -82,6 +103,10 @@ export default {
     created: {
       type: String,
       default: ''
+    },
+    isAd: {
+      type: Boolean,
+      default: false
     }
   },
   data () {

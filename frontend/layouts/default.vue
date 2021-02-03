@@ -1,6 +1,8 @@
 <template>
   <v-app dark>
-    <nuxt />
+    <div>
+      <nuxt />
+    </div>
     <Footer />
   </v-app>
 </template>
