@@ -10,7 +10,7 @@
           <v-icon class="grey--text darken-3">
             mdi-clock-outline
           </v-icon>
-          {{ $t('landpage.updated_text') }} {{ $moment(Episodes[0].created_at).fromNow() }}
+          {{ $t('landpage.updated_text') }} {{ $moment(Episodes[1].created_at).fromNow() }}
         </h4>
       </v-col>
     </v-row>
