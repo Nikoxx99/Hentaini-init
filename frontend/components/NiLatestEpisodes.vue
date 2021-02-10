@@ -79,7 +79,7 @@ export default {
         _id: 'ad1',
         created_at: '2020-07-10T01:25:22.543Z',
         episode_number: 1,
-        screenshot: 'https://tm-banners.gamingadult.com/59e4a5632cd29.gif',
+        screenshot: 'img/animation2.gif',
         urlName: 'https://tm-offers.gamingadult.com/?offer=47&uid=d1c53b21-f8cb-414d-a456-2f0643c82204',
         serie: {
           title: 'Tentacle Fantasy'

@@ -137,7 +137,7 @@
                 <v-img
                   height="auto"
                   class="mb-4"
-                  src="https://tm-banners.gamingadult.com/5bdc222ac4e75.gif"
+                  src="/img/animation1.gif"
                 />
               </a>
               <v-img
