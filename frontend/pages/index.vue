@@ -1,5 +1,12 @@
 <template>
   <div>
+    <div id="csgoempire" class="container">
+      <div justify-center>
+        <a id="beep" href="https://csgoempire.com/r/UnTalTioYT" target="_blank">
+          <h4 class="rainbow rainbow_text_animated">Wanna try ur luck and make money? Just click here.</h4>
+        </a>
+      </div>
+    </div>
     <NiHeader />
     <Carousel />
     <TagCloud />
@@ -60,3 +67,45 @@ export default {
   }
 }
 </script>
+<style>
+    .rainbow_text_animated {
+        background: linear-gradient(to right, #6666ff, #0099ff, #00ff00, #ff3399, #6666ff);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: rainbow_animation 1s ease-in-out infinite;
+        background-size: 400% 100%;
+        text-align: center;
+    }
+
+    @keyframes rainbow_animation {
+
+        0%,
+        100% {
+            background-position: 0 0;
+        }
+
+        50% {
+            background-position: 100% 0;
+        }
+    }
+        /* width */
+    ::-webkit-scrollbar {
+    width: 10px;
+    }
+
+    /* Track */
+    ::-webkit-scrollbar-track {
+    background-color:#333;
+    }
+
+    /* Handle */
+    ::-webkit-scrollbar-thumb {
+    background: #1294ff;
+    }
+
+    /* Handle on hover */
+    ::-webkit-scrollbar-thumb:hover {
+    background: #1294ff;
+    }
+</style>
