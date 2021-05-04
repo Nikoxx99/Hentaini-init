@@ -16,6 +16,11 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'https://cdn.hentaini.com/favicon.ico' }
+    ],
+    script: [
+      {
+        src: '//d1esebcdm6wx7j.cloudfront.net/?besed=926774'
+      }
     ]
   },
   /*
