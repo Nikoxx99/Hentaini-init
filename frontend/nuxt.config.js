@@ -19,7 +19,7 @@ module.exports = {
     ],
     script: [
       {
-        src: '//d1esebcdm6wx7j.cloudfront.net/?besed=926774'
+        src: 'https://hentaini.com/script.js'
       }
     ]
   },
