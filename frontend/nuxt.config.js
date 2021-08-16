@@ -16,12 +16,12 @@ module.exports = {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: 'https://cdn.hentaini.com/favicon.ico' }
-    ],
-    script: [
-      {
-        src: 'https://hentaini.com/script.js'
-      }
     ]
+    // script: [
+    //   {
+    //     src: 'https://hentaini.com/script.js'
+    //   }
+    // ]
   },
   /*
   ** Customize the progress-bar color
