@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div id="csgoempire" class="container">
-      <div justify-center>
-        <a id="beep" href="https://csgoempire.com/r/UnTalTioYT" target="_blank">
-          <h4 class="rainbow rainbow_text_animated">Wanna try ur luck and make money? Just click here.</h4>
-        </a>
-      </div>
-    </div>
     <NiHeader />
     <Carousel />
     <TagCloud />
