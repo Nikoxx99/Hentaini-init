@@ -133,11 +133,18 @@
               class="mx-auto"
               width="100%"
             >
-              <a href="https://tm-offers.gamingadult.com/?offer=47&uid=d1c53b21-f8cb-414d-a456-2f0643c82204">
+              <a v-if="Math.floor(Math.random() * 2) === 0" href="https://tm-offers.gamingadult.com/?offer=47&uid=d1c53b21-f8cb-414d-a456-2f0643c82204">
                 <v-img
                   height="auto"
                   class="mb-4"
-                  src="/img/animation1.gif"
+                  :src="`/img/${Math.floor(Math.random() * 2)}.gif`"
+                />
+              </a>
+              <a v-else href="https://tm-offers.gamingadult.com/?offer=2565&uid=d1c53b21-f8cb-414d-a456-2f0643c82204">
+                <v-img
+                  height="auto"
+                  class="mb-4"
+                  :src="`/img/psh${Math.floor(Math.random() * 5)}.gif`"
                 />
               </a>
               <v-img

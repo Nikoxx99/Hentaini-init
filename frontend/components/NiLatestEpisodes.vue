@@ -10,11 +10,11 @@
           <v-icon class="grey--text darken-3">
             mdi-clock-outline
           </v-icon>
-          {{ $t('landpage.updated_text') }} {{ $moment(Episodes[1].created_at).fromNow() }}
+          {{ $t('landpage.updated_text') }} {{ Episodes.length > 0 ? $moment(Episodes[0].created_at).fromNow() : 'Out of range' }}
         </h4>
       </v-col>
     </v-row>
-    <v-row>
+    <v-row v-if="Episodes.length > 0">
       <v-col
         v-for="(episode) in Episodes"
         :key="episode._id"
@@ -71,7 +71,12 @@ export default {
     NiEpisodeCard
   },
   mounted () {
-    this.createEpisodeAd()
+    const rn = Math.floor(Math.random() * 2)
+    if (rn === 0) {
+      this.createEpisodeAd()
+    } else {
+      this.createEpisodeAd2()
+    }
   },
   methods: {
     createEpisodeAd () {
@@ -79,10 +84,24 @@ export default {
         _id: 'ad1',
         created_at: '2020-07-10T01:25:22.543Z',
         episode_number: 1,
-        screenshot: 'img/animation2.gif',
+        screenshot: `img/${Math.floor(Math.random() * 2)}.gif`,
         urlName: 'https://tm-offers.gamingadult.com/?offer=47&uid=d1c53b21-f8cb-414d-a456-2f0643c82204',
         serie: {
           title: 'Tentacle Fantasy'
+        },
+        isAd: true
+      }
+      this.Episodes.unshift(ad)
+    },
+    createEpisodeAd2 () {
+      const ad = {
+        _id: 'ad2',
+        created_at: '2020-07-10T01:25:22.543Z',
+        episode_number: 1,
+        screenshot: `img/psh${Math.floor(Math.random() * 5)}.gif`,
+        urlName: 'https://tm-offers.gamingadult.com/?offer=2565&uid=d1c53b21-f8cb-414d-a456-2f0643c82204',
+        serie: {
+          title: 'Pornstar Harem RPG'
         },
         isAd: true
       }
