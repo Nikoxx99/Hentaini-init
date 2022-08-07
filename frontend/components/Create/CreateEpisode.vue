@@ -332,12 +332,12 @@ export default {
       this.episode.playerList = []
       this.episode.playerList.push(
         { name: 'C', url: '' },
-        { name: 'CW', url: '' },
-        { name: 'F', url: '' },
-        { name: 'A', url: '' },
+        { name: 'Y', url: '' },
+        { name: 'BR', url: '' },
+        { name: 'SSB', url: '' },
         { name: 'MU', url: '' },
         { name: 'S', url: '' },
-        { name: 'Y', url: '' },
+        { name: 'F', url: '' },
         { name: 'M', url: '' }
       )
     }
