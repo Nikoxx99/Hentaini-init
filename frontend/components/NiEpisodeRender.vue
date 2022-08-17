@@ -278,6 +278,7 @@ export default {
             serie{
               _id
               title
+              title_english
               synopsis
               genres{
                 text
@@ -411,13 +412,13 @@ export default {
         { hid: 'yahoo-slurp', name: 'yahoo-slurp', content: 'all, index, follow' },
         { hid: 'msnbot', name: 'msnbot', content: 'index, follow' },
         { hid: 'googlebot-image', name: 'googlebot-image', content: 'all' },
-        { hid: 'title', name: 'title', content: 'Watch ' + this.EpisodeByUrlName.serie.title + ' episode ' + this.EpisodeByUrlName.episode_number + ' free online HD' },
-        { hid: 'description', name: 'description', content: 'Watch online ' + this.EpisodeByUrlName.serie.title + ' in best quality. I mean, its Hentaini, the best place to watch your favourite series' },
+        { hid: 'title', name: 'title', content: 'Watch ' + this.EpisodeByUrlName.serie.title + ' ' + this.EpisodeByUrlName.serie.title_english + ' episode ' + this.EpisodeByUrlName.episode_number + ' free online HD' },
+        { hid: 'description', name: 'description', content: 'Watch online ' + this.EpisodeByUrlName.serie.title + ' ' + this.EpisodeByUrlName.serie.title_english + ' in best quality. I mean, its Hentaini, the best place to watch your favourite series' },
         { hid: 'keywords', name: 'keywords', content: 'Watch online hentai, best HD archive of the best of japanese culture for the world, hentaini, ahegao, yuri, yaoi, tentacle, maid, siscon, brocon' },
-        { hid: 'og:title', property: 'og:title', content: this.EpisodeByUrlName.serie.title },
+        { hid: 'og:title', property: 'og:title', content: this.EpisodeByUrlName.serie.title + ' | ' + this.EpisodeByUrlName.serie.title_english },
         { hid: 'og:description', property: 'og:description', content: 'Its a Hentai site, what do you expect? a no-girlfriend-depression solution?' },
         { hid: 'og:url', property: 'og:url', content: 'https://hentaini.com' },
-        { hid: 'og:image', property: 'og:image', content: 'https://hentaini.com/screenshot/' + this.EpisodeByUrlName.serie.background_coverUrl },
+        { hid: 'og:image', property: 'og:image', content: 'https://hentaini.com/screenshot/' + this.EpisodeByUrlName.screenshot },
         { hid: 'author', name: 'author', content: 'hentaini' }
       ]
     }
