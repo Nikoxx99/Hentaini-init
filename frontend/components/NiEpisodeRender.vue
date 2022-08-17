@@ -405,7 +405,7 @@ export default {
         { hid: 'description', name: 'description', content: this.EpisodeByUrlName.serie.synopsis },
         { hid: 'og:title', property: 'og:title', content: 'Watch ' + this.EpisodeByUrlName.serie.title + ' ' + this.EpisodeByUrlName.serie.title_english + ' episode ' + this.EpisodeByUrlName.episode_number + ' free online HD' },
         { hid: 'og:description', property: 'og:description', content: this.EpisodeByUrlName.serie.synopsis },
-        { hid: 'og:url', property: 'og:url', content: this.$route.path },
+        { hid: 'og:url', property: 'og:url', content: `https://hentaini.com${this.$route.path}` },
         { hid: 'og:locale', property: 'og:locale', content: 'en_US' },
         { hid: 'og:site_name', property: 'og:site_name', content: 'Hentaini' },
         { hid: 'og:image', property: 'og:image', content: 'https://cdn.hentaini.com/screenshot/' + this.EpisodeByUrlName.screenshot },
