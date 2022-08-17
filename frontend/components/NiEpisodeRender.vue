@@ -397,7 +397,7 @@ export default {
   },
   head () {
     return {
-      title: this.EpisodeByUrlName.serie.title,
+      title: this.EpisodeByUrlName.serie.title + ' | ' + this.EpisodeByUrlName.serie.title_english,
       meta: [
         { hid: 'language', name: 'language', content: 'es' },
         { hid: 'Revisit-After', name: 'Revisit-After', content: '3 days' },
@@ -418,7 +418,7 @@ export default {
         { hid: 'og:title', property: 'og:title', content: this.EpisodeByUrlName.serie.title + ' | ' + this.EpisodeByUrlName.serie.title_english },
         { hid: 'og:description', property: 'og:description', content: 'Its a Hentai site, what do you expect? a no-girlfriend-depression solution?' },
         { hid: 'og:url', property: 'og:url', content: 'https://hentaini.com' },
-        { hid: 'og:image', property: 'og:image', content: 'https://hentaini.com/screenshot/' + this.EpisodeByUrlName.screenshot },
+        { hid: 'og:image', property: 'og:image', content: 'https://cdn.hentaini.com/screenshot/' + this.EpisodeByUrlName.screenshot },
         { hid: 'author', name: 'author', content: 'hentaini' }
       ]
     }
