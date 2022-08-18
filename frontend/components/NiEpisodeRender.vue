@@ -8,6 +8,9 @@
               <v-breadcrumbs :items="breadcrumb" divider="•" style="padding:1rem 1rem 1rem 1rem" class="grey darken-4" />
             </v-col>
           </v-row>
+          <v-row>
+            <div id="bg_641326905" />
+          </v-row>
           <v-row
             class="mb-3"
           >
@@ -410,6 +413,13 @@ export default {
         { hid: 'og:site_name', property: 'og:site_name', content: 'Hentaini' },
         { hid: 'og:image', property: 'og:image', content: 'https://cdn.hentaini.com/screenshot/' + this.EpisodeByUrlName.screenshot },
         { hid: 'author', name: 'author', content: 'hentaini' }
+      ],
+      script: [
+        {
+          src: '//platform.bidgear.com/ads.php?domainid=6413&sizeid=2&zoneid=6905',
+          type: 'text/javascript',
+          async: true
+        }
       ]
     }
   }
