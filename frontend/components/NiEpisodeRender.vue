@@ -10,6 +10,7 @@
           </v-row>
           <v-row>
             <div id="bg_641326905" />
+            <script data-cfasync="false" type="application/javascript" src="//platform.bidgear.com/ads.php?domainid=6413&sizeid=2&zoneid=6905"></script>
           </v-row>
           <v-row
             class="mb-3"
@@ -343,6 +344,13 @@ export default {
     }
   },
   mounted () {
+    const div = document.getElementById('ad1')
+    const ad = document.createElement('script')
+    ad.setAttribute('src', '//platform.bidgear.com/ads.php?domainid=6413&sizeid=2&zoneid=6905')
+    ad.setAttribute('data-cfasync', false)
+    ad.setAttribute('type', 'text/javascript')
+    div.appendChild(ad)
+
     this.breadcrumb[2].text = 'Episode ' + this.EpisodeByUrlName.episode_number
     this.breadcrumb[1].text = this.EpisodeByUrlName.serie.title
     if (this.EpisodeByUrlName.players.length > 0) {
