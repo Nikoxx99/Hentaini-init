@@ -8,10 +8,9 @@
               <v-breadcrumbs :items="breadcrumb" divider="•" style="padding:1rem 1rem 1rem 1rem" class="grey darken-4" />
             </v-col>
           </v-row>
-          <v-row>
+          <v-row class="justify-center">
             <client-only>
-              <div id="bg_641326905" />
-              <script data-cfasync="false" type="text/javascript" src="//platform.bidgear.com/ads.php?domainid=6413&sizeid=2&zoneid=6905"></script>
+              <VueScriptComponent script='<script data-cfasync="false" type="text/javascript" src="//platform.bidgear.com/ads.php?domainid=6413&sizeid=2&zoneid=6905"></script>'/>
             </client-only>
           </v-row>
           <v-row
@@ -268,12 +267,14 @@
 <script>
 import gql from 'graphql-tag'
 import parse from 'url-parse'
+import VueScriptComponent from './Utils/VueScriptComponent'
 import VideoElement from './VideoElement'
 import Comments from './Layout/Comments'
 export default {
   components: {
     VideoElement,
-    Comments
+    Comments,
+    VueScriptComponent
   },
   apollo: {
     EpisodeByUrlName () {

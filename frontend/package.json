@@ -26,6 +26,7 @@
     "js-cookie": "^2.2.1",
     "nuxt": "^2.13.0",
     "nuxt-i18n": "^6.12.2",
+    "postscribe": "^2.0.8",
     "ts-node": "^8.10.2",
     "url-parse": "^1.4.7",
     "vue-disqus": "^4.0.0",

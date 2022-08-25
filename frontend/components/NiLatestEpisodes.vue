@@ -1,5 +1,10 @@
 <template>
   <v-container>
+    <v-row class="justify-center">
+      <client-only>
+        <VueScriptComponent script='<script data-cfasync="false" type="text/javascript" src="//platform.bidgear.com/ads.php?domainid=6413&sizeid=2&zoneid=6905"></script>'/>
+      </client-only>
+    </v-row>
     <v-row>
       <v-col>
         <h5>
@@ -10,7 +15,7 @@
           <v-icon class="grey--text darken-3">
             mdi-clock-outline
           </v-icon>
-          {{ $t('landpage.updated_text') }} {{ Episodes.length > 0 ? $moment(Episodes[1].created_at).fromNow() : 'Recently' }}
+          {{ $t('landpage.updated_text') }} {{ Episodes.length > 0 ? $moment(Episodes[0].created_at).fromNow() : 'Recently' }}
         </h4>
       </v-col>
     </v-row>
@@ -42,6 +47,7 @@
 <script>
 import gql from 'graphql-tag'
 import NiEpisodeCard from '../components/NiEpisodeCard'
+import VueScriptComponent from '../components/Utils/VueScriptComponent'
 export default {
   name: 'NiLatestEpisodes',
   apollo: {
@@ -68,7 +74,8 @@ export default {
     }
   },
   components: {
-    NiEpisodeCard
+    NiEpisodeCard,
+    VueScriptComponent
   },
   mounted () {
     const rn = Math.floor(Math.random() * 2)
